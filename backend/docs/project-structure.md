@@ -70,5 +70,9 @@
       - variables.tf
       - outputs.tf
   - package.json
+  - .editorconfig
+  - .gitignore
+  - .prettierignore
+  - .prettierrc
   - server.js
   - README.md

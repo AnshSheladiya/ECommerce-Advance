@@ -3,10 +3,10 @@
  */
 const fs = require('fs');
 const path = require('path');
+const mongoose = require('mongoose');
 const userSchema = require('../models/User');
 const productSchema = require('../models/Product');
 const orderSchema = require('../models/order');
-const mongoose = require('mongoose');
 
 // Get schema fields as an object
 const getSchemaFields = (schema) => {
@@ -49,19 +49,12 @@ const getSchemaFields = (schema) => {
 
 const createTable = (schemaName, schemaFields) => {
   const header = ['Field', 'Type', 'Required'];
-  const headerSeparator = '| ' + header.map((h) => h.padEnd(30, ' ')).join(' | ') + ' |';
+  const headerSeparator = `| ${header.map((h) => h.padEnd(30, ' ')).join(' | ')} |`;
   const rows = schemaFields.map((field) => {
     const requiredStr = field.required?.toString().padEnd(20) ?? '';
     return `| ${field.field?.padEnd(30) ?? ''} | ${field.fieldType?.padEnd(30) ?? ''} | ${requiredStr} |`;
-
   });
-  const table = [
-    `## ${schemaName} Schema`,
-    '',
-    headerSeparator,
-    ...rows,
-    '',
-  ].join('\n');
+  const table = [`## ${schemaName} Schema`, '', headerSeparator, ...rows, ''].join('\n');
   return table;
 };
 

@@ -1,12 +1,8 @@
 /**
  * File Name: auth.js
  */
+const getHelloWorld = async () => 'Hello World!';
 
-const getHelloWorld = async () => {
-    return 'Hello World!';
-  };
-  
-  module.exports = {
-    getHelloWorld,
-  };
-  
+module.exports = {
+  getHelloWorld,
+};
