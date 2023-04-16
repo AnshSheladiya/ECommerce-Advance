@@ -10,7 +10,7 @@ const options = {
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000, // time before failing initial connection
   socketTimeoutMS: 45000, // time before timing out queries
-  family: 4 // use IPv4, skip trying IPv6
+  family: 4, // use IPv4, skip trying IPv6
 };
 
 let retries = 0;

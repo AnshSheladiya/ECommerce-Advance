@@ -7,12 +7,16 @@ const app = require('./src/app');
 const config = require('./src/api/config/config');
 const dotenv = require('dotenv');
 const logger = require('./src/api/utils/logger');
+const ResponseHelper = require('./src/api/utils/responseHelper');
+const MSG=require('./src/api/utils/MSG');
 
 // Load environment variables
 dotenv.config();
 
-// Set the logger as a global variable
+// Set  global variable
 global.logger = logger;
+global.ResponseHelper = ResponseHelper;
+global.MSG = MSG;
 
 const port = config.port;
 

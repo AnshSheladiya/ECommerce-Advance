@@ -17,4 +17,9 @@ module.exports = {
     },
   },
   jwtSecret: process.env.JWT_SECRET || 'mysecretkey',
+  google: {
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL,
+  },
 };
