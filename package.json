@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon backend/server.js",
-    "i": "cd backend && npm  install",
+    "i": "npm  install && cd frontend && npm i",
     "prettier": "prettier --write \"**/*.js\"",
     "editorconfig": "npx editorconfig-checker",
     "lint": "eslint . --config backend/test/.eslintrc.json",
@@ -24,11 +24,14 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "i18n": "^0.15.1",
+    "joi": "^17.9.1",
     "mongoose": "^7.0.3",
+    "nodemailer": "^6.9.1",
     "nodemon": "^2.0.22",
     "passport": "^0.6.0",
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
+    "uuid": "^9.0.0",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1"
   },

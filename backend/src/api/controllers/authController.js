@@ -4,26 +4,28 @@
 
 const authService = require('../services/authServices');
 const passport = require('passport');
+const JoiValidationSchema=require('../utils/JoiValidationSchema')
 
 exports.signup = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { first_name,last_name, email, password } = req.body;
 
-    // validate user input
-    if (!username || !email || !password) {
-      return res.status(400).json(ResponseHelper.success(400,MSG.INVALID,false));
-    }
+   // validate user input
+   const { error } = JoiValidationSchema.registerSchema.validate(req.body);
+   if (error) {
+     return res.status(400).json(ResponseHelper.error(400, error.message));
+   }
 
     // check if user already exists
     const userExists = await authService.checkUserExists(email);
     if (userExists) {
-      return res.status(400).json(ResponseHelper.success(400,MSG.EMAIL_ALREADY,false));
+      return res.status(400).json(ResponseHelper.error(400,MSG.EMAIL_ALREADY));
     }
 
     // save user to database
     const user = await authService.createUser(req.body);
 
-    return res.status(200).json(ResponseHelper.success(200,MSG.CREATE_SUCCESS,true,user));
+    return res.status(200).json(ResponseHelper.success(200,MSG.CREATE_SUCCESS,user));
   } catch (error) {
     logger.error(error)
     next(error);
@@ -35,9 +37,10 @@ exports.login = async (req, res, next) => {
     const { email, password } = req.body;
 
     // validate user input
-    if (!email || !password) {
-      return res.status(400).json(ResponseHelper.error(400, MSG.INVALID));
-    }
+      const { error } = JoiValidationSchema.loginSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json(ResponseHelper.error(400, error.message));
+      }
 
     passport.authenticate('local', (err, user, info) => {
       if (err) {
@@ -168,4 +171,3 @@ exports.resetPassword = async (req, res, next) => {
     next(error);
   }
 };
-

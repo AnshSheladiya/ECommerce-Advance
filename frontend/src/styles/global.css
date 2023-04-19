@@ -1,0 +1,28 @@
+:root {
+  --primary-color: #000000;
+  --secondary-color: #335c81;
+  --background-color: #7da8d5;
+  --accent-color: #5899E2;
+  --body-background-color: #1B2845;
+  --shadow-color: rgb(0, 0, 0);
+
+  --primary-color-light: #594545;
+  --secondary-color-light: #9E7676;
+  --background-color-light: #FBEAE7;
+  --accent-color-light: #815B5B;
+  --body-background-color-light: #552619;
+  --shadow-color-light: #000000;
+
+  --mode: 'dark';
+}
+
+[data-theme='light'] {
+  --primary-color: var(--primary-color-light);
+  --secondary-color: var(--secondary-color-light);
+  --background-color: var(--background-color-light);
+  --body-background-color: var(--body-background-color-light);
+  --accent-color: var(--accent-color-light);
+  --shadow-color: var(--shadow-color-light);
+
+  --mode: 'light';
+}

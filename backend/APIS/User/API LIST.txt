@@ -1,0 +1,176 @@
+Users->104 APIS
+
+POST /api/users/:userId/login - Login a user with email and password.
+POST /api/users/:userId/register - Register a user.
+POST /api/users/:userId/verify-account - Verify a user's account by email or phone number.
+POST /api/users/:userId/forgot-password - Send a password reset link to a user's email.
+POST /api/users/:userId/reset-password - Reset a user's password using a password reset token.
+
+GET /api/users/profile - Get a user's profile information.
+PUT /api/users/profile - Update a user's profile information.
+GET /api/users/addresses - Get a user's saved shipping and billing addresses.
+PUT /api/users/addresses/:addressId - Update a user's saved shipping or billing address.
+POST /api/users/addresses - Add a new shipping or billing address for a user.
+DELETE /api/users/addresses/:addressId - Delete a saved shipping or billing address for a user.
+
+GET /api/users/:userId/orders - Get a user's order history and status.
+GET /api/users/:userId/orders/:orderId - Get details of a specific order for a user.
+POST /api/users/:userId/orders - Place a new order for a user.
+PUT /api/users/:userId/orders/:orderId/cancel - Cancel a user's order before it is shipped.
+PUT /api/users/:userId/orders/:orderId/return - Initiate a return for a product in a user's order.
+
+GET /api/users/:userId/payment-info - Get a user's saved payment information.
+PUT /api/users/:userId/payment-info - Update a user's saved payment information.
+POST /api/users/:userId/payment-info - Add new payment information for a user.
+
+GET /api/users/:userId/subscriptions - Get a user's subscribed newsletters or promotional materials.
+PUT /api/users/:userId/subscriptions/:subscriptionId - Update a user's subscription status for a newsletter or promotional material.
+POST /api/users/:userId/avatar - Upload a new avatar or profile picture for a user.
+GET /api/users/:userId/avatar - Get a user's current avatar or profile picture.
+DELETE /api/users/:userId/avatar - Delete a user's current avatar or profile picture.
+GET /api/users/:userId/social-media - Get a user's connected social media accounts.
+POST /api/users/:userId/social-media - Connect a new social media account for a user.
+DELETE /api/users/:userId/social-media/:accountId - Disconnect a connected social media account for a user.
+
+PUT /api/users/:userId/deactivate - Deactivate a user's account.
+PUT /api/users/:userId/reactivate - Reactivate a user's account.
+GET /api/users/:userId/roles - Get a user's current roles and permissions.
+PUT /api/users/:userId/roles/:roleId - Update a user's roles and permissions.
+
+POST /api/users/:userId/feedback - Submit feedback or a support ticket from a user.
+POST /api/users/:userId/reviews - Submit a product review and rating for a user.
+GET /api/users/:userId/wishlist - Get a user's product wishlist.
+POST /api/users/:userId/wishlist - Add a product to a user's wishlist.
+DELETE /api/users/:userId/wishlist/:productId - Remove a product from a user's wishlist.
+
+GET /api/users/:userId/cart - Get user's cart items.
+POST /api/users/:userId/cart - Add an item to user's cart.
+PUT /api/users/:userId/cart/:itemId - Update an item in user's cart.
+DELETE /api/users/:userId/cart/:itemId - Remove an item from user's cart.
+DELETE /api/users/:userId/cart - Remove all items from user's cart.
+
+POST /api/users/:userId/checkout - Initiate checkout process.
+PUT /api/users/:userId/checkout/:orderId - Update order details during checkout.
+POST /api/users/:userId/payment - Process payment for checkout.
+POST /api/users/:userId/confirmation - Confirm checkout and generate receipt.
+
+GET /api/users/:userId/subscriptions - Get user's subscription details.
+POST /api/users/:userId/subscriptions - Subscribe user to a service or product.
+PUT /api/users/:userId/subscriptions/:subscriptionId - Update user's subscription details.
+DELETE /api/users/:userId/subscriptions/:subscriptionId - Cancel user's subscription.
+
+GET /api/users/:userId/orders/:orderId/tracking - Get real-time tracking details of user's order.
+
+PUT /api/users/:userId/orders/:orderId/cancel - Cancel user's order before it is shipped.
+
+POST /api/users/:userId/orders/:orderId/return - Initiate product return process.
+PUT /api/users/:userId/orders/:orderId/return/:returnId - Update product return details.
+DELETE /api/users/:userId/orders/:orderId/return/:returnId - Cancel product return process.
+
+GET /api/users/:userId/orders - Get user's past orders and purchase history.
+
+POST /api/users/:userId/verify/email - Verify user's email address.
+POST /api/users/:userId/verify/phone - Verify user's phone number.
+
+POST /api/users/:userId/two-factor-auth - Enable two-factor authentication for user's account.
+DELETE /api/users/:userId/two-factor-auth - Disable two-factor authentication for user's account.
+
+POST /api/users/:userId/addresses/validate - Validate and standardize user's address information.
+
+POST /api/users/:userId/payment - Process user's payment using a payment gateway.
+
+GET /api/users/:userId/notifications - Get user's notifications.
+PUT /api/users/:userId/notifications/:notificationId - Update user's notification settings.
+
+GET /api/users/:userId/activity-log - Get user's activity log.
+
+GET /api/users/:userId/wishlist - Get user's wishlist.
+POST /api/users/:userId/wishlist - Add a product to user's wishlist.
+PUT /api/users/:userId/wishlist/:productId - Update a product in user's wishlist.
+DELETE /api/users/:userId/wishlist/:productId - Remove a product from user's wishlist.
+DELETE /api/users/:userId/wishlist - Remove all products from user's wishlist.
+
+POST /api/users/:userId/reviews - Create a new product review for a user.
+PUT /api/users/:userId/reviews/:reviewId - Update a user's existing product review.
+DELETE /api/users/:userId/reviews/:reviewId - Delete a user's existing product review.
+GET /api/products/:productId/reviews - Get all reviews for a product.
+GET /api/products/:productId/reviews/:reviewId - Get a specific review for a product.
+
+GET /api/users/:userId/recommendations - Get personalized product recommendations for a user based on their browsing and purchase history.
+
+GET /api/users/:userId/rewards - Get a user's current rewards balance.
+POST /api/users/:userId/purchases - Create a new purchase for a user and update their rewards balance accordingly.
+
+POST /api/users/:userId/referrals - Create a new referral for a user and track their referral activity.
+GET /api/users/:userId/referrals - Get a user's current referral activity and rewards earned.
+
+DELETE /api/users/:userId - Deactivate or delete a user's account by user ID.
+
+POST /api/users/forgot_password - Send a password reset link to a user's email.
+POST /api/users/reset_password - Reset a user's password using a password reset token.
+
+PUT /api/users/:userId/email_preferences - Update a user's email preferences.
+
+POST /api/users/:userId/merge - Merge multiple accounts for a user.
+
+POST /api/users/:userId/link - Link a user's account with a social media profile for easier sign-in and account management.
+GET /api/users - Get a list of all users
+GET /api/users/:id - Get a specific user by ID
+POST /api/users - Create a new user
+PUT /api/users/:id - Update a user by ID
+DELETE /api/users/:id - Delete a user by ID
+GET /api/users/:id/wish_list - Get a user's wish list by ID
+POST /api/users/:id/wish_list - Add a product to a user's wish list by ID
+DELETE /api/users/:id/wish_list/:productId - Remove a product from a user's wish list by ID and product ID
+GET /api/users/:id/recently_viewed_products - Get a user's recently viewed products by ID
+POST /api/users/:id/recently_viewed_products - Add a product to a user's recently viewed products by ID
+DELETE /api/users/:id/recently_viewed_products/:productId - Remove a product from a user's recently viewed products by ID and product ID
+GET /api/users/:id/favorite_products - Get a user's favorite products by ID
+POST /api/users/:id/favorite_products - Add a product to a user's favorite products by ID
+DELETE /api/users/:id/favorite_products/:productId - Remove a product from a user's favorite products by ID and product ID
+GET /api/users/:id/recently_purchased - Get a user's recently purchased products by ID
+POST /api/users/:id/recently_purchased - Add a product to a user's recently purchased products by ID
+DELETE /api/users/:id/recently_purchased/:productId - Remove a product from a user's recently purchased products by ID and product ID
+GET /api/users/:id/product_reviews - Get a user's product reviews by ID
+POST /api/users/:id/product_reviews - Add a product review to a user's product reviews by ID
+PUT /api/users/:id/product_reviews/:productId - Update a user's product review by ID and product ID
+DELETE /api/users/:id/product_reviews/:productId - Delete a user's product review by ID and product ID
+GET /api/users/:id/product_ratings - Get a user's product ratings by ID
+POST /api/users/:id/product_ratings - Add a product rating to a user's product ratings by ID
+PUT /api/users/:id/product_ratings/:productId - Update a user's product rating by ID and product ID
+DELETE /api/users/:id/product_ratings/:productId - Delete a user's product rating by ID and product ID
+GET /api/users/:id/product_recommendations - Get a user's product recommendations by ID
+POST /api/users/:id/product_recommendations - Add a product recommendation to a user's product recommendations by ID
+DELETE /api/users/:id/product_recommendations/:productId - Remove a product recommendation from a user's product recommendations by ID and product ID
+PUT /api/users/:id/account_settings - Update a user's account settings by ID, including account type and two-factor authentication
+PUT /api/users/:id/security_questions - Update a user's security questions by ID
+POST /api/users/:id/change_password - Change a user's password by ID
+POST /api/users/:id/forgot_password - Send a password reset email to a user by ID
+GET /api/users/:userId/favorite_products - Get a user's list of favorite products.
+POST /api/users/:userId/favorite_products - Add a product to a user's list of favorite products.
+DELETE /api/users/:userId/favorite_products/:productId - Remove a product from a user's list of favorite products.
+GET /api/users/:userId/recently_purchased - Get a user's list of recently purchased products.
+POST /api/users/:userId/recently_purchased - Add a product to a user's list of recently purchased products.
+DELETE /api/users/:userId/recently_purchased/:productId - Remove a product from a user's list of recently purchased products.
+GET /api/users/:userId/product_reviews - Get a user's list of product reviews.
+POST /api/users/:userId/product_reviews/:productId - Add a product review for a specific product.
+PUT /api/users/:userId/product_reviews/:reviewId - Update a user's existing product review.
+DELETE /api/users/:userId/product_reviews/:reviewId - Delete a user's existing product review.
+GET /api/users/:userId/product_ratings - Get a user's list of product ratings.
+POST /api/users/:userId/product_ratings/:productId - Add a product rating for a specific product.
+PUT /api/users/:userId/product_ratings/:ratingId - Update a user's existing product rating.
+DELETE /api/users/:userId/product_ratings/:ratingId - Delete a user's existing product rating.
+GET /api/users/:userId/product_recommendations - Get a list of product recommendations for a user.
+POST /api/users/:userId/product_recommendations - Add a product recommendation for a user.
+DELETE /api/users/:userId/product_recommendations/:recommendationId - Remove a product recommendation for a user.
+GET /api/users/:userId/security_questions - Get a user's list of security questions.
+POST /api/users/:userId/security_questions - Add a security question for a user.
+PUT /api/users/:userId/security_questions/:questionId - Update a user's existing security question.
+DELETE /api/users/:userId/security_questions/:questionId - Delete a user's existing security question.
+POST /api/users/forgot_password - Send a password reset link to a user's email.
+POST /api/users/reset_password - Reset a user's password using a password reset token.
+PUT /api/users/:userId/preferences - Update a user's notification preferences.
+PUT /api/users/:userId/privacy_settings - Update a user's privacy settings.
+POST /api/users/:userId/referral - Add a referral code for a user.
+PUT /api/users/:userId/interests - Update a user's interests.
+PUT /api/users/:userId/occupation - Update a user's occupation.

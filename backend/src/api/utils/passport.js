@@ -27,33 +27,33 @@ module.exports = function (passport) {
     )
   );
 
-  // // Google Login Strategy
-  // passport.use(
-  //   new GoogleStrategy(
-  //     {
-  //       clientID: config.google.clientID,
-  //       clientSecret: config.google.clientSecret,
-  //       callbackURL: config.google.callbackURL,
-  //     },
-  //     async (accessToken, refreshToken, profile, done) => {
-  //       try {
-  //         const user = await User.findOne({ email: profile.emails[0].value });
-  //         if (!user) {
-  //           const newUser = await User.create({
-  //             googleId: profile.id,
-  //             email: profile.emails[0].value,
-  //             username: profile.displayName,
-  //             profile_picture_url : profile.photos[0].value
-  //           });
-  //           return done(null, newUser);
-  //         }
-  //         return done(null, user);
-  //       } catch (error) {
-  //         return done(error);
-  //       }
-  //     }
-  //   )
-  // );
+  // Google Login Strategy
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: config.google.clientID,
+        clientSecret: config.google.clientSecret,
+        callbackURL: config.google.callbackURL,
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          const user = await User.findOne({ email: profile.emails[0].value });
+          if (!user) {
+            const newUser = await User.create({
+              googleId: profile.id,
+              email: profile.emails[0].value,
+              username: profile.displayName,
+              profile_picture_url : profile.photos[0].value
+            });
+            return done(null, newUser);
+          }
+          return done(null, user);
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
 
   // Serialize and deserialize user for session management
   passport.serializeUser((user, done) => {

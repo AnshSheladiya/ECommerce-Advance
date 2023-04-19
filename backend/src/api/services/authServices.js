@@ -3,6 +3,8 @@
  */
 const bcrypt = require('bcrypt');
 const  User  = require('../models/user');
+const { v4: uuid } = require('uuid');
+const mailer = require('../utils/mailer');
 
 exports.checkUserExists = async (email) => {
   const user = await User.findOne({ email } );
@@ -47,3 +49,68 @@ exports.updatePassword= async (userId, newPassword)=> {
     throw new Error(error.message);
   }
 }
+
+exports.generatePasswordResetToken= async (userId)=> {
+  const user = await User.findOne({ _id:userId } );
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const token = uuid();
+  const expiresAt = new Date(Date.now() + 3600000); // 1 hour from now
+
+  user.password_reset_token = token;
+  user.password_reset_expiry = expiresAt;
+  await user.save();
+
+  return token;
+}
+
+exports.sendPasswordResetEmail= async (userId, email)=> {
+  const token = await generatePasswordResetToken(userId);
+  const resetUrl = `https://example.com/reset-password?token=${token}`;
+
+  const message = {
+    to: email,
+    subject: 'Password reset request',
+    text: `Click on the following link to reset your password: ${resetUrl}`,
+  };
+
+  await mailer.send(message);
+}
+
+exports.validatePasswordResetToken=async (resetToken)=> {
+  const user = await User.findOne({
+    where: {
+      passwordResetToken: resetToken,
+      passwordResetTokenExpiresAt: {
+        [Op.gt]: new Date(),
+      },
+    },
+  });
+
+  return !!user;
+}
+
+exports.resetPassword=async (resetToken, newPassword) =>{
+  const user = await User.findOne({
+    where: {
+      passwordResetToken: resetToken,
+      passwordResetTokenExpiresAt: {
+        [Op.gt]: new Date(),
+      },
+    },
+  });
+
+  if (!user) {
+    throw new Error('Invalid password reset token');
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  user.password = hashedPassword;
+  user.passwordResetToken = null;
+  user.passwordResetTokenExpiresAt = null;
+  await user.save();
+}
+
+
