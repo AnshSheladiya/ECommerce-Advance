@@ -1,0 +1,118 @@
+.verified-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px var(--shadow-color);
+  opacity: 0.9;
+  backdrop-filter: blur(5px);
+  margin-top: 50px; /* adjust as needed */
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* Add a transition effect to the box-shadow property */
+  .verified-container {
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  .verified-container:hover {
+    box-shadow: 0px 0px 40px var(--shadow-color);
+  }
+}
+
+
+.verified-content {
+  flex-basis: 50%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px var(--shadow-color);
+  opacity: 0.9;
+  backdrop-filter: blur(5px);
+}
+
+.verified-icon {
+  display: block;
+margin: 0 auto;
+text-align: center;
+  font-size: 80px;
+  color: #3f51b5;
+  animation-name: pulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  margin-bottom: 40px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .verified-icon {
+    font-size: 60px;
+  }
+}
+
+
+.verified-title {
+  text-align: center;
+  color: var(--primary-color);
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.verified-text {
+  text-align: center;
+  font-size: 18px;
+  color: var(--primary-color);
+  font-family: "Open Sans", sans-serif;
+  margin-bottom: 20px;
+}
+
+.verified-description {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.button-login {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.mode-toggle {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.mode-toggle span {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.mode-toggle .MuiSwitch-root {
+  margin-left: 10px;
+}
+@media (max-width: 480px) {
+  .verified-container {
+  max-width: 350px;
+  padding: 10px;
+  }
+  }

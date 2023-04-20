@@ -17,21 +17,7 @@ const productSchema = new mongoose.Schema({
   long_description: {
     type: String,
   },
-  sku: {
-    type: String,
-  },
-  manufacturer_part_no: {
-    type: String,
-  },
-  upc: {
-    type: String,
-  },
-  ean: {
-    type: String,
-  },
-  isbn: {
-    type: String,
-  },
+  images: { type: [String] },
   brand: {
     type: String,
   },
@@ -53,6 +39,29 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  weight: {
+    type: Number,
+  },
+  length: {
+    type: Number,
+  },
+  width: {
+    type: Number,
+  },
+  height: {
+    type: Number,
+  },
+  dimension_unit: {
+    type: String,
+  },
+  weight_unit: {
+    type: String,
+  },
+  manage_stock: {
+    type: Boolean,
+  },
+  stock_status: { type: String },
+  
   is_featured: {
     type: Boolean,
   },
@@ -75,24 +84,7 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
-  weight: {
-    type: Number,
-  },
-  length: {
-    type: Number,
-  },
-  width: {
-    type: Number,
-  },
-  height: {
-    type: Number,
-  },
-  dimension_unit: {
-    type: String,
-  },
-  weight_unit: {
-    type: String,
-  },
+
   tax_class_id: {
     type: Number,
   },
@@ -120,13 +112,25 @@ const productSchema = new mongoose.Schema({
   low_stock_notification: {
     type: Number,
   },
-  manage_stock: {
-    type: Boolean,
-  },
-  stock_status: { type: String },
-  images: { type: [String] },
+
+
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date },
+  sku: {
+    type: String,
+  },
+  manufacturer_part_no: {
+    type: String,
+  },
+  upc: {
+    type: String,
+  },
+  ean: {
+    type: String,
+  },
+  isbn: {
+    type: String,
+  },
   mpn: { type: String },
   condition: { type: String },
   custom_fields: { type: Object },
@@ -242,6 +246,7 @@ const productSchema = new mongoose.Schema({
       ref: 'Product',
     },
   ],
+  
 });
 
 module.exports = productSchema;

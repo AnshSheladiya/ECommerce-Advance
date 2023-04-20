@@ -331,7 +331,7 @@ const MSG = {
     INVALID_OUTPUT: "Invalid output.",
     INVALID_REQUEST: "Invalid request.",
     INVALID_RESPONSE: "Invalid response.",
-
+    EMAIL_NOT_VERIFIED:"Please verify your email to log in",
     PASSWORD_INVALID: "Password is invalid.",
     PASSWORD_DIFFERNT: "Passwords do not match.",
     PASSWORD_SAME: "New password must be different from the old one.",

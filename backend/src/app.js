@@ -11,7 +11,7 @@
  require('./api/utils/passport')(passport);
  const MongoStore = require('connect-mongo');
  const config = require('./api/config/config');
-
+const sanitizeReqBody=require('./api/middlewares/sanitizeReqBody');
  const app = express();
 
  // set up session
@@ -36,6 +36,7 @@
  app.use(cors());
  app.use(helmet());
  app.use(bodyParser.json());
+ app.use(sanitizeReqBody)
  // Initialize Passport middleware
  app.use(passport.initialize());
  app.use(passport.session());
@@ -55,4 +56,5 @@
  app.use(errorHandler);
 
  module.exports = app;
+
 

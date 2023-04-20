@@ -148,6 +148,8 @@ security_questions: {
 last_password_change: {
   type: Date,
 },
+is_email_verified:{type:Boolean,default:false},
+email_verification_token:String,
 password_reset_token: {
   type: String,
 },

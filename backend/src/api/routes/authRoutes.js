@@ -21,5 +21,8 @@
  // Forgot/reset password routes
  router.post('/forgot-password', authController.forgotPassword);
  router.put('/reset-password', authController.resetPassword);
+
+ // Email verify routes
+ router.get('/verify-email', authController.verifyEmail);
  
  module.exports = router;

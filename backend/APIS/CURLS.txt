@@ -1,0 +1,15 @@
+////////forgot-password/////////
+curl --location 'localhost:8383/api/auth/forgot-password' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email":"wow123@yopmail.com"
+}
+
+
+/////////reset-password/////////
+curl --location --request PUT 'localhost:8383/api/auth/reset-password?token=c5e3ee5f-da1a-4fac-a213-e6182bee2d87' \
+--header 'Content-Type: application/json' \
+--data '{
+    "newPassword":"87654321"
+}'
+

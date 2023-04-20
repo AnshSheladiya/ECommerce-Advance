@@ -5,6 +5,8 @@ import { useTheme } from '../../../helpers/ThemeProvider';
 import {  FcGoogle } from 'react-icons/fc';
 import {  FaFacebook } from 'react-icons/fa';
 import './Login.css';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const { backgroundColor } = useTheme();
@@ -30,7 +32,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // TODO: Add form submission logic here
+    loginUser();
   };
 
   const toggleMode = () => {
@@ -45,7 +47,26 @@ const Login = () => {
   const handleSignUpClick = () => {
     navigate('/register');
   };
+  const handleForgatPasswordClick = () => {
+    navigate('/forgat-password');
+  };
 
+  const loginUser = async () => {
+    try {
+      const response = await axios.post('/api/auth/login', {
+        email: formData.email,
+        password: formData.password,
+      });
+      toast.success(response.data.message);
+      // TODO: handle successful login
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+      // TODO: handle error
+    }
+  };
+
+  
   return (
     <div class="login-container">
     <div class="image-container">
@@ -76,9 +97,9 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" onClick={handleSubmit}>Login</button>
         <div className="forgot-password">
-  <span >Forgot password?</span>
+  <span  onClick={handleForgatPasswordClick}>Forgot password?</span>
 </div>
       </form>
       <hr />
@@ -121,4 +142,5 @@ const Login = () => {
 };
 
 export default Login;
+
 

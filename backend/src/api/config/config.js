@@ -17,6 +17,7 @@ module.exports = {
     },
   },
   jwtSecret: process.env.JWT_SECRET || 'mysecretkey',
+  jwtEmailVerificationSecret:process.env.EMAIL_VERIFICATION_SECRET || 'myemailverificationsecretkey' ,
   google: {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -25,5 +26,8 @@ module.exports = {
   mail:{
     mail_user: process.env.MAIL_USER,
     mail_pass: process.env.MAIL_PASS
+  },
+  url:{
+    base_url:process.env.BASE_URL
   }
 };

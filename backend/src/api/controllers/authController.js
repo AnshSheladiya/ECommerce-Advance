@@ -4,30 +4,62 @@
 
 const authService = require('../services/authServices');
 const passport = require('passport');
-const JoiValidationSchema=require('../utils/JoiValidationSchema')
+const JoiValidationSchema = require('../utils/JoiValidationSchema');
 
 exports.signup = async (req, res, next) => {
   try {
-    const { first_name,last_name, email, password } = req.body;
+    const { first_name, last_name, email, password } = req.body;
 
-   // validate user input
-   const { error } = JoiValidationSchema.registerSchema.validate(req.body);
-   if (error) {
-     return res.status(400).json(ResponseHelper.error(400, error.message));
-   }
+    // validate user input
+    const { error } = JoiValidationSchema.registerSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json(ResponseHelper.error(400, error.message));
+    }
 
     // check if user already exists
     const userExists = await authService.checkUserExists(email);
     if (userExists) {
-      return res.status(400).json(ResponseHelper.error(400,MSG.EMAIL_ALREADY));
+      return res.status(400).json(ResponseHelper.error(400, MSG.EMAIL_ALREADY));
     }
 
-    // save user to database
-    const user = await authService.createUser(req.body);
+    // create user object with email verification token
+    const user = {
+      first_name,
+      last_name,
+      email,
+      password,
+      email_verification_token: authService.generateEmailVerificationToken({ email }, '1h'),
+    };
 
-    return res.status(200).json(ResponseHelper.success(200,MSG.CREATE_SUCCESS,user));
+    // save user to database
+    const savedUser = await authService.createUser(user);
+
+    // send email verification email
+    await authService.sendVerificationEmail(savedUser.email, savedUser.email_verification_token);
+
+    return res.status(200).json(ResponseHelper.success(200, MSG.VERIFICATION_EMAIL_SENT_SUCCESS, user));
   } catch (error) {
-    logger.error(error)
+    logger.error(error);
+    next(error);
+  }
+};
+
+exports.verifyEmail = async (req, res, next) => {
+  try {
+    const { token } = req.query;
+
+    // validate email verification token
+    const isValid = await authService.validateEmailVerificationToken(token);
+    if (!isValid) {
+      return res.status(400).json(ResponseHelper.error(400, MSG.TOKEN_INVALID));
+    }
+
+    // update user email verification status
+    await authService.verifyUserEmail(token);
+
+    return res.status(200).json(ResponseHelper.success(200, MSG.VERIFIED_SUCCESS));
+  } catch (error) {
+    logger.error(error);
     next(error);
   }
 };
@@ -37,10 +69,10 @@ exports.login = async (req, res, next) => {
     const { email, password } = req.body;
 
     // validate user input
-      const { error } = JoiValidationSchema.loginSchema.validate(req.body);
-      if (error) {
-        return res.status(400).json(ResponseHelper.error(400, error.message));
-      }
+    const { error } = JoiValidationSchema.loginSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json(ResponseHelper.error(400, error.message));
+    }
 
     passport.authenticate('local', (err, user, info) => {
       if (err) {
@@ -52,6 +84,11 @@ exports.login = async (req, res, next) => {
         return res.status(401).json(ResponseHelper.error(401, MSG.UNAUTHORIZED));
       }
 
+      // check if user has verified their email
+      if (!user.email_verified) {
+        return res.status(401).json(ResponseHelper.error(401, MSG.EMAIL_NOT_VERIFIED));
+      }
+
       req.logIn(user, (err) => {
         if (err) {
           logger.error(err);
@@ -61,7 +98,6 @@ exports.login = async (req, res, next) => {
         return res.status(200).json(ResponseHelper.success(200, MSG.LOGIN_SUCCESS, user));
       });
     })(req, res, next);
-
   } catch (error) {
     logger.error(error);
     next(error);
@@ -70,7 +106,7 @@ exports.login = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
   try {
-    req.logout(function(err) {
+    req.logout(function (err) {
       if (err) {
         logger.error(err);
         return next(err);
@@ -154,16 +190,17 @@ exports.forgotPassword = async (req, res, next) => {
 
 exports.resetPassword = async (req, res, next) => {
   try {
-    const { resetToken, newPassword } = req.body;
+    const { newPassword } = req.body;
+    const { token } = req.query;
 
     // validate reset token
-    const isValid = await authService.validatePasswordResetToken(resetToken);
+    const isValid = await authService.validatePasswordResetToken(token);
     if (!isValid) {
-      return res.status(400).json(ResponseHelper.error(400, MSG.INVALID_RESET_TOKEN));
+      return res.status(400).json(ResponseHelper.error(400, MSG.TOKEN_INVALID));
     }
 
     // update user password
-    await authService.resetPassword(resetToken, newPassword);
+    await authService.resetPassword(token, newPassword);
 
     return res.status(200).json(ResponseHelper.success(200, MSG.PASSWORD_RESET_SUCCESSFULLY));
   } catch (error) {

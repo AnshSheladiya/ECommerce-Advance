@@ -6,6 +6,7 @@ import { useTheme } from '../../../helpers/ThemeProvider';
 import {  FcGoogle } from 'react-icons/fc';
 import {  FaFacebook } from 'react-icons/fa';
 import './Register.css'
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const { backgroundColor } = useTheme();
@@ -21,19 +22,44 @@ const Register = () => {
   const [mode, setMode] = useState(
     localStorage.getItem('mode') || 'dark'
   );
-
   const handleChange = (event) => {
-    setFormData({
-    ...formData,
-    [event.target.name]: event.target.value,
-    });
-    };
-
-    const handleSubmit = async (event) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+      // add this code to update the keys as required by the backend
+      first_name: event.target.name === 'firstName' ? event.target.value : formData.first_name,
+      last_name: event.target.name === 'lastName' ? event.target.value : formData.last_name,
+      confirmPassword: event.target.name === 'confirmPassword' ? event.target.value : formData.confirmPassword
+    }));
+  };
+  
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    await signUpUser(formData);
-    };
-
+    try {
+      const { firstName, lastName, email, password, confirmPassword } = formData;
+      const response = await axios.post('/api/auth/signup', {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+        confirmPassword
+      });
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error.response.data);
+    }
+  };
+  
+    // Impliment that i want to send this type document data to backend
+    // {
+    //   first_name,
+    //   last_name,
+    //   email,
+    //   password,
+    //   confirmPassword,
+    // }
+    
   const toggleMode = () => {
     const newMode = mode === 'dark' ? 'light' : 'dark';
     setMode(newMode);
@@ -46,25 +72,6 @@ const Register = () => {
     const handleLoginClick = () => {
       navigate('/login');
     };
-
-     // Function to sign up the user
-  const signUpUser = async (userData) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify({
-      first_name: userData.firstName,
-      last_name: userData.lastName,
-      email: userData.email,
-      password: userData.password,
-      confirmPassword: userData.confirmPassword,
-    });
-console.log("ok---",body)
-    const res = await axios.post('http://localhost:8383/api/auth/signup', body, config);
-    return res;
-  };
 
   return (
    <div class="signup-container">
@@ -132,7 +139,7 @@ console.log("ok---",body)
             required
           />
         </div>
-        <button type="submit" onClick={signUpUser}>Register</button>
+        <button type="submit" onClick={handleSubmit}>Register</button>
       </form>
       <hr />
       <div className="form-group button-container">
