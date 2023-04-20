@@ -10,7 +10,11 @@
     "prettier": "prettier --write \"**/*.js\"",
     "editorconfig": "npx editorconfig-checker",
     "lint": "eslint . --config backend/test/.eslintrc.json",
-    "lint:fix": "eslint . --fix --config backend/test/.eslintrc.json"
+    "lint:fix": "eslint . --fix --config backend/test/.eslintrc.json",
+    "frontend-install": "cd frontend && npm install --force",
+    "install-all": "npm install && npm run frontend-install",
+    "postbuild": "npm install --prefix frontend && npm run build --prefix frontend",
+    "production":"npm run install-all && npm run postbuild "
   },
   "keywords": [],
   "author": "",

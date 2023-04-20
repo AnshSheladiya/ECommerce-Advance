@@ -5,6 +5,7 @@ require('dotenv').config();
 
 module.exports = {
   port: process.env.PORT || 3000,
+  node_env:process.env.NODE_ENV,
   database: {
     development: {
       url: process.env.DEV_DATABASE_URL || 'mongodb://localhost:27017/myapp_dev',

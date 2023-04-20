@@ -12,7 +12,13 @@
  const MongoStore = require('connect-mongo');
  const config = require('./api/config/config');
 const sanitizeReqBody=require('./api/middlewares/sanitizeReqBody');
+const path = require("path");
+
  const app = express();
+
+ //public
+const static_path = path.join(__dirname, "../public");
+app.use(express.static(static_path));
 
  // set up session
  app.use(
@@ -54,6 +60,18 @@ const sanitizeReqBody=require('./api/middlewares/sanitizeReqBody');
 
  // custom error handling middleware
  app.use(errorHandler);
+
+if (config.node_env === "production") {
+  app.use(express.static(path.join(__dirname,"..","..", "frontend", "build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "..", "frontend", "build", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("<h1>Hello From Node Server via nodemon</h1>");
+  });
+}
+
 
  module.exports = app;
 
