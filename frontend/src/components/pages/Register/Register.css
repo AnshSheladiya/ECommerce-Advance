@@ -6,17 +6,20 @@
 }
 
 .image-container {
-  flex-basis: 50%;
+  flex-basis: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  animation-name: slideInLeft;
+  animation-duration: 1s;
 }
 
 .image-container img {
   max-width: 100%;
   max-height: 100%;
+  animation-name: fadeIn;
+  animation-duration: 1s;
 }
-
 
 .register-container {
   flex-basis: 50%;
@@ -175,6 +178,11 @@ body {
     margin: 10px 0;
   }
 }
+@media (min-width: 1024px) {
+  .image-container {
+    margin-right: 250px;
+  }
+}
 @media (max-width: 768px) {
   .signup-container {
     flex-direction: column;
@@ -184,6 +192,13 @@ body {
   .register-container {
     flex-basis: 100%;
     max-width: none;
+    margin-top: 350px;
+    margin-bottom: 30px;
+  }
+
+  .image-container {
+    animation-name: slideInUp;
+    animation-duration: 1s;
   }
 }
 
@@ -202,4 +217,66 @@ body {
   color: var(--primary-color);
   cursor: pointer;
   font-weight: bold;
+}
+
+/* CompanyName CSS */
+.company-name {
+  font-size: 5rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  position: relative;
+}
+
+.company-name::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 4px;
+  background-color: #333;
+  transition: width 0.3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.company-name:hover::before {
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .company-name {
+    font-size: 3rem;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

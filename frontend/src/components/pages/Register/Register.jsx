@@ -7,7 +7,7 @@ import {  FcGoogle } from 'react-icons/fc';
 import {  FaFacebook } from 'react-icons/fa';
 import './Register.css'
 import { toast } from 'react-toastify';
-
+import screenLogo from "../../../images/ScreenLogo.png";
 const Register = () => {
   const { backgroundColor } = useTheme();
 
@@ -32,7 +32,7 @@ const Register = () => {
       confirmPassword: event.target.name === 'confirmPassword' ? event.target.value : formData.confirmPassword
     }));
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -50,7 +50,7 @@ const Register = () => {
       console.log(error.response.data);
     }
   };
-  
+
     // Impliment that i want to send this type document data to backend
     // {
     //   first_name,
@@ -59,7 +59,7 @@ const Register = () => {
     //   password,
     //   confirmPassword,
     // }
-    
+
   const toggleMode = () => {
     const newMode = mode === 'dark' ? 'light' : 'dark';
     setMode(newMode);
@@ -76,8 +76,10 @@ const Register = () => {
   return (
    <div class="signup-container">
   <div class="image-container">
-    <img src="https://plus.unsplash.com/premium_photo-1675826774817-fe983ceb0475?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Signup Image"></img>
+    <img src={screenLogo} alt="Signup Image"></img>
   </div>
+  {/* <h1 class="company-name">Company Name</h1> */}
+
   <div
       className="register-container"
       data-theme={mode}

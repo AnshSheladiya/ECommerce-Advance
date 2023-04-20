@@ -85,7 +85,7 @@ exports.login = async (req, res, next) => {
       }
 
       // check if user has verified their email
-      if (!user.email_verified) {
+      if (!user.is_email_verified) {
         return res.status(401).json(ResponseHelper.error(401, MSG.EMAIL_NOT_VERIFIED));
       }
 
@@ -155,6 +155,13 @@ exports.changePassword = async (req, res, next) => {
     const { oldPassword, newPassword } = req.body;
     const { user } = req;
 
+      // validate user input
+      const { error } = JoiValidationSchema.changePasswordSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json(ResponseHelper.error(400, error.message));
+      }
+
+
     // check if old password is correct
     const isMatch = await authService.checkPassword(user.password, oldPassword);
     if (!isMatch) {
@@ -175,13 +182,19 @@ exports.forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
 
+      // validate user input
+      const { error } = JoiValidationSchema.forgotPasswordSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json(ResponseHelper.error(400, error.message));
+      }
+
     // generate password reset token
     const resetToken = await authService.generatePasswordResetToken(email);
 
     // send password reset email to user
     await authService.sendPasswordResetEmail(email, resetToken);
 
-    return res.status(200).json(ResponseHelper.success(200, MSG.PASSWORD_RESET_EMAIL_SENT));
+    return res.status(200).json(ResponseHelper.success(200, MSG.PASSWORD_RESET_EMAIL_SENT_SUCCESS));
   } catch (error) {
     logger.error(error);
     next(error);
@@ -192,6 +205,12 @@ exports.resetPassword = async (req, res, next) => {
   try {
     const { newPassword } = req.body;
     const { token } = req.query;
+
+      // validate user input
+      const { error } = JoiValidationSchema.resetPasswordSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json(ResponseHelper.error(400, error.message));
+      }
 
     // validate reset token
     const isValid = await authService.validatePasswordResetToken(token);

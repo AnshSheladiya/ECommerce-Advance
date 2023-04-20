@@ -104,20 +104,20 @@ exports.generatePasswordResetToken= async (email)=> {
 
 exports.sendPasswordResetEmail= async (email, resetToken )=> {
   let baseUrl=config.url.base_url;
-  const resetUrl = `${baseUrl}/api/auth/reset-password?token=${resetToken}`;
+  const resetUrl = `${baseUrl}/reset-password?token=${resetToken}`;
 
   const message = {
     from: 'Your Company <noreply@yourcompany.com>',
     to: email,
     subject: 'Password Reset Request',
     text: `Dear User,
-  
+
   We have received a request to reset your password. To reset your password, please click on the following link:
-  
+
   ${resetUrl}
-  
+
   If you did not request this password reset, please ignore this message.
-  
+
   Sincerely,
   Your Company`,
     html: `<!DOCTYPE html>
@@ -152,6 +152,7 @@ exports.validatePasswordResetToken=async (resetToken)=> {
 }
 
 exports.resetPassword=async (resetToken, newPassword) =>{
+  console.log(resetToken)
   const user = await User.findOne({
     password_reset_token: resetToken,
     password_reset_expiry: {
@@ -175,18 +176,18 @@ exports.sendVerificationEmail = async (email,token) => {
   // Build the verification link
   const baseUrl = config.url.base_url;
   const verifyUrl = `${baseUrl}/verified?token=${token}`;
-  
+
   // Send the verification email
   const message = {
     from: 'Your Company <noreply@yourcompany.com>',
     to: email,
     subject: 'Email Verification',
     text: `Dear User,
-    
+
     Please click on the following link to verify your email address:
-    
+
     ${verifyUrl}
-    
+
     Sincerely,
     Your Company`,
     html: `<!DOCTYPE html>
@@ -204,6 +205,6 @@ exports.sendVerificationEmail = async (email,token) => {
       </body>
     </html>`
   };
-  
+
   await mailer.send(message);
 };

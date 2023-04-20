@@ -56,7 +56,7 @@ const ForgatPassword = () => {
     }
   };
 
-  
+
   return (
     <div class="forgatPassword-container">
     <div class="register-container" data-theme={mode}>
@@ -75,20 +75,9 @@ const ForgatPassword = () => {
         </div>
         <button type="submit" onClick={handleSubmit}>Send</button>
       </form>
-      <div className="mode-toggle">
-        <span>{mode === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>
-        <Switch
-          checked={mode === 'dark'}
-          onChange={toggleMode}
-          name="modeToggle"
-          color="primary"
-        />
-      </div>
     </div>
   </div>
   );
 };
 
 export default ForgatPassword;
-
-

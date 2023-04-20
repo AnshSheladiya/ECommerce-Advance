@@ -7,6 +7,7 @@ import {  FaFacebook } from 'react-icons/fa';
 import './Login.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import loginScreenLogo from "../../../images/LoginScreenLogo.png";
 
 const Login = () => {
   const { backgroundColor } = useTheme();
@@ -66,11 +67,11 @@ const Login = () => {
     }
   };
 
-  
+
   return (
     <div class="login-container">
     <div class="image-container">
-      <img src="https://plus.unsplash.com/premium_photo-1675826774817-fe983ceb0475?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Signup Image"></img>
+      <img src={loginScreenLogo} alt="Signup Image"></img>
     </div>
     <div class="register-container" data-theme={mode}>
       <h1 class="register-title">Login</h1>
