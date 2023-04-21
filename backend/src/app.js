@@ -47,13 +47,6 @@ app.use(express.static(static_path));
  app.use(passport.initialize());
  app.use(passport.session());
 
- const authMiddleware = require('./api/middlewares/authMiddleware');
-
- app.get('/', authMiddleware, (req, res) => {
-   const { email } = req.user;
-   res.json({ email });
- });
-
  // Routes
  const authRoutes = require('./api/routes/authRoutes');
  app.use('/api/auth', authRoutes);

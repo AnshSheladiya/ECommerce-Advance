@@ -23,7 +23,7 @@ const Verified = (props) => {
   //Handle Login Navigate
   const navigate = useNavigate();
   const handleLoginClick = () => {
-    navigate('/login');
+    navigate('/');
   };
 
   useEffect(() => {

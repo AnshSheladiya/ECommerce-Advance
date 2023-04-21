@@ -70,7 +70,7 @@ const Register = () => {
     //Handle Signup Navigate
     const navigate = useNavigate();
     const handleLoginClick = () => {
-      navigate('/login');
+      navigate('/');
     };
 
   return (
