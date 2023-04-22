@@ -1,4 +1,6 @@
-.login-container {
+
+.signup-container {
+  background-color: var(--body-background-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,7 +8,7 @@
 }
 
 .image-container {
-  flex-basis: 50%;
+  flex-basis: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,17 +17,17 @@
 }
 
 .image-container img {
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 100%;
+  max-height: 100%;
   animation-name: fadeIn;
   animation-duration: 1s;
 }
-
 
 .register-container {
   flex-basis: 50%;
   max-width: 600px;
   margin: 0 auto;
+  margin-right: 15%;
   padding: 20px;
   background-color: var(--background-color);
   border-radius: 10px;
@@ -103,14 +105,6 @@ button:hover {
   }
 }
 
-body {
-  background-color: var(--body-background-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
 .register-title {
   text-align: center;
   color: var(--primary-color);
@@ -181,8 +175,7 @@ body {
 }
 @media (min-width: 1024px) {
   .image-container {
-    width: 60%;
-    height:60%
+    margin-right: 250px;
   }
 }
 @media (max-width: 768px) {
@@ -191,41 +184,34 @@ body {
   }
 
   .image-container,
-  .login-container {
+  .register-container {
     flex-basis: 100%;
     max-width: none;
-    margin-bottom: 30px;
   }
 
   .image-container {
     animation-name: slideInUp;
     animation-duration: 1s;
+    margin-top: 150%;
   }
 }
 
-.forgot-password {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-.dont-have-account {
+.have-account {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
 
-.dont-have-account span:first-child {
+.have-account span:first-child {
   margin-right: 5px;
 }
 
-.dont-have-account span:last-child {
+.have-account .login-link {
   color: var(--primary-color);
   cursor: pointer;
   font-weight: bold;
 }
-
-
 
 @keyframes slideInLeft {
   from {

@@ -22,7 +22,7 @@ function connectWithRetry() {
     .then(() => {
       logger.info('MongoDB connected!');
       retries = 0;
-    })
+    }) 
     .catch((err) => {
       logger.error(`Failed to connect to MongoDB: ${err}`);
       if (retries < maxRetries) {

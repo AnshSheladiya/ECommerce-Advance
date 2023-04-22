@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon backend/server.js",
-    "i": "npm  install && cd frontend && npm i",
     "prettier": "prettier --write \"**/*.js\"",
     "editorconfig": "npx editorconfig-checker",
     "lint": "eslint . --config backend/test/.eslintrc.json",
@@ -14,7 +13,8 @@
     "frontend-install": "cd frontend && npm install --force",
     "install-all": "npm install && npm run frontend-install",
     "postbuild": "npm install --prefix frontend && npm run build --prefix frontend",
-    "production":"npm run install-all && npm run postbuild "
+    "production":"npm run install-all && npm run postbuild ",
+    "dev:full": "concurrently \"npm run dev\" \"cd frontend && npm start\""
   },
   "keywords": [],
   "author": "",

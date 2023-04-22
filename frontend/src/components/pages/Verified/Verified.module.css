@@ -1,3 +1,11 @@
+.verify-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--body-background-color);
+}
+
 .verified-container {
   display: flex;
   flex-direction: column;
@@ -12,6 +20,10 @@
   opacity: 0.9;
   backdrop-filter: blur(5px);
   margin-top: 50px; /* adjust as needed */
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 @media (prefers-reduced-motion: no-preference) {
   /* Add a transition effect to the box-shadow property */

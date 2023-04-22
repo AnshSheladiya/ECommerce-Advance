@@ -51,9 +51,6 @@ const forgotPasswordSchema = Joi.object({
 });
 
 const resetPasswordSchema = Joi.object({
-  resetToken: Joi.string().required().messages({
-    'any.required': 'Reset token is required',
-  }),
   newPassword: Joi.string().min(8).max(20).required().messages({
     'any.required': 'New password is required',
     'string.min': 'New password should be at least 8 characters long',
@@ -160,6 +157,35 @@ const addAddressSchema = Joi.object({
   }),
   });
 
+  const createProductSchema = Joi.object({
+    product_name: Joi.string().required().messages({
+      'any.required': 'Product name is required',
+    }),
+    description: Joi.string(),
+    short_description: Joi.string(),
+    long_description: Joi.string(),
+    images: Joi.array().items(Joi.string()),
+    brand: Joi.string(),
+    category_id: Joi.required().messages({
+      'any.required': 'Category ID is required',
+      'number.base': 'Category ID must be a number',
+    }),
+    price: Joi.number().required().messages({
+      'any.required': 'Price is required',
+      'number.base': 'Price must be a number',
+    }),
+    sale_price: Joi.number(),
+    currency: Joi.string(),
+    quantity: Joi.number().required().messages({
+      'any.required': 'Quantity is required',
+      'number.base': 'Quantity must be a number',
+    }),
+    weight: Joi.number(),
+    length: Joi.number(),
+    width: Joi.number(),
+    height: Joi.number(),
+  });
+
 module.exports = {
   registerSchema,
   loginSchema,
@@ -169,5 +195,6 @@ module.exports = {
   profileSchema,
   addAddressSchema,
   updateAddressSchema,
+  createProductSchema
 };
 

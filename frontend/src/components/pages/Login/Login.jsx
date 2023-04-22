@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Switch, Button } from '@material-ui/core';
-import { useTheme } from '../../../helpers/ThemeProvider';
+import { Switch, Button,Select,MenuItem } from '@material-ui/core';
 import {  FcGoogle } from 'react-icons/fc';
 import {  FaFacebook } from 'react-icons/fa';
-import './Login.css';
+import loginStyles from './Login.module.css';
+import '../../../styles/global.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import loginScreenLogo from "../../../images/LoginScreenLogo.png";
+import useTheme from '../../../helpers/useTheme';
+import { Brightness1 } from '@material-ui/icons';
 
 const Login = () => {
-  const { backgroundColor } = useTheme();
+  const { mode, handleModeChange, themes } = useTheme();
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -20,9 +22,6 @@ const Login = () => {
     confirmPassword: '',
   });
 
-  const [mode, setMode] = useState(
-    localStorage.getItem('mode') || 'dark'
-  );
 
   const handleChange = (event) => {
     setFormData({
@@ -34,13 +33,6 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     loginUser();
-  };
-
-  const toggleMode = () => {
-    const newMode = mode === 'dark' ? 'light' : 'dark';
-    setMode(newMode);
-    localStorage.setItem('mode', newMode);
-    document.body.style.backgroundColor = newMode === 'dark' ? '#1B2845' : '#552619';
   };
 
   //Handle Signup Navigate
@@ -67,79 +59,81 @@ const Login = () => {
     }
   };
 
-
   return (
-    <div class="login-container">
-    <div class="image-container">
-      <img src={loginScreenLogo} alt="Signup Image"></img>
-    </div>
-    <div class="register-container" data-theme={mode}>
-      <h1 class="register-title">Login</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
+    <div className={`${loginStyles['login-container']} ${mode}`} >
+        <div className={loginStyles['image-container']}>
+            <img src={loginScreenLogo} alt="Signup Image"></img>
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+        <div className={loginStyles['register-container']} data-theme={mode}>
+            <h1 className={loginStyles['register-title']}>Login</h1>
+            <form onSubmit={handleSubmit}>
+                <div className={loginStyles['form-group']}>
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className={loginStyles['form-control']}
+                    />
+                </div>
+                <div className={loginStyles['form-group']}>
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                        className={loginStyles['form-control']}
+                    />
+                </div>
+                <button type="submit" onClick={handleSubmit} className={loginStyles['btn']}>Login</button>
+                <div className={loginStyles['forgot-password']}>
+                    <span onClick={handleForgatPasswordClick}>Forgot password?</span>
+                </div>
+            </form>
+            <hr />
+            <div className={loginStyles['form-group'] + ' ' + loginStyles['button-container']}>
+                <Button
+                    className={loginStyles['btn'] + ' ' + loginStyles['button-google'] + ' ' + loginStyles['space']}
+                    variant="outlined"
+                    href="#outlined-buttons"
+                    startIcon={<FcGoogle />}
+                >
+                    Google
+                </Button>
+
+                <Button
+                    className={loginStyles['btn'] + ' ' + loginStyles['button-facebook'] + ' ' + loginStyles['space']}
+                    variant="outlined"
+                    href="#outlined-buttons"
+                    startIcon={<FaFacebook />}
+                >
+                    Facebook
+                </Button>
+            </div>
+            <div className={loginStyles['dont-have-account']}>
+                <span>Don't have an account?</span>
+                <span onClick={handleSignUpClick}>Sign up</span>
+            </div>
+            <div className={loginStyles['mode-select']}>
+            <Select value={mode} onChange={handleModeChange}>
+        {themes.map((theme) => (
+          <MenuItem value={theme.mode}>
+            <Brightness1 style={{ color: theme.color }} />
+          </MenuItem>
+        ))}
+      </Select>
+      </div>
+
         </div>
-        <button type="submit" onClick={handleSubmit}>Login</button>
-        <div className="forgot-password">
-  <span  onClick={handleForgatPasswordClick}>Forgot password?</span>
-</div>
-      </form>
-      <hr />
-      <div className="form-group button-container">
-        <Button
-          className="button-google space"
-          variant="outlined"
-          href="#outlined-buttons"
-          startIcon={<FcGoogle />}
-        >
-          Google
-        </Button>
-
-        <Button
-          className="button-facebook space"
-          variant="outlined"
-          href="#outlined-buttons"
-          startIcon={<FaFacebook />}
-        >
-          Facebook
-        </Button>
-      </div>
-      <div className="dont-have-account">
-  <span>Don't have an account?</span>
-  <span onClick={handleSignUpClick}>Sign up</span>
-</div>
-      <div className="mode-toggle">
-        <span>{mode === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>
-        <Switch
-          checked={mode === 'dark'}
-          onChange={toggleMode}
-          name="modeToggle"
-          color="primary"
-        />
-      </div>
     </div>
-  </div>
+);
 
-  );
 };
 
 export default Login;

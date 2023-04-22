@@ -22,12 +22,11 @@ const productSchema = new mongoose.Schema({
     type: String,
   },
   category_id: {
-    type: Number,
-    required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category' 
   },
   price: {
     type: Number,
-    required: true,
   },
   sale_price: {
     type: Number,
@@ -37,7 +36,6 @@ const productSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    required: true,
   },
   weight: {
     type: Number,
@@ -82,7 +80,6 @@ const productSchema = new mongoose.Schema({
   },
   is_active: {
     type: Boolean,
-    required: true,
   },
 
   tax_class_id: {
@@ -152,7 +149,7 @@ const productSchema = new mongoose.Schema({
   shipping_class: { type: String },
   is_downloadable: { type: Boolean },
   is_virtual: { type: Boolean },
-  product_type: { type: String, required: true },
+  product_type: { type: String},
   manufacturer: { type: String },
   supplier: { type: String },
   origin_country: { type: String },
@@ -247,6 +244,12 @@ const productSchema = new mongoose.Schema({
     },
   ],
   
+},{
+  versionKey: false,
+  timestamps: true, // enable timestamps
 });
 
-module.exports = productSchema;
+
+const Product = mongoose.model('Product', productSchema);
+
+module.exports =  Product ;

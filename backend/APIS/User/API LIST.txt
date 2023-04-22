@@ -174,3 +174,13 @@ PUT /api/users/:userId/privacy_settings - Update a user's privacy settings.
 POST /api/users/:userId/referral - Add a referral code for a user.
 PUT /api/users/:userId/interests - Update a user's interests.
 PUT /api/users/:userId/occupation - Update a user's occupation.
+
+
+
+////////////////////////////////////////////////////////////////categories////////////////////////////////////////////////////////////////
+GET /api/categories/:id/ancestors - Get all ancestors of a category by ID
+GET /api/categories/:id/descendants - Get all descendants of a category by ID
+GET /api/categories/:id/siblings - Get all sibling categories of a category by ID
+GET /api/categories/:id/related - Get all related categories of a category by ID
+POST /api/categories/:id/related - Add a related category to a category by ID
+DELETE /api/categories/:id/related/:relatedId - Remove a related category from a category by ID

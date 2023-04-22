@@ -152,7 +152,6 @@ exports.validatePasswordResetToken=async (resetToken)=> {
 }
 
 exports.resetPassword=async (resetToken, newPassword) =>{
-  console.log(resetToken)
   const user = await User.findOne({
     password_reset_token: resetToken,
     password_reset_expiry: {

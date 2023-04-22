@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
-import { Switch } from '@material-ui/core';
 import { Button } from '@material-ui/core';
-import { useTheme } from '../../../helpers/ThemeProvider';
 import { FiCheckCircle } from 'react-icons/fi';
 import axios from 'axios';
-import './Verified.css';
+import '../../../styles/global.css';
+import VerifiedStyles from './Verified.module.css';
+import useTheme from '../../../helpers/useTheme';
 
-const Verified = (props) => {
-  const { backgroundColor } = useTheme();
+const Verified = ({ location }) => {
+  const { mode, handleModeChange } = useTheme();
   const { search } = useLocation();
-  const [mode, setMode] = useState(localStorage.getItem('mode') || 'dark');
   const [isVerified, setIsVerified] = useState(false);
-
-  const toggleMode = () => {
-    const newMode = mode === 'dark' ? 'light' : 'dark';
-    setMode(newMode);
-    localStorage.setItem('mode', newMode);
-    document.body.style.backgroundColor = newMode === 'dark' ? '#1B2845' : '#552619';
-  };
 
   //Handle Login Navigate
   const navigate = useNavigate();
@@ -41,40 +33,34 @@ const Verified = (props) => {
       });
   }, [search]);
 
+
   return (
-    <div className="verified-container">
-      <div className="verified-content" data-theme={mode}>
-        {isVerified && <FiCheckCircle className="verified-icon" />}
+    <div className={`${VerifiedStyles['verify-container']} ${mode}`}>
+      <div className={VerifiedStyles['verified-content']} data-theme={mode}>
+        {isVerified && <FiCheckCircle className={VerifiedStyles['verified-icon']} />}
         {isVerified ?
-          <h1 className="verified-title">Your profile is verified</h1> :
-          <h1 className="verified-title">Verification failed</h1>}
+          <h1 className={VerifiedStyles['verified-title']}>Your profile is verified</h1> :
+          <h1 className={VerifiedStyles['verified-title']}>Verification failed</h1>}
         {isVerified ?
-          <p className="verified-description">
+          <p className={VerifiedStyles['verified-description']}>
             You can now use our services. Thank you for verifying your email address.
           </p> :
-          <p className="verified-description">
+          <p className={VerifiedStyles['verified-description']}>
             Your email verification token is invalid or has expired. Please try again later.
           </p>}
         <Button
-          className="button-login space"
+          className={`${VerifiedStyles['button-login']} ${VerifiedStyles['space']}`}
           variant="outlined"
           href="#outlined-buttons"
           onClick={handleLoginClick}
         >
           Back to Login
         </Button>
-        <div className="mode-toggle">
-          <span>{mode === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>
-          <Switch
-            checked={mode === 'dark'}
-            onChange={toggleMode}
-            name="modeToggle"
-            color="primary"
-          />
-        </div>
+
       </div>
     </div>
   );
+
 };
 
 export default Verified;

@@ -11,6 +11,7 @@ const MSG = {
     LOGIN_SUCCESS: "Successfully logged in.",
     SIGNUP_SUCCESS: "Successfully signed up.",
     SIGNIN_SUCCESS: "Successfully signed in.",
+    LOGOUT_SUCCESS:"Successfully logout",
     PASSWORD_RESET_SUCCESS: "Successfully reset password.",
     UPLOAD_SUCCESS: "Successfully uploaded.",
     CHECKOUT_SUCCESS: "Successfully checked out.",
@@ -371,6 +372,7 @@ const MSG = {
     // Product related messages
     PRODUCT_NOT_FOUND: "Product not found.",
     PRODUCT_ALREADY_EXISTS: "A product with this information already exists.",
+    PRODUCT_CREATED_SUCCESSFULLY: "Product created successfully.",
     PRODUCT_DELETED_SUCCESSFULLY: "Product deleted successfully.",
     PRODUCT_UPDATED_SUCCESSFULLY: "Product updated successfully.",
     PRODUCT_UNAUTHORIZED: "Unauthorized product.",

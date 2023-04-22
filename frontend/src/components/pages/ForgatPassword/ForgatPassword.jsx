@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Switch, Button } from '@material-ui/core';
-import { useTheme } from '../../../helpers/ThemeProvider';
-import './ForgatPassword.css';
+import '../../../styles/global.css';
+import ForgatPasswordStyles from './ForgatPassword.module.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import useTheme from '../../../helpers/useTheme';
 
 const ForgatPassword = () => {
-  const { backgroundColor } = useTheme();
+  const { mode, handleModeChange } = useTheme();
 
   const [formData, setFormData] = useState({
     email: '',
   });
-
-  const [mode, setMode] = useState(
-    localStorage.getItem('mode') || 'dark'
-  );
 
   const handleChange = (event) => {
     setFormData({
@@ -27,19 +24,6 @@ const ForgatPassword = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     forgatPasswordUser();
-  };
-
-  const toggleMode = () => {
-    const newMode = mode === 'dark' ? 'light' : 'dark';
-    setMode(newMode);
-    localStorage.setItem('mode', newMode);
-    document.body.style.backgroundColor = newMode === 'dark' ? '#1B2845' : '#552619';
-  };
-
-  //Handle Signup Navigate
-  const navigate = useNavigate();
-  const handleSignUpClick = () => {
-    navigate('/register');
   };
 
   const forgatPasswordUser = async () => {
@@ -56,28 +40,29 @@ const ForgatPassword = () => {
     }
   };
 
-
   return (
-    <div class="forgatPassword-container">
-    <div class="register-container" data-theme={mode}>
-      <h1 class="register-title">Forgat Password</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit" onClick={handleSubmit}>Send</button>
-      </form>
+    <div className={`${ForgatPasswordStyles.forgatPasswordContainer} ${mode}`}>
+      <div className={`${ForgatPasswordStyles.registerContainer}`} data-theme={mode}>
+        <h1 className={ForgatPasswordStyles.registerTitle}>Forgat Password</h1>
+        <form onSubmit={handleSubmit}>
+          <div className={ForgatPasswordStyles.formGroup}>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className={ForgatPasswordStyles.input}
+            />
+          </div>
+          <button type="submit" onClick={handleSubmit} className={ForgatPasswordStyles.button}>Send</button>
+        </form>
+      </div>
     </div>
-  </div>
   );
+
 };
 
 export default ForgatPassword;

@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Switch, Button } from '@material-ui/core';
-import { useTheme } from '../../../helpers/ThemeProvider';
-import './ResetPassword.css';
+import '../../../styles/global.css';
+import ResetPasswordStyles from './ResetPassword.module.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import useTheme from '../../../helpers/useTheme';
 
-const ResetPassword = () => {
-  const { backgroundColor } = useTheme();
-  const location = useLocation();
+const ResetPassword = ({ location }) => {
+  const { mode, handleModeChange } = useTheme();
 
   const [formData, setFormData] = useState({
     newPassword: '',
   });
-
-  const [mode, setMode] = useState(
-    localStorage.getItem('mode') || 'dark'
-  );
 
   const handleChange = (event) => {
     setFormData({
@@ -27,23 +23,10 @@ const ResetPassword = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    resetPassword();
+    resetPassword(location); // <-- pass location as an argument
   };
 
-  const toggleMode = () => {
-    const newMode = mode === 'dark' ? 'light' : 'dark';
-    setMode(newMode);
-    localStorage.setItem('mode', newMode);
-    document.body.style.backgroundColor = newMode === 'dark' ? '#1B2845' : '#552619';
-  };
-
-  //Handle Signup Navigate
-  const navigate = useNavigate();
-  const handleSignUpClick = () => {
-    navigate('/register');
-  };
-
-  const resetPassword = async () => {
+  const resetPassword = async (location) => { // <-- receive location as a parameter
     try {
       const token = location.search.replace('?token=', '');
       if (!token) {
@@ -64,11 +47,11 @@ const ResetPassword = () => {
 
 
   return (
-    <div className="resetPassword-container">
-      <div className="resetPassword-form-container" data-theme={mode}>
-        <h1 className="resetPassword-title">Reset Password</h1>
+    <div className={`${ResetPasswordStyles.resetPasswordContainer} ${mode}`}>
+      <div className={ResetPasswordStyles.resetPasswordFormContainer} data-theme={mode}>
+        <h1 className={ResetPasswordStyles.resetPasswordTitle}>Reset Password</h1>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className={ResetPasswordStyles.formGroup}>
             <label htmlFor="newPassword">New Password:</label>
             <input
               type="password"
@@ -77,13 +60,15 @@ const ResetPassword = () => {
               value={formData.newPassword}
               onChange={handleChange}
               required
+              className={ResetPasswordStyles.input}
             />
           </div>
-          <button type="submit" onClick={handleSubmit}>Reset Password</button>
+          <button type="submit" onClick={handleSubmit} className={ResetPasswordStyles.button}>Reset Password</button>
         </form>
       </div>
     </div>
   );
+
 };
 
 export default ResetPassword;

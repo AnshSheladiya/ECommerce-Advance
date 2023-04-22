@@ -1,3 +1,4 @@
+/* //global.css */
 :root {
   --primary-color: #000000;
   --secondary-color: #335c81;
@@ -13,16 +14,60 @@
   --body-background-color-light: #552619;
   --shadow-color-light: #000000;
 
+  --primary-color-theme1: #A6D0DD;
+  --secondary-color-theme1: #FF6969;
+  --background-color-theme1: #FFD3B0;
+  --accent-color-theme1: #FFF9DE;
+  --body-background-color-theme1: #1B2845;
+  --shadow-color-theme1: rgb(0, 0, 0);
+
   --mode: 'dark';
+  --login-container-background-color: var(--body-background-color);
 }
 
 [data-theme='light'] {
-  --primary-color: var(--primary-color-light);
-  --secondary-color: var(--secondary-color-light);
-  --background-color: var(--background-color-light);
-  --body-background-color: var(--body-background-color-light);
-  --accent-color: var(--accent-color-light);
-  --shadow-color: var(--shadow-color-light);
+  --primary-color: #594545;
+  --secondary-color:  #9E7676;
+  --background-color:  #FBEAE7;
+  --body-background-color: #815B5B;
+  --accent-color: #552619;
+  --shadow-color:#000000;
 
   --mode: 'light';
+}
+
+/* Theme option 1 */
+[data-theme='theme1'] {
+  --primary-color: #000000;
+  --secondary-color: #335c81;
+  --background-color: #7da8d5;
+  --body-background-color: #1B2845;
+  --accent-color:  #5899E2;
+  --shadow-color: rgb(0, 0, 0);
+
+  --mode: 'theme1';
+}
+
+/* Theme option 2 */
+[data-theme='theme2'] {
+  --primary-color: #000000;
+  --secondary-color: #663868;
+  --background-color: #C9A7EB;
+  --accent-color: #9384D1;
+  --body-background-color: #5e5192;
+  --shadow-color: rgb(0, 0, 0);
+
+  --mode: 'theme2';
+}
+
+/* Theme option 3 */
+[data-theme='theme3'] {
+  --primary-color: #9A208C;
+  --secondary-color: #E11299;
+  --background-color: #FFEAEA;
+  --accent-color: #F5C6EC;
+  --body-background-color: #892978;
+  --shadow-color: rgb(0, 0, 0);
+
+  --mode: 'theme3';
 }
