@@ -7,6 +7,7 @@ const { v4: uuid } = require('uuid');
 const mailer = require('../utils/mailer');
 const config = require('../config/config');
 const jwt=require('jsonwebtoken');
+logger.info("authServices.js start")
 
 exports.checkUserExists = async (email) => {
   const user = await User.findOne({ email } );

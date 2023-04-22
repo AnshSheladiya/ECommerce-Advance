@@ -15,14 +15,14 @@ const options = {
 
 let retries = 0;
 const maxRetries = 5;
-
+logger.info(config.database[process.env.NODE_ENV || 'development'].url)
 function connectWithRetry() {
   logger.info('Connecting to MongoDB...');
   mongoose.connect(config.database[process.env.NODE_ENV || 'development'].url, options)
     .then(() => {
       logger.info('MongoDB connected!');
       retries = 0;
-    }) 
+    })
     .catch((err) => {
       logger.error(`Failed to connect to MongoDB: ${err}`);
       if (retries < maxRetries) {

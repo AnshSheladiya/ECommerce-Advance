@@ -5,6 +5,7 @@
 const authService = require('../services/authServices');
 const passport = require('passport');
 const JoiValidationSchema = require('../utils/JoiValidationSchema');
+logger.info("authController.js start")
 
 exports.signup = async (req, res, next) => {
   try {

@@ -46,17 +46,19 @@ app.use(express.static(static_path));
  // Initialize Passport middleware
  app.use(passport.initialize());
  app.use(passport.session());
+ logger.info("app.js start")
 
  // Routes
  const authRoutes = require('./api/routes/authRoutes');
  app.use('/api/auth', authRoutes);
 //  const userRoutes = require('./api/routes/userRoutes');
 //  app.use('/api/user', userRoutes);
- const productRoutes = require('./api/routes/productRoutes');
- app.use('/api/products', productRoutes);
+//  const productRoutes = require('./api/routes/productRoutes');
+//  app.use('/api/products', productRoutes);
 
  // custom error handling middleware
  app.use(errorHandler);
+ logger.info("app.js config.node_env",config.node_env)
 
 if (config.node_env === "production") {
   app.use(express.static(path.join(__dirname,"..","..", "frontend", "build")));
