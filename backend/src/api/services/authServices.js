@@ -7,26 +7,43 @@ const { v4: uuid } = require('uuid');
 const mailer = require('../utils/mailer');
 const config = require('../config/config');
 const jwt=require('jsonwebtoken');
-logger.info("authServices.js start")
 
 exports.checkUserExists = async (email) => {
-  const user = await User.findOne({ email } );
-  return user;
+  try {
+    const user = await User.findOne({ email } );
+    return user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+
 };
 
 exports.hashPassword = async (password) => {
-  const salt = await bcrypt.genSalt(10);
-  return bcrypt.hash(password, salt);
+  try {
+    const salt = await bcrypt.genSalt(10);
+    return bcrypt.hash(password, salt);
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 exports.createUser = async (body) => {
-  const user = await User.create(body);
-  return user.toJSON();
+  try {
+    const user = await User.create(body);
+    return user.toJSON();
+  } catch (error) {
+  throw new Error(error.message);
+  }
+
 };
 
 
 exports.generateEmailVerificationToken = (payload, expiresIn) => {
-  return jwt.sign(payload, config.jwtEmailVerificationSecret, { expiresIn });
+  try {
+    return jwt.sign(payload, config.jwtEmailVerificationSecret, { expiresIn });
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 exports.validateEmailVerificationToken = async (token) => {
@@ -88,19 +105,23 @@ exports.updatePassword= async (userId, newPassword)=> {
 }
 
 exports.generatePasswordResetToken= async (email)=> {
-  const user = await User.findOne({ email } );
-  if (!user) {
-    throw new Error('User not found');
+  try {
+    const user = await User.findOne({ email } );
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const token = uuid();
+    const expiresAt = new Date(Date.now() + 3600000); // 1 hour from now
+
+    user.password_reset_token = token;
+    user.password_reset_expiry = expiresAt;
+    await user.save();
+
+    return token;
+  } catch (error) {
+    throw new Error(error.message);
   }
-
-  const token = uuid();
-  const expiresAt = new Date(Date.now() + 3600000); // 1 hour from now
-
-  user.password_reset_token = token;
-  user.password_reset_expiry = expiresAt;
-  await user.save();
-
-  return token;
 }
 
 exports.sendPasswordResetEmail= async (email, resetToken )=> {
@@ -142,14 +163,17 @@ exports.sendPasswordResetEmail= async (email, resetToken )=> {
 }
 
 exports.validatePasswordResetToken=async (resetToken)=> {
-  const user = await User.findOne({
-    password_reset_token: resetToken,
-    password_reset_expiry: {
-        $gt: new Date(),
-    },
-  });
-
-  return !!user;
+  try {
+    const user = await User.findOne({
+      password_reset_token: resetToken,
+      password_reset_expiry: {
+          $gt: new Date(),
+      },
+    });
+    return !!user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 exports.resetPassword=async (resetToken, newPassword) =>{

@@ -13,8 +13,7 @@
     "frontend-install": "cd frontend && npm install --force",
     "install-all": "npm install && npm run frontend-install",
     "postbuild": "npm install --prefix frontend && npm run build --prefix frontend",
-    "production":"npm run install-all && npm run postbuild ",
-    "dev:full": "concurrently \"npm run dev\" \"cd frontend && npm start\""
+    "production":"npm run install-all && npm run postbuild "
   },
   "keywords": [],
   "author": "",

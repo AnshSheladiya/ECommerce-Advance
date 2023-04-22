@@ -34,7 +34,6 @@ app.use(express.static(static_path));
      })
    })
  );
-
  // Connect Database
  require('./api/db/mongoose-connection.js');
 
@@ -46,7 +45,6 @@ app.use(express.static(static_path));
  // Initialize Passport middleware
  app.use(passport.initialize());
  app.use(passport.session());
- logger.info("app.js start")
 
  // Routes
  const authRoutes = require('./api/routes/authRoutes');
@@ -58,7 +56,6 @@ app.use(express.static(static_path));
 
  // custom error handling middleware
  app.use(errorHandler);
- logger.info("app.js config.node_env",config.node_env)
 
 if (config.node_env === "production") {
   app.use(express.static(path.join(__dirname,"..","..", "frontend", "build")));

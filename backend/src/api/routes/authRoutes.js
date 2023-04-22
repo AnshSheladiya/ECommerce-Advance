@@ -5,7 +5,6 @@
  const router = express.Router();
  const authController = require('../controllers/authController');
  const authMiddleware = require('../middlewares/authMiddleware');
- logger.info("authRoutes.js start")
 
  // Local login/signup routes
  router.post('/signup', authController.signup);

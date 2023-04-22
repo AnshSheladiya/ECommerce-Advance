@@ -211,6 +211,5 @@ userSchema.pre('save', async function(next) {
     return next(error);
   }
 });
-logger.info("modelauth.js start")
 
 module.exports = mongoose.model('User',userSchema);
