@@ -15,7 +15,7 @@ function App() {
     <ThemeProvider>
       <BrowserRouter>
         <div className="App">
-        <AppNavbar/>
+        {/* <AppNavbar/> */}
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Login />} />

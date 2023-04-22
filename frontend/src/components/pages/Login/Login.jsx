@@ -62,7 +62,7 @@ const Login = () => {
   return (
     <div className={`${loginStyles['login-container']} ${mode}`} >
         <div className={loginStyles['image-container']}>
-            <image src={loginScreenLogo} alt="Signup Image"></image>
+            <img src={loginScreenLogo} alt="Signup Image"></img>
         </div>
         <div className={loginStyles['register-container']} data-theme={mode}>
             <h1 className={loginStyles['register-title']}>Login</h1>
@@ -101,7 +101,6 @@ const Login = () => {
                 <Button
                     className={loginStyles['btn'] + ' ' + loginStyles['button-google'] + ' ' + loginStyles['space']}
                     variant="outlined"
-                    href="#outlined-buttons"
                     startIcon={<FcGoogle />}
                 >
                     Google
@@ -110,7 +109,6 @@ const Login = () => {
                 <Button
                     className={loginStyles['btn'] + ' ' + loginStyles['button-facebook'] + ' ' + loginStyles['space']}
                     variant="outlined"
-                    href="#outlined-buttons"
                     startIcon={<FaFacebook />}
                 >
                     Facebook

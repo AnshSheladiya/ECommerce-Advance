@@ -59,7 +59,7 @@ const Register = () => {
     return (
 <div className={`${registerStyles["signup-container"]} ${mode}`}>
         <div className={registerStyles["image-container"]}>
-          <image src={screenLogo} alt="Signup Image" />
+          <img src={screenLogo} alt="Signup Image" />
         </div>
 
         <div
