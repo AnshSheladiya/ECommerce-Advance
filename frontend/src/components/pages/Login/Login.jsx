@@ -1,6 +1,6 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Switch, Button,Select,MenuItem } from '@material-ui/core';
+import {  Button,Select,MenuItem } from '@material-ui/core';
 import {  FcGoogle } from 'react-icons/fc';
 import {  FaFacebook } from 'react-icons/fa';
 import loginStyles from './Login.module.css';
@@ -62,7 +62,7 @@ const Login = () => {
   return (
     <div className={`${loginStyles['login-container']} ${mode}`} >
         <div className={loginStyles['image-container']}>
-            <img src={loginScreenLogo} alt="Signup Image"></img>
+            <image src={loginScreenLogo} alt="Signup Image"></image>
         </div>
         <div className={loginStyles['register-container']} data-theme={mode}>
             <h1 className={loginStyles['register-title']}>Login</h1>

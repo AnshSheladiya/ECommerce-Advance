@@ -1,7 +1,7 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Switch, Button,Select,MenuItem } from '@material-ui/core';
+import {  Button,Select,MenuItem } from '@material-ui/core';
 import {  FcGoogle } from 'react-icons/fc';
 import {  FaFacebook } from 'react-icons/fa';
 import registerStyles from './Register.module.css';
@@ -59,7 +59,7 @@ const Register = () => {
     return (
 <div className={`${registerStyles["signup-container"]} ${mode}`}>
         <div className={registerStyles["image-container"]}>
-          <img src={screenLogo} alt="Signup Image" />
+          <image src={screenLogo} alt="Signup Image" />
         </div>
 
         <div

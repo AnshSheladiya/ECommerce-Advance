@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Switch, Button } from '@material-ui/core';
 import '../../../styles/global.css';
 import ResetPasswordStyles from './ResetPassword.module.css';
 import axios from 'axios';
