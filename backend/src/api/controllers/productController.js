@@ -1,9 +1,8 @@
-/**
- * File Name: productController.js
- */
+// productController.js
 const productService = require('../services/productServices');
 const JoiValidationSchema = require('../utils/JoiValidationSchema');
 const ResponseHelper = require('../utils/ResponseHelper');
+const historyData = require('../utils/historydataUtils');
 
 exports.getAllProducts = async (req, res, next) => {
   try {
@@ -38,8 +37,10 @@ exports.createProduct = async (req, res, next) => {
       return res.status(400).json(ResponseHelper.error(400, error.message));
     }
 
-    const productData = req.body;
-    const product = await productService.createProduct(productData);
+    // Add history data for the product creation
+    const productData = historyData.create(req.user._id, req.body);
+
+    const product = await productService.createProduct(productData, req.files);
     return res.status(200).json(ResponseHelper.success(200, MSG.PRODUCT_CREATED_SUCCESSFULLY, product));
   } catch (error) {
     logger.error(error);
@@ -55,7 +56,9 @@ exports.updateProduct = async (req, res, next) => {
     //   return res.status(400).json(ResponseHelper.error(400, error.message));
     // }
 
-    const productData = req.body;
+    // Add history data for the product updation
+    const productData = historyData.update(req.user._id, req.body);
+
     const product = await productService.updateProduct(productId, productData);
 
     if (!product) {
@@ -72,12 +75,15 @@ exports.updateProduct = async (req, res, next) => {
 exports.removeProduct = async (req, res, next) => {
   try {
     const productId = req.params.productId;
-    const product = await productService.removeProduct(productId);
-
+    let product = await productService.getProduct(productId);
     if (!product) {
       return res.status(400).json(ResponseHelper.error(400, MSG.PRODUCT_NOT_FOUND));
     }
 
+    // Add history data for the product updation
+    const productData = historyData.remove(req.user._id,product._doc);
+
+    await productService.removeProduct(productId, productData);
     return res.status(200).json(ResponseHelper.success(200, MSG.PRODUCT_DELETED_SUCCESSFULLY));
   } catch (error) {
     logger.error(error);

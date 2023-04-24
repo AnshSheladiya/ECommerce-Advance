@@ -17,13 +17,13 @@ function errorHandler(err, req, res, next) {
         statusCode = 400; // Bad request
     }
 
-    // In development, include the filename and line number in the error message
-    if (process.env.NODE_ENV !== 'production') {
-        const match = err.stack.match(/at\s(.+):(\d+):(\d+)/);
-        const filename = match ? match[1] : 'unknown';
-        const lineNumber = match ? match[2] : 'unknown';
-        errorOrigin = ` error in file: ${filename}, line: ${lineNumber}`;
-    }
+    // // In development, include the filename and line number in the error message
+    // if (process.env.NODE_ENV !== 'production') {
+    //     const match = err.stack.match(/at\s(.+):(\d+):(\d+)/);
+    //     const filename = match ? match[1] : 'unknown';
+    //     const lineNumber = match ? match[2] : 'unknown';
+    //     errorOrigin = ` error in file: ${filename}, line: ${lineNumber}`;
+    // }
 
     // Send an error response to the client
     res.status(statusCode).json({

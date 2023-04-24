@@ -109,10 +109,6 @@ const productSchema = new mongoose.Schema({
   low_stock_notification: {
     type: Number,
   },
-
-
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date },
   sku: {
     type: String,
   },
@@ -173,8 +169,6 @@ const productSchema = new mongoose.Schema({
   views: { type: Number, default: 0 },
   likes: { type: Number, default: 0 },
   rating: { type: Number, default: 0 },
-  date_added: { type: Date, default: Date.now },
-  date_modified: { type: Date, default: Date.now },
   variations: [
     {
       size: String,
@@ -244,9 +238,26 @@ const productSchema = new mongoose.Schema({
     },
   ],
   
+  created_at: { type: Date, default: Date.now },
+  updated_at: Date,
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+  },
+  updated_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+  },
+  is_deleted: Boolean,
+  deleted_at: Date,
+  deleted_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+  },
+  createdByIp: String,
+  updatedByIp: String,
 },{
   versionKey: false,
-  timestamps: true, // enable timestamps
 });
 
 

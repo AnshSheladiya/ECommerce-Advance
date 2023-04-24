@@ -8,23 +8,41 @@ const categorySchema = new mongoose.Schema(
       required: true,
       trim: true,
       maxlength: 100,
-      unique: true
+      unique: true,
     },
     description: {
       type: String,
       trim: true,
-      maxlength: 1000
+      maxlength: 1000,
     },
     parent: {
       type: ObjectId,
-      ref: 'Category'
+      ref: 'Category',
     },
     ancestors: [
       {
         type: ObjectId,
-        ref: 'Category'
-      }
-    ]
+        ref: 'Category',
+      },
+    ],
+    created_at: { type: Date, default: Date.now },
+    updated_at: Date,
+    created_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+    },
+    updated_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+    },
+    is_deleted: Boolean,
+    deleted_at: Date,
+    deleted_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+    },
+    createdByIp: String,
+    updatedByIp: String,
   },
   { timestamps: true }
 );
@@ -32,7 +50,7 @@ const categorySchema = new mongoose.Schema(
 categorySchema.virtual('children', {
   ref: 'Category',
   localField: '_id',
-  foreignField: 'parent'
+  foreignField: 'parent',
 });
 
 categorySchema.statics.getTree = async function () {
@@ -44,15 +62,15 @@ categorySchema.statics.getTree = async function () {
   const categoryMap = {};
   const roots = [];
 
-  categories.forEach(category => {
+  categories.forEach((category) => {
     categoryMap[category._id] = category.toObject();
     categoryMap[category._id].children = [];
   });
 
-  categories.forEach(category => {
+  categories.forEach((category) => {
     if (category.parent) {
       const parentId = category.parent._id.toString();
-      const ancestorIds = category.ancestors.map(a => a._id.toString());
+      const ancestorIds = category.ancestors.map((a) => a._id.toString());
       categoryMap[parentId].children.push(categoryMap[category._id]);
       categoryMap[category._id].ancestors = ancestorIds.concat(parentId);
     } else {
@@ -68,8 +86,7 @@ categorySchema.set('toJSON', {
     ret.id = ret._id;
     delete ret._id;
     delete ret.__v;
-  }
+  },
 });
 
 module.exports = mongoose.model('Category', categorySchema);
-

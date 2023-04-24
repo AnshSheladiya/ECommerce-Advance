@@ -147,6 +147,25 @@ const OrderSchema = new mongoose.Schema({
   order_customer_first_name: String,
   order_customer_last_name: String,
   order_customer_phone_number: String,
+  
+  created_at: { type: Date, default: Date.now },
+  updated_at: Date,
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+  },
+  updated_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+  },
+  is_deleted: Boolean,
+  deleted_at: Date,
+  deleted_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+  },
+  createdByIp: String,
+  updatedByIp: String,
 });
 
 module.exports = OrderSchema;

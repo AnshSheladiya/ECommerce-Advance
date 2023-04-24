@@ -2,6 +2,8 @@
  * File Name: JoiValidationSchema.js
  */
 const Joi = require('joi');
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema.Types;
 
 const registerSchema = Joi.object({
   first_name: Joi.string().required().messages({
@@ -186,6 +188,22 @@ const addAddressSchema = Joi.object({
     height: Joi.number(),
   });
 
+  const createCategorySchema = Joi.object({
+    name: Joi.string().required().messages({
+      'any.required': 'Category name is required',
+    }),
+    description: Joi.string().required().messages({
+      'any.required': 'Category description is required',
+    }),
+    parent: Joi.optional(),
+  });
+
+  const updateCategorySchema = Joi.object({
+    name: Joi.string().optional(),
+    description: Joi.string().optional(),
+    parent: Joi.optional(),
+  });
+
 module.exports = {
   registerSchema,
   loginSchema,
@@ -195,6 +213,8 @@ module.exports = {
   profileSchema,
   addAddressSchema,
   updateAddressSchema,
-  createProductSchema
+  createProductSchema,
+  createCategorySchema,
+  updateCategorySchema
 };
 

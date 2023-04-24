@@ -2,6 +2,7 @@
  * File Name: productService.js
  */
 const Product = require('../models/product');
+const { cloudinary } = require('../utils/cloudinary');
 
 exports.getAllProducts = async () => {
   try {
@@ -21,11 +22,15 @@ exports.getProduct = async (productId) => {
   }
 };
 
-exports.createProduct = async (productData) => {
+exports.createProduct = async (productData, imageFiles) => {
   try {
-    const product = new Product(productData);
-    await product.save();
-    return product;
+    const uploadedImages = await Promise.all(imageFiles.map((image) => cloudinary.uploader.upload(image.path)));
+
+    const product = new Product({
+      ...productData,
+      images: uploadedImages.map((image) => image.secure_url),
+    });
+    return await product.save();
   } catch (error) {
     throw new Error(error.message);
   }

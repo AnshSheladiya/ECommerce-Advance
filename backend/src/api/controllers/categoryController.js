@@ -1,6 +1,10 @@
+/**
+ * File Name: categoryController.js
+ */
 const categoryService = require('../services/categoryService');
 const JoiValidationSchema = require('../utils/JoiValidationSchema');
 const ResponseHelper = require('../utils/ResponseHelper');
+const historyData = require('../utils/historydataUtils');
 
 exports.getAllCategories = async (req, res, next) => {
   try {
@@ -35,7 +39,9 @@ exports.createCategory = async (req, res, next) => {
       return res.status(400).json(ResponseHelper.error(400, error.message));
     }
 
-    const categoryData = req.body;
+    // Add history data for the category creation
+    const categoryData = historyData.create(req.user._id, req.body);
+
     const category = await categoryService.createCategory(categoryData);
     return res.status(200).json(ResponseHelper.success(200, MSG.CATEGORY_CREATED_SUCCESSFULLY, category));
   } catch (error) {
@@ -48,7 +54,11 @@ exports.updateCategory = async (req, res, next) => {
   try {
     const categoryId = req.params.categoryId;
     const categoryData = req.body;
-    const category = await categoryService.updateCategory(categoryId, categoryData);
+
+    // Add history data for the category update
+    const updatedCategoryData = historyData.update(req.user._id, req.body);
+
+    const category = await categoryService.updateCategory(categoryId, updatedCategoryData);
 
     if (!category) {
       return res.status(400).json(ResponseHelper.error(400, MSG.CATEGORY_NOT_FOUND));
@@ -64,11 +74,16 @@ exports.updateCategory = async (req, res, next) => {
 exports.removeCategory = async (req, res, next) => {
   try {
     const categoryId = req.params.categoryId;
-    const category = await categoryService.removeCategory(categoryId);
 
+    let category = await categoryService.getCategory(categoryId);
     if (!category) {
       return res.status(400).json(ResponseHelper.error(400, MSG.CATEGORY_NOT_FOUND));
     }
+
+    // Add history data for the category removal
+    const categoryData = historyData.remove(req.user._id, category._doc);
+
+    await categoryService.removeCategory(categoryId, categoryData);
 
     return res.status(200).json(ResponseHelper.success(200, MSG.CATEGORY_DELETED_SUCCESSFULLY));
   } catch (error) {
@@ -76,5 +91,3 @@ exports.removeCategory = async (req, res, next) => {
     next(error);
   }
 };
-
-

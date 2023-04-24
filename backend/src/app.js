@@ -40,6 +40,7 @@ app.use(express.static(static_path));
  // Middleware
  app.use(cors());
  app.use(helmet());
+ app.use(express.json());
  app.use(bodyParser.json());
  app.use(sanitizeReqBody)
  // Initialize Passport middleware
@@ -51,8 +52,10 @@ app.use(express.static(static_path));
  app.use('/api/auth', authRoutes);
 //  const userRoutes = require('./api/routes/userRoutes');
 //  app.use('/api/user', userRoutes);
-//  const productRoutes = require('./api/routes/productRoutes');
-//  app.use('/api/products', productRoutes);
+ const productRoutes = require('./api/routes/productRoutes');
+ app.use('/api/products', productRoutes);
+ const categoryRoutes = require('./api/routes/categoryRoutes');
+ app.use('/api/categories', categoryRoutes);
 
  // custom error handling middleware
  app.use(errorHandler);
