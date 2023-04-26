@@ -6,8 +6,9 @@
  const userController = require('../controllers/userController');
  const authMiddleware = require('../middlewares/authMiddleware');
  
- router.post('/profile', authMiddleware, userController.createUserProfile);
+//  router.post('/profile', authMiddleware, userController.createUserProfile);
  router.get('/profile', authMiddleware, userController.getUserProfile);
- router.put('/profile', authMiddleware, userController.updateUserProfile);
+ router.get('/users', userController.getUser);
+//  router.put('/profile', authMiddleware, userController.updateUserProfile);
  
  module.exports = router;

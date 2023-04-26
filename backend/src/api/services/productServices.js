@@ -2,11 +2,11 @@
  * File Name: productService.js
  */
 const Product = require('../models/product');
-const { cloudinary } = require('../utils/cloudinary');
+const aggregationHelper=require('../helpers/aggregateHelpers/aggregationHelper');
 
-exports.getAllProducts = async () => {
+exports.getAllProducts = async (userData,pipeline) => {
   try {
-    const products = await Product.find();
+    const products = await aggregationHelper.aggregate('products', pipeline);
     return products;
   } catch (error) {
     throw new Error(error.message);
@@ -15,7 +15,7 @@ exports.getAllProducts = async () => {
 
 exports.getProduct = async (productId) => {
   try {
-    const product = await Product.findById(productId);
+const product = await Product.findById(productId);  
     return product;
   } catch (error) {
     throw new Error(error.message);

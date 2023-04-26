@@ -1,7 +1,7 @@
  /**
   * File Name: userServices.js
   */
-  const User = require('../models/userModel');
+  const User = require('../models/user');
  
   exports.createUserProfile = async (userId, userProfileData) => {
     try {
@@ -19,7 +19,15 @@
   exports.getUserProfile = async (userId) => {
     try {
       const user = await User.findById(userId);
-      return user.profile;
+      return user;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+  exports.getUser = async () => {
+    try {
+      const user = await User.find();
+      return user;
     } catch (error) {
       throw new Error(error.message);
     }

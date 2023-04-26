@@ -3,6 +3,8 @@
  */
 
 exports.createMatchStage = (field, value) => {
+  console.log(field,value)
+
     return { $match: { [field]: value } };
   };
   
@@ -66,4 +68,3 @@ exports.createMatchStage = (field, value) => {
 // matchStageHelper.createMatchSizeStage('ratings', 10),
   // ];
 
-  Create Project stage queries file 

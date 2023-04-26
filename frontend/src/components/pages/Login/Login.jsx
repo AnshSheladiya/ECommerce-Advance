@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import loginScreenLogo from "../../../images/LoginScreenLogo.png";
 import useTheme from '../../../helpers/useTheme';
 import { Brightness1 } from '@material-ui/icons';
+import authHandler from '../../../helpers/AuthHandler';
 
 const Login = () => {
   const { mode, handleModeChange, themes } = useTheme();
@@ -21,7 +22,6 @@ const Login = () => {
     password: '',
     confirmPassword: '',
   });
-
 
   const handleChange = (event) => {
     setFormData({
@@ -51,6 +51,8 @@ const Login = () => {
         password: formData.password,
       });
       toast.success(response.data.message);
+      await authHandler();
+      window.location.href='/home'
       // TODO: handle successful login
     } catch (error) {
       console.error(error);

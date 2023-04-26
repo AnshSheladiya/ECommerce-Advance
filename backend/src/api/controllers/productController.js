@@ -3,10 +3,47 @@ const productService = require('../services/productServices');
 const JoiValidationSchema = require('../utils/JoiValidationSchema');
 const ResponseHelper = require('../utils/ResponseHelper');
 const historyData = require('../utils/historydataUtils');
+const limitStage = require('../helpers/aggregateHelpers/limitStageHelper');
+const matchStage = require('../helpers/aggregateHelpers/matchStageHelper');
+const sortStage = require('../helpers/aggregateHelpers/sortStageHelper');
 
 exports.getAllProducts = async (req, res, next) => {
   try {
-    const products = await productService.getAllProducts();
+    let { pageNumber, pageSize, search, sortBy, minPrice, maxPrice, category, availability, minRating } = req.query;
+
+    const pipeline = [
+      matchStage.createMatchRegexStage('product_name', search ? search : ''),
+      pipeline.push(matchStage.createMatchGreaterThanOrEqualStage('price', minPrice)),
+      pipeline.push(matchStage.createMatchLessThanOrEqualStage('price', maxPrice)),
+      limitStage.createPaginationStages(pageNumber, pageSize),
+    ];
+
+    // Add sort filter
+    if (sortBy !== undefined) {
+      pipeline.push(sortStage.createSortStage(sortBy));
+    }
+
+    // Add price range filter
+    if (minPrice !== undefined || maxPrice !== undefined) {
+    }
+
+    // Add category filter
+    if (category !== undefined) {
+      pipeline.push(matchStage.createMatchStage('category', category));
+    }
+
+    // Add availability filter
+    if (availability !== undefined) {
+      pipeline.push(matchStage.createMatchStage('is_available', availability));
+    }
+
+    // Add rating filter
+    if (minRating !== undefined) {
+      pipeline.push(matchStage.createMatchStage('rating', { $gte: minRating }));
+    }
+
+    const products = await productService.getAllProducts(req.user, pipeline);
+
     return res.status(200).json(ResponseHelper.success(200, MSG.FOUND_SUCCESS, products));
   } catch (error) {
     logger.error(error);
@@ -81,7 +118,7 @@ exports.removeProduct = async (req, res, next) => {
     }
 
     // Add history data for the product updation
-    const productData = historyData.remove(req.user._id,product._doc);
+    const productData = historyData.remove(req.user._id, product._doc);
 
     await productService.removeProduct(productId, productData);
     return res.status(200).json(ResponseHelper.success(200, MSG.PRODUCT_DELETED_SUCCESSFULLY));
@@ -90,5 +127,3 @@ exports.removeProduct = async (req, res, next) => {
     next(error);
   }
 };
-
-
