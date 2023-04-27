@@ -1,0 +1,9 @@
+/* Home.module.css */
+.theme {
+background-color: var(--body-background-color);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: 0%;
+}

@@ -1,0 +1,6 @@
+/* Hide the navbar for mobile screens */
+@media (max-width: 576px) {
+  .custom-navbar {
+    display: none;
+  }
+}

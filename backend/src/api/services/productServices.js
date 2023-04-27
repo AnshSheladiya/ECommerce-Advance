@@ -22,7 +22,7 @@ const product = await Product.findById(productId);
   }
 };
 
-exports.createProduct = async (productData, imageFiles) => {
+exports.createProduct = async (productData) => {
   try {
     const uploadedImages = await Promise.all(imageFiles.map((image) => cloudinary.uploader.upload(image.path)));
 
@@ -49,6 +49,28 @@ exports.removeProduct = async (productId) => {
   try {
     const product = await Product.findByIdAndRemove(productId);
     return product;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+exports.uploadProductImage = async (productId, image) => {
+  try {
+    // Find the product by its ID
+    const product = await Product.findById(productId);
+
+    // If the product is not found, throw an error
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    // Add the image to the product's images array
+    product.images.push(image);
+
+    // Save the updated product document
+    await product.save();
+
+    return image;
   } catch (error) {
     throw new Error(error.message);
   }

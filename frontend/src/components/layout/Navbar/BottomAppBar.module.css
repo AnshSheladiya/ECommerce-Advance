@@ -1,0 +1,16 @@
+.bottom-app-bar {
+  top: auto;
+  bottom: 0;
+}
+
+.bottom-app-bar__toolbar {
+  justify-content: center;
+}
+
+.bottom-app-bar__title {
+  flex-grow: 1;
+}
+
+.bottom-app-bar__cart-icon {
+  margin-right: 8px;
+}

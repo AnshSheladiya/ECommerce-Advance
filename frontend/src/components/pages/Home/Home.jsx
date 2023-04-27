@@ -1,26 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import authHandler from '../../../helpers/AuthHandler';
-
+import '../../../styles/global.css';
+import ProductList from '../../organisms/ProductList/ProductList';
+import useTheme from '../../../helpers/useTheme';
+import HomeStyles from './Home.module.css';
 const Home = () => {
-  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')));
-
-  useEffect(() => {
-    const storageListener = (event) => {
-      if (event.key === 'user') {
-        setUser(JSON.parse(event.newValue));
-      }
-    };
-
-    window.addEventListener('storage', storageListener);
-
-    return () => {
-      window.removeEventListener('storage', storageListener);
-    };
-  }, []);
+  const { mode, handleModeChange } = useTheme();
 
   return (
-    <div>
-      {user ? <p>Welcome, {user.first_name}!</p> : <p>Please log in.</p>}
+    <div className={HomeStyles['theme']} data-theme={mode}>
+      <ProductList/>
     </div>
   );
 };

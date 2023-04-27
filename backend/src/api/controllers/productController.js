@@ -9,37 +9,78 @@ const sortStage = require('../helpers/aggregateHelpers/sortStageHelper');
 
 exports.getAllProducts = async (req, res, next) => {
   try {
-    let { pageNumber, pageSize, search, sortBy, minPrice, maxPrice, category, availability, minRating } = req.query;
+    const {
+      pageNumber,
+      pageSize,
+      search,
+      sortBy,
+      minPrice,
+      maxPrice,
+      category,
+      availability,
+      minRating,
+      color,
+      brand,
+      discount,
+    } = req.query;
 
-    const pipeline = [
-      matchStage.createMatchRegexStage('product_name', search ? search : ''),
-      pipeline.push(matchStage.createMatchGreaterThanOrEqualStage('price', minPrice)),
-      pipeline.push(matchStage.createMatchLessThanOrEqualStage('price', maxPrice)),
-      limitStage.createPaginationStages(pageNumber, pageSize),
-    ];
+    const pipeline = [];
+
+    // Add match filter for product name search
+    if (search) {
+      pipeline.push(matchStage.createMatchRegexStage('product_name', search));
+    }
 
     // Add sort filter
-    if (sortBy !== undefined) {
+    if (sortBy) {
       pipeline.push(sortStage.createSortStage(sortBy));
     }
 
     // Add price range filter
-    if (minPrice !== undefined || maxPrice !== undefined) {
+    if (minPrice || maxPrice) {
+      const priceRangeFilter = {};
+      if (minPrice) {
+        priceRangeFilter.$gte = minPrice;
+      }
+      if (maxPrice) {
+        priceRangeFilter.$lte = maxPrice;
+      }
+      pipeline.push(matchStage.createMatchStage('price', priceRangeFilter));
     }
 
     // Add category filter
-    if (category !== undefined) {
+    if (category) {
       pipeline.push(matchStage.createMatchStage('category', category));
     }
 
     // Add availability filter
-    if (availability !== undefined) {
+    if (availability) {
       pipeline.push(matchStage.createMatchStage('is_available', availability));
     }
 
     // Add rating filter
-    if (minRating !== undefined) {
+    if (minRating) {
       pipeline.push(matchStage.createMatchStage('rating', { $gte: minRating }));
+    }
+
+    // Add color filter
+    if (color) {
+      pipeline.push(matchStage.createMatchStage('color', color));
+    }
+
+    // Add brand filter
+    if (brand) {
+      pipeline.push(matchStage.createMatchStage('brand', brand));
+    }
+
+    // Add discount filter
+    if (discount) {
+      pipeline.push(matchStage.createMatchStage('discount', { $gte: discount }));
+    }
+
+    // Add pagination filter
+    if (pageNumber && pageSize) {
+      pipeline.push(limitStage.createPaginationStages(pageNumber, pageSize));
     }
 
     const products = await productService.getAllProducts(req.user, pipeline);
@@ -122,6 +163,40 @@ exports.removeProduct = async (req, res, next) => {
 
     await productService.removeProduct(productId, productData);
     return res.status(200).json(ResponseHelper.success(200, MSG.PRODUCT_DELETED_SUCCESSFULLY));
+  } catch (error) {
+    logger.error(error);
+    next(error);
+  }
+};
+
+// Import required modules and dependencies
+
+exports.uploadProductImage = async (req, res, next) => {
+  try {
+    // Check if the request contains a file
+    if (!req.file) {
+      return res.status(400).json(ResponseHelper.error(400, 'No image file provided'));
+    }
+
+    // Extract necessary information from the uploaded image file
+    const { originalname, filename, path, size, mimetype } = req.file;
+    const { productId, angle, isPrimary } = req.body;
+
+    // Create the image object with the extracted information
+    const image = {
+      url: filename, // Assuming you save the image file using the filename
+      angle,
+      isPrimary,
+      uploadedAt: new Date(),
+      createdBy: req.user._id,
+      fileSize: size,
+      mimeType: mimetype,
+    };
+
+    // Call the service function to handle image upload
+    const uploadedImage = await productService.uploadProductImage(productId, image);
+
+    return res.status(200).json(ResponseHelper.success(200, 'Image uploaded successfully', uploadedImage));
   } catch (error) {
     logger.error(error);
     next(error);
