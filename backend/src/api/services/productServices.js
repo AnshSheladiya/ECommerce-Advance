@@ -16,7 +16,7 @@ exports.getAllProducts = async (userData,pipeline) => {
 
 exports.getProductById = async (productId) => {
   try {
-const product = await Product.findById(productId);  
+const product = await Product.findById(productId);
     return product;
   } catch (error) {
     throw new Error(error.message);
@@ -59,7 +59,7 @@ exports.uploadProductImages = async (productId, imageFiles,userData,angleNames) 
     // Upload images to Cloudinary
     const uploadedImages = await Promise.all(
       imageFiles.map(async (file, index) => {
-        const angle = angleNames[index] || ''; 
+        const angle = angleNames[index] || '';
         const result = await cloudinary.uploader.upload(file.path);
         return {
           url: result.secure_url,
@@ -123,26 +123,26 @@ exports.updateProductImage = async (productId, imageId, file,userData) => {
   }
 };
 
-exports.createProductReview = async (productId, userData, rating, comment) => {
-  try {
-    const product = await Product.findById(productId);
-    const {id}=userData;
+// exports.createProductReview = async (productId, userData, rating, comment) => {
+//   try {
+//     const product = await this.getProductById(productId);
+//     const {id}=userData;
 
-    if (!product) {
-      throw new Error('Product not found');
-    }
+//     if (!product) {
+//       throw new Error('Product not found');
+//     }
 
-    const newReview = {
-      reviewer_Id: id,
-      reviewer_rating: rating,
-      comment: comment,
-    };
+//     const newReview = {
+//       reviewer_Id: id,
+//       reviewer_rating: rating,
+//       comment: comment,
+//     };
 
-    product.reviews.push(newReview);
-    await product.save();
+//     product.reviews.push(newReview);
+//     await product.save();
 
-    return product;
-  } catch (error) {
-    throw new Error(error.message);
-  }
-};
+//     return product;
+//   } catch (error) {
+//     throw new Error(error.message);
+//   }
+// };

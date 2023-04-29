@@ -13,7 +13,6 @@
  const config = require('./api/config/config');
 const sanitizeReqBody=require('./api/middlewares/sanitizeReqBody');
 const path = require("path");
-console.log("HERE 5")
 
  const app = express();
 
@@ -37,7 +36,6 @@ app.use(express.static(static_path));
  );
  // Connect Database
  require('./api/db/mongoose-connection.js');
- console.log("HERE 6")
 
  // Middleware
  app.use(cors());
@@ -53,14 +51,14 @@ app.use(express.static(static_path));
  const authRoutes = require('./api/routes/authRoutes');
  const userRoutes = require('./api/routes/userRoutes');
  const productRoutes = require('./api/routes/productRoutes');
-//  const categoryRoutes = require('./api/routes/categoryRoutes');
-//  const brandRoutes = require('./api/routes/brandRoutes');
+ const categoryRoutes = require('./api/routes/categoryRoutes');
+ const brandRoutes = require('./api/routes/brandRoutes');
 
  app.use('/api/auth', authRoutes);
  app.use('/api/user', userRoutes);
  app.use('/api/products', productRoutes);
-//  app.use('/api/categories', categoryRoutes);
-//  app.use('/api/brands', brandRoutes);
+ app.use('/api/categories', categoryRoutes);
+ app.use('/api/brands', brandRoutes);
 
  // custom error handling middleware
  app.use(errorHandler);

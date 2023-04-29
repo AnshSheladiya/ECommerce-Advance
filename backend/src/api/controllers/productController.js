@@ -172,7 +172,7 @@ exports.removeProduct = async (req, res, next) => {
 exports.uploadProductImages = async (req, res, next) => {
   try {
     const { productId } = req.params;
-    const angleNames = req.body.angleNames || []; 
+    const angleNames = req.body.angleNames || [];
 
     const product = await productService.uploadProductImages(productId, req.files,req.user, angleNames);
 
@@ -202,16 +202,16 @@ exports.updateProductPhoto = async (req, res, next) => {
 };
 
 
-exports.createProductReview = async (req, res, next) => {
-  try {
-    const { productId } = req.params;
-    const { rating, comment } = req.body;
+// exports.createProductReview = async (req, res, next) => {
+//   try {
+//     const { productId } = req.params;
+//     const { rating, comment } = req.body;
 
-    const product = await productService.createProductReview(productId,req.user,rating, comment);
+//     const product = await productService.createProductReview(productId,req.user,rating, comment);
 
-    return res.status(200).json(ResponseHelper.success(200, MSG.REVIEW_CREATED_SUCCESSFULLY, product));
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-};
+//     return res.status(200).json(ResponseHelper.success(200, MSG.REVIEW_CREATED_SUCCESSFULLY, product));
+//   } catch (error) {
+//     console.error(error);
+//     next(error);
+//   }
+// };

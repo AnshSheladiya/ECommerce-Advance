@@ -9,7 +9,6 @@
  const logger = require('./src/api/utils/logger');
  const ResponseHelper = require('./src/api/utils/responseHelper');
  const MSG = require('./src/api/utils/MSG');
-console.log("HERE 1")
  // Load environment variables
  dotenv.config();
 
@@ -17,7 +16,6 @@ console.log("HERE 1")
  global.logger = logger;
  global.ResponseHelper = ResponseHelper;
  global.MSG = MSG;
- console.log("HERE 1")
 
  const port = config.port;
 
@@ -30,7 +28,6 @@ console.log("HERE 1")
      logger.error(err.message);
    }
  });
- console.log("HERE 1")
 
  server.listen(port, () => {
    logger.info(`Server listening on port ${port}`);
