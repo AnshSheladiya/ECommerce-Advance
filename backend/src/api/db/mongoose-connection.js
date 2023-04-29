@@ -17,6 +17,7 @@ let retries = 0;
 const maxRetries = 5;
 function connectWithRetry() {
   logger.info('Connecting to MongoDB...');
+  console.log(config.database[process.env.NODE_ENV])
   mongoose.connect(config.database[process.env.NODE_ENV || 'development'].url, options)
     .then(() => {
       logger.info('MongoDB connected!');
