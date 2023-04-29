@@ -83,7 +83,7 @@ exports.removeCategory = async (req, res, next) => {
     // Add history data for the category removal
     const categoryData = historyData.remove(req.user._id, category._doc);
 
-    await categoryService.removeCategory(categoryId, categoryData);
+   await categoryService.updateCategory(categoryId, categoryData);
 
     return res.status(200).json(ResponseHelper.success(200, MSG.CATEGORY_DELETED_SUCCESSFULLY));
   } catch (error) {
@@ -91,3 +91,4 @@ exports.removeCategory = async (req, res, next) => {
     next(error);
   }
 };
+

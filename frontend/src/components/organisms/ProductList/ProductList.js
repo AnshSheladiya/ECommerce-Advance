@@ -1,9 +1,10 @@
-//ProductList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import ProductCard from '../../molecules/ProductCard/ProductCard';
 import styles from './ProductList.module.css';
 import useTheme from '../../../helpers/useTheme';
+import ProductView from '../../pages/ProductView/ProductView';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -24,7 +25,7 @@ const ProductList = () => {
   return (
     <div className={styles.productList}>
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+          <ProductCard product={product} />
       ))}
     </div>
   );

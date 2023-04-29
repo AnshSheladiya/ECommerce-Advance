@@ -5,10 +5,13 @@ const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema(
   {
+    // Product details
     product_name: {
       type: String,
       required: true,
     },
+
+    // Description related fields
     description: {
       type: String,
     },
@@ -18,6 +21,8 @@ const productSchema = new mongoose.Schema(
     long_description: {
       type: String,
     },
+
+    // Image related fields
     images: [
       {
         url: {
@@ -32,14 +37,6 @@ const productSchema = new mongoose.Schema(
           type: Boolean,
           default: false,
         },
-        uploadedAt: {
-          type: Date,
-          default: Date.now,
-        },
-        createdBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
-        },
         fileSize: {
           type: Number,
         },
@@ -53,16 +50,36 @@ const productSchema = new mongoose.Schema(
           height: {
             type: Number,
           },
-        }
+        },
+        uploadedAt: {
+          type: Date,
+          default: Date.now,
+        },
+        createdBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+        },
+        updatedAt: {
+          type: Date,
+        },
+        updatedBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+        },
       },
     ],
-    brand: {
-      type: String,
+
+    // Brand,Category...
+    brand_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Brand',
     },
     category_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
     },
+
+    // Price related fields
     price: {
       type: Number,
     },
@@ -72,9 +89,8 @@ const productSchema = new mongoose.Schema(
     currency: {
       type: String,
     },
-    quantity: {
-      type: Number,
-    },
+
+    // Physical attributes
     weight: {
       type: Number,
     },
@@ -93,11 +109,38 @@ const productSchema = new mongoose.Schema(
     weight_unit: {
       type: String,
     },
+
+    // Product inventory fields
+    quantity: {
+      type: Number,
+    },
     manage_stock: {
       type: Boolean,
     },
-    stock_status: { type: String },
+    stock_status: { type: String },  
+    min_order_quantity: {
+      type: Number,
+    },
+    max_order_quantity: {
+      type: Number,
+    },
 
+    // Products RatingReviews fields
+    reviews: [
+      {
+        reviewer_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+        },
+        reviewer_rating: Number,
+        comment: String,
+      },
+    ],
+    views: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
+    rating: { type: Number, default: 0 },
+
+    // Product flags/indicators
     is_featured: {
       type: Boolean,
     },
@@ -122,6 +165,7 @@ const productSchema = new mongoose.Schema(
     is_new_arrival: {
       type: Boolean,
     },
+
     tax_class_id: {
       type: Number,
     },
@@ -131,14 +175,12 @@ const productSchema = new mongoose.Schema(
     tax_exempt: {
       type: Boolean,
     },
+    tax_class: { type: String },
+    is_taxable: { type: Boolean, default: true },
+    tax_rate: { type: Number },
+
     allow_backorders: {
       type: Boolean,
-    },
-    min_order_quantity: {
-      type: Number,
-    },
-    max_order_quantity: {
-      type: Number,
     },
     backorder_availability: {
       type: String,
@@ -196,9 +238,7 @@ const productSchema = new mongoose.Schema(
     tags: [{ type: String }],
     sale_start_date: { type: Date },
     sale_end_date: { type: Date },
-    tax_class: { type: String },
-    is_taxable: { type: Boolean, default: true },
-    tax_rate: { type: Number },
+   
     is_stock_controlled: { type: Boolean, default: false },
     stock_quantity: { type: Number, default: 0 },
     low_stock_threshold: { type: Number, default: 0 },
@@ -206,9 +246,7 @@ const productSchema = new mongoose.Schema(
     is_backorder_allowed: { type: Boolean, default: false },
     is_preorder_allowed: { type: Boolean, default: false },
     preorder_availability: { type: String },
-    views: { type: Number, default: 0 },
-    likes: { type: Number, default: 0 },
-    rating: { type: Number, default: 0 },
+
     variations: [
       {
         size: String,
@@ -246,13 +284,7 @@ const productSchema = new mongoose.Schema(
     gift_message: { type: String },
     warranty: { type: String },
     return_policy: { type: String },
-    reviews: [
-      {
-        reviewer_name: String,
-        rating: Number,
-        comment: String,
-      },
-    ],
+
     is_free_shipping: Boolean,
     free_shipping_min_amt: Number,
     is_loyalty_program: Boolean,

@@ -49,13 +49,16 @@ app.use(express.static(static_path));
 
  // Routes
  const authRoutes = require('./api/routes/authRoutes');
- app.use('/api/auth', authRoutes);
  const userRoutes = require('./api/routes/userRoutes');
- app.use('/api/user', userRoutes);
  const productRoutes = require('./api/routes/productRoutes');
- app.use('/api/products', productRoutes);
  const categoryRoutes = require('./api/routes/categoryRoutes');
+ const brandRoutes = require('./api/routes/brandRoutes');
+
+ app.use('/api/auth', authRoutes);
+ app.use('/api/user', userRoutes);
+ app.use('/api/products', productRoutes);
  app.use('/api/categories', categoryRoutes);
+ app.use('/api/brands', brandRoutes);
 
  // custom error handling middleware
  app.use(errorHandler);

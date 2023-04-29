@@ -3,6 +3,7 @@
  */
 const Product = require('../models/product');
 const aggregationHelper=require('../helpers/aggregateHelpers/aggregationHelper');
+const { cloudinary } = require('../utils/cloudinary');
 
 exports.getAllProducts = async (userData,pipeline) => {
   try {
@@ -13,7 +14,7 @@ exports.getAllProducts = async (userData,pipeline) => {
   }
 };
 
-exports.getProduct = async (productId) => {
+exports.getProductById = async (productId) => {
   try {
 const product = await Product.findById(productId);  
     return product;
@@ -24,13 +25,9 @@ const product = await Product.findById(productId);
 
 exports.createProduct = async (productData) => {
   try {
-    const uploadedImages = await Promise.all(imageFiles.map((image) => cloudinary.uploader.upload(image.path)));
-
-    const product = new Product({
-      ...productData,
-      images: uploadedImages.map((image) => image.secure_url),
-    });
-    return await product.save();
+    const product = new Product(productData);
+    await product.save();
+    return product;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -54,23 +51,97 @@ exports.removeProduct = async (productId) => {
   }
 };
 
-exports.uploadProductImage = async (productId, image) => {
+exports.uploadProductImages = async (productId, imageFiles,userData,angleNames) => {
   try {
-    // Find the product by its ID
     const product = await Product.findById(productId);
+    const {id}=userData;
 
-    // If the product is not found, throw an error
+    // Upload images to Cloudinary
+    const uploadedImages = await Promise.all(
+      imageFiles.map(async (file, index) => {
+        const angle = angleNames[index] || ''; 
+        const result = await cloudinary.uploader.upload(file.path);
+        return {
+          url: result.secure_url,
+          angle,
+          isPrimary: (angle==='primary')?true:false,
+          uploadedAt: Date.now(),
+          createdBy: id,
+          fileSize: file.size,
+          mimeType: file.mimetype,
+          dimensions: {
+            width: result.width,
+            height: result.height,
+          },
+        };
+      })
+    );
+
+    // Add uploaded images to the product's images array
+    product.images.push(...uploadedImages);
+
+    // Save the updated product
+    await product.save();
+
+    return product;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+exports.updateProductImage = async (productId, imageId, file,userData) => {
+  try {
+    const product = await this.getProductById(productId);
+    const {id}=userData;
+
+    // Find the index of the image to be updated
+    const imageIndex = product.images.findIndex((image) => image._id.toString() === imageId);
+
+    if (imageIndex === -1) {
+      throw new Error('Image not found');
+    }
+
+    // Upload the updated image to Cloudinary
+    const updatedImage = await cloudinary.uploader.upload(file.path);
+
+    // Remove the old image from Cloudinary
+    const oldImage = product.images[imageIndex];
+    const publicId = oldImage.url.split('/').pop().split('.')[0];
+    await cloudinary.uploader.destroy(publicId);
+
+    // Update the image URL in the product's images array
+    product.images[imageIndex].url = updatedImage.secure_url;
+    product.images[imageIndex].updatedAt = Date.now();
+    product.images[imageIndex].updatedBy = id;
+
+    // Save the updated product
+    await product.save();
+
+    return product;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+exports.createProductReview = async (productId, userData, rating, comment) => {
+  try {
+    const product = await Product.findById(productId);
+    const {id}=userData;
+
     if (!product) {
       throw new Error('Product not found');
     }
 
-    // Add the image to the product's images array
-    product.images.push(image);
+    const newReview = {
+      reviewer_Id: id,
+      reviewer_rating: rating,
+      comment: comment,
+    };
 
-    // Save the updated product document
+    product.reviews.push(newReview);
     await product.save();
 
-    return image;
+    return product;
   } catch (error) {
     throw new Error(error.message);
   }

@@ -1,0 +1,136 @@
+/* ProductView.module.css */
+
+.productView {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  background-color: var(--body-background-color);
+  padding: 1rem;
+  border-radius: 0px 0px 8px 8px;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  height: 100vh;
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase; /* Added */
+  letter-spacing: 2px; /* Added */
+  text-shadow: 1px 1px 2px var(--shadow-color); /* Added */
+}
+
+
+.imageContainer {
+  display: flex;
+  width: 100%;
+}
+
+.imageWrapper {
+  flex: 0 0 30%;
+  margin-right: 1rem;
+}
+
+.mainImage {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border: 2px solid var(--shadow-color);
+  border-radius: 8px;
+  margin-left: 40%;
+  box-shadow: 0 2px 4px var(--shadow-color); /* Added */
+  cursor: zoom-in; /* Set the cursor to a magnifying glass icon */
+
+}
+
+.mainImage:hover {
+  box-shadow: 0 4px 8px var(--shadow-color); /* Added */
+  transform: scale(1.1); /* Apply a zoom effect on hover */
+  cursor: zoom-out; /* Change the cursor to a zoom-out icon on hover */
+}
+
+
+.smallImagesWrapper {
+  display: flex;
+  flex-direction: column; /* Updated */
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  overflow-x: auto;
+  flex: 1 1 100%;
+  max-width: 100%;
+  margin-left: 40%;
+}
+
+
+.smallImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid var(--shadow-color); /* Updated */
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+  box-shadow: 0 2px 4px var(--shadow-color); /* Added */
+}
+
+.smallImage:hover {
+  border-color: var(--accent-color); /* Updated */
+  box-shadow: 0 4px 8px var(--shadow-color); /* Added */
+}
+
+
+.smallImage:hover {
+  border-color: var(--accent-color);
+}
+
+.active {
+  border: 2px solid var(--accent-color);
+}
+
+.description {
+  font-size: 1rem;
+  color: var(--primary-color);
+}
+
+.price {
+  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.stock {
+  font-style: italic;
+  color: var(--secondary-color);
+}
+
+@media screen and (max-width: 768px) {
+  .imageContainer {
+    flex-direction: column;
+  }
+
+  .imageWrapper {
+    /* flex: 0 0 100%; */
+    margin-bottom: 1rem;
+  }
+
+  .mainImage {
+    margin-left: 2%;
+  }
+
+  .smallImagesWrapper {
+    /* flex: 0 0 100%; */
+    flex-direction: row; /* Updated */
+    justify-content: center;
+    overflow-y: hidden;
+    max-height: 100%; /* Updated */
+    margin-left: 0%;
+  }
+
+  .productView {
+    height: 100vh; /* Updated */
+  }
+}

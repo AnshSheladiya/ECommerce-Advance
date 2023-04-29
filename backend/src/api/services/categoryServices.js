@@ -3,19 +3,21 @@
  */
  const Category = require('../models/category');
 
- /**
-  * Get all categories
-  */
- exports.getAllCategories = () => {
-   return Category.find({});
- };
- 
- /**
-  * Get a category by ID
-  */
- exports.getCategory = (categoryId) => {
-   return Category.findById(categoryId);
- };
+/**
+ * Get all categories
+ */
+exports.getAllCategories = (options = {}) => {
+  const query = { ...options, is_deleted: false }; 
+  return Category.find(query);
+};
+
+/**
+ * Get a category by ID
+ */
+exports.getCategory = (categoryId) => {
+  const query = { _id: categoryId, is_deleted: false }; 
+  return Category.findOne(query);
+};
  
  /**
   * Create a new category

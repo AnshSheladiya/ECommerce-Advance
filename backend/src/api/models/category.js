@@ -44,7 +44,9 @@ const categorySchema = new mongoose.Schema(
     createdByIp: String,
     updatedByIp: String,
   },
-  { timestamps: true }
+  {
+    versionKey: false,
+  }
 );
 
 categorySchema.virtual('children', {

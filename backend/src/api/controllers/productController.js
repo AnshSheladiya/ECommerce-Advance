@@ -95,7 +95,7 @@ exports.getAllProducts = async (req, res, next) => {
 exports.getProduct = async (req, res, next) => {
   try {
     const productId = req.params.productId;
-    const product = await productService.getProduct(productId);
+    const product = await productService.getProductById(productId);
 
     if (!product) {
       return res.status(400).json(ResponseHelper.error(400, MSG.PRODUCT_NOT_FOUND));
@@ -118,7 +118,7 @@ exports.createProduct = async (req, res, next) => {
     // Add history data for the product creation
     const productData = historyData.create(req.user._id, req.body);
 
-    const product = await productService.createProduct(productData, req.files);
+    const product = await productService.createProduct(productData);
     return res.status(200).json(ResponseHelper.success(200, MSG.PRODUCT_CREATED_SUCCESSFULLY, product));
   } catch (error) {
     logger.error(error);
@@ -169,36 +169,49 @@ exports.removeProduct = async (req, res, next) => {
   }
 };
 
-// Import required modules and dependencies
-
-exports.uploadProductImage = async (req, res, next) => {
+exports.uploadProductImages = async (req, res, next) => {
   try {
-    // Check if the request contains a file
-    if (!req.file) {
-      return res.status(400).json(ResponseHelper.error(400, 'No image file provided'));
-    }
+    const { productId } = req.params;
+    const angleNames = req.body.angleNames || []; 
 
-    // Extract necessary information from the uploaded image file
-    const { originalname, filename, path, size, mimetype } = req.file;
-    const { productId, angle, isPrimary } = req.body;
+    const product = await productService.uploadProductImages(productId, req.files,req.user, angleNames);
 
-    // Create the image object with the extracted information
-    const image = {
-      url: filename, // Assuming you save the image file using the filename
-      angle,
-      isPrimary,
-      uploadedAt: new Date(),
-      createdBy: req.user._id,
-      fileSize: size,
-      mimeType: mimetype,
-    };
-
-    // Call the service function to handle image upload
-    const uploadedImage = await productService.uploadProductImage(productId, image);
-
-    return res.status(200).json(ResponseHelper.success(200, 'Image uploaded successfully', uploadedImage));
+    return res.status(200).json(ResponseHelper.success(200, MSG.UPLOAD_SUCCESS));
   } catch (error) {
-    logger.error(error);
+    console.error(error);
+    next(error);
+  }
+};
+
+exports.updateProductPhoto = async (req, res, next) => {
+  try {
+    const { productId, imageId } = req.params;
+
+    // Update the product image using the service
+    const product = await productService.updateProductImage(productId, imageId, req.file,req.user);
+
+    res.status(200).json({
+      success: true,
+      message: 'Product image updated successfully',
+      product,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+
+exports.createProductReview = async (req, res, next) => {
+  try {
+    const { productId } = req.params;
+    const { rating, comment } = req.body;
+
+    const product = await productService.createProductReview(productId,req.user,rating, comment);
+
+    return res.status(200).json(ResponseHelper.success(200, MSG.REVIEW_CREATED_SUCCESSFULLY, product));
+  } catch (error) {
+    console.error(error);
     next(error);
   }
 };

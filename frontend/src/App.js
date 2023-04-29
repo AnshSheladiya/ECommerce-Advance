@@ -12,6 +12,7 @@ import ResetPassword from './components/pages/ResetPassword/ResetPassword';
 import Home from './components/pages/Home/Home.jsx';
 import authHandler from './helpers/AuthHandler';
 import Logout from './components/layout/Logout';
+import ProductView from './components/pages/ProductView/ProductView';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const isAuthenticated = !!localStorage.getItem('user');
@@ -52,6 +53,7 @@ function AppContent() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/verified" element={<Verified />} />
           <Route path="/home" element={<PrivateRoute component={Home} />} />
+          <Route path="/product-view/:id" element={<PrivateRoute component={ProductView} />} />
           <Route path="/logout" element={<PrivateRoute component={Logout} />} />
           <Route path="/*" element={<Navigate to="/login" />} />
         </Routes>

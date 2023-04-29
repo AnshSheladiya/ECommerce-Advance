@@ -24,6 +24,7 @@ function errorHandler(err, req, res, next) {
     //     const lineNumber = match ? match[2] : 'unknown';
     //     errorOrigin = ` error in file: ${filename}, line: ${lineNumber}`;
     // }
+    console.log("Error part::", err);
 
     // Send an error response to the client
     res.status(statusCode).json({

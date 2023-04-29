@@ -30,7 +30,7 @@
   --secondary-color:  #9E7676;
   --background-color:  #FBEAE7;
   --body-background-color: #815B5B;
-  --accent-color: #552619;
+  --accent-color: #a88076;
   --shadow-color:#000000;
 
   --mode: 'light';
@@ -38,7 +38,7 @@
 
 /* Theme option 1 */
 [data-theme='theme1'] {
-  --primary-color: #000000;
+  --primary-color:rgb(0, 0, 0);
   --secondary-color: #335c81;
   --background-color: #7da8d5;
   --body-background-color: #1B2845;
