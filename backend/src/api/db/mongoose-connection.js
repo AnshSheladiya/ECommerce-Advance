@@ -18,7 +18,7 @@ const maxRetries = 5;
 function connectWithRetry() {
   logger.info('Connecting to MongoDB...');
   console.log(config.database[process.env.NODE_ENV])
-  mongoose.connect(config.database[process.env.NODE_ENV || 'development'].url, options)
+  mongoose.connect('mongodb+srv://admin:admin@cluster0.i1ncqui.mongodb.net/EcommerceAdvance?retryWrites=true&w=majority', options)
     .then(() => {
       logger.info('MongoDB connected!');
       retries = 0;
