@@ -153,7 +153,7 @@ exports.updateProduct = async (req, res, next) => {
 exports.removeProduct = async (req, res, next) => {
   try {
     const productId = req.params.productId;
-    let product = await productService.getProduct(productId);
+    let product = await productService.getProductById(productId);
     if (!product) {
       return res.status(400).json(ResponseHelper.error(400, MSG.PRODUCT_NOT_FOUND));
     }
