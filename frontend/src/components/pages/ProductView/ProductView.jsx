@@ -41,6 +41,7 @@ const ProductView = () => {
   const primaryImage = images.find((image) => image.isPrimary);
   const proxyEndpoint = "https://ecommercadvance.onrender.com/proxy-image";
   const primaryImageUrl = `${proxyEndpoint}?imageUrl=${primaryImage.url}`;
+  const selectedImageUrl = selectedImage ? `${proxyEndpoint}?imageUrl=${selectedImage.url}` : primaryImageUrl;
 
   return (
     <div className={`${styles.productView} ${mode}`} data-theme={mode}>
@@ -48,20 +49,20 @@ const ProductView = () => {
       <div className={styles.imageContainer}>
         <div className={styles.imageWrapper}>
           <img
-            src={`${proxyEndpoint}?imageUrl=${selectedImage.url}` || primaryImageUrl}
+            src={selectedImage?.url || primaryImageUrl}
             alt={product_name}
             className={`${styles.mainImage} ${isZoomed && styles.zoomed}`}
             onClick={handleMainImageZoom}
           />
         </div>
-      <div className={styles.smallImagesWrapper}>
+        <div className={styles.smallImagesWrapper}>
         {images.map((image, index) => (
           <img
             key={index}
             src={`${proxyEndpoint}?imageUrl=${image.url}`}
             alt={product_name}
             className={`${styles.smallImage} ${
-              selectedImage?.url === image.url && styles.active
+              selectedImage && selectedImage.url === image.url && styles.active
             }`}
             onClick={() => handleImageClick(image)}
           />
