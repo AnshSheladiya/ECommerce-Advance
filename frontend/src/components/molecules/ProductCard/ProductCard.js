@@ -6,13 +6,14 @@ import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
   const primaryImage = product.images.find((image) => image.isPrimary);
-console.log(primaryImage);
+  const imageUrl = `https://ecommercadvance.onrender.com/proxy-image?imageUrl=${primaryImage.url}`;
+
   return (
     <div className={styles.card}>
 <Link to={`/product-view/${product._id}`} className={styles.link}>
 <h1 className={styles.name}>{product.product_name}</h1>
         <div className={styles.imageContainer}>
-        <img src={'https://res.cloudinary.com/dvchq5abp/image/upload/v1682845787/sjh9ml84lxthkpohek7e.png'} alt={product.product_name} className={styles.image} />
+        <img src={imageUrl?imageUrl:headphone} alt={product.product_name} className={styles.image} />
       </div>
       <div className={styles.detailsContainer}>
         <div className={styles.price}>Price: ${product.price}</div>
