@@ -46,19 +46,19 @@ app.use(express.static(static_path));
  // Initialize Passport middleware
  app.use(passport.initialize());
  app.use(passport.session());
-
+console.log("1")
  // Routes
  const authRoutes = require('./api/routes/authRoutes');
-//  const userRoutes = require('./api/routes/userRoutes');
-//  const productRoutes = require('./api/routes/productRoutes');
-//  const categoryRoutes = require('./api/routes/categoryRoutes');
-//  const brandRoutes = require('./api/routes/brandRoutes');
+ const userRoutes = require('./api/routes/userRoutes');
+ const productRoutes = require('./api/routes/productRoutes');
+ const categoryRoutes = require('./api/routes/categoryRoutes');
+ const brandRoutes = require('./api/routes/brandRoutes');
 
  app.use('/api/auth', authRoutes);
-//  app.use('/api/user', userRoutes);
-//  app.use('/api/products', productRoutes);
-//  app.use('/api/categories', categoryRoutes);
-//  app.use('/api/brands', brandRoutes);
+ app.use('/api/user', userRoutes);
+ app.use('/api/products', productRoutes);
+ app.use('/api/categories', categoryRoutes);
+ app.use('/api/brands', brandRoutes);
 
  // custom error handling middleware
  app.use(errorHandler);
