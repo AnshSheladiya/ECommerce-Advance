@@ -20,19 +20,3 @@ class ResponseHelper {
 }
 
 module.exports = ResponseHelper;
-
-
-// use like this
-// const express = require('express');
-// const ResponseHelper = require('./responseHelper');
-// const app = express();
-
-// app.get('/example', (req, res) => {
-//   try {
-//     const data = { message: 'Hello, world!' };
-//     return res.status(200).json(ResponseHelper.success(data, 'Success!'));
-//   } catch (err) {
-//     console.error(err);
-//     return res.status(500).json(ResponseHelper.error(['An error occurred']));
-//   }
-// });

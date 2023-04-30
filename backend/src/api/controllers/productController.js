@@ -1,7 +1,6 @@
 // productController.js
 const productService = require('../services/productServices');
 const JoiValidationSchema = require('../utils/JoiValidationSchema');
-const ResponseHelper = require('../utils/ResponseHelper');
 const historyData = require('../utils/historydataUtils');
 const limitStage = require('../helpers/aggregateHelpers/limitStageHelper');
 const matchStage = require('../helpers/aggregateHelpers/matchStageHelper');

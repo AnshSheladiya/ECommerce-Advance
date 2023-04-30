@@ -3,12 +3,11 @@
  */
 const brandService = require('../services/brandServices');
 const JoiValidationSchema = require('../utils/JoiValidationSchema');
-const ResponseHelper = require('../utils/ResponseHelper');
 const historyData = require('../utils/historydataUtils');
 
 exports.getAllBrands = async (req, res, next) => {
   try {
-    
+
     const brands = await brandService.getAllBrands();
     return res.status(200).json(ResponseHelper.success(200, MSG.FOUND_SUCCESS, brands));
   } catch (error) {
