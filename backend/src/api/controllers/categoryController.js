@@ -3,6 +3,7 @@
  */
 const categoryService = require('../services/categoryServices');
 const JoiValidationSchema = require('../utils/JoiValidationSchema');
+const ResponseHelper = require('../utils/ResponseHelper');
 const historyData = require('../utils/historydataUtils');
 
 exports.getAllCategories = async (req, res, next) => {
