@@ -29,6 +29,8 @@ const seedCategories = async () => {
 
 // Insert products if not already inserted
 const seedProducts = async () => {
+  await Product.deleteMany({});
+
   if (await checkSeedData(Product, products)) {
     console.log('Products already seeded');
     return;
