@@ -1,10 +1,8 @@
  /**
   * File Name: userServices.js
   */
- console.log("10")
 
   const User = require('../models/user');
-  console.log("11")
 
 //   exports.createUserProfile = async (userId, userProfileData) => {
 //     try {
@@ -18,7 +16,6 @@
 //       throw new Error(error.message);
 //     }
 //   };
-console.log("12")
 
   exports.getUserProfile = async (userId) => {
     try {
@@ -28,7 +25,6 @@ console.log("12")
       throw new Error(error.message);
     }
   };
-  console.log("13")
 
   exports.getUser = async () => {
     try {

@@ -1,12 +1,10 @@
 /**
  * File Name: user.js
  */
- console.log("14")
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const mongooseHidden = require('mongoose-hidden')();
-console.log("15")
 
 const userSchema = new mongoose.Schema(
   {
@@ -241,6 +239,5 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.plugin(mongooseHidden);
-console.log("16")
 
 module.exports = mongoose.model('User', userSchema);

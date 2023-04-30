@@ -12,7 +12,7 @@ const options = {
   socketTimeoutMS: 45000, // time before timing out queries
   family: 4, // use IPv4, skip trying IPv6
 };
-console.log(config.database[process.env.NODE_ENV || 'development'].url)
+
 let retries = 0;
 const maxRetries = 5;
 function connectWithRetry() {

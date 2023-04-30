@@ -1,13 +1,10 @@
  /**
   * File Name: userController.js
   */
- console.log("5")
 
   const userService = require('../services/userServices');
-  console.log("6")
 
   const JoiValidationSchema = require('../utils/JoiValidationSchema');
-  console.log("7")
 
 
   // exports.createUserProfile = async (req, res, next) => {
@@ -26,7 +23,6 @@
   //     next(error);
   //   }
   // };
-  console.log("8")
 
   exports.getUserProfile = async (req, res, next) => {
     try {
@@ -38,7 +34,6 @@
       next(error);
     }
   };
-  console.log("9")
 
   exports.getUser = async (req, res, next) => {
     try {

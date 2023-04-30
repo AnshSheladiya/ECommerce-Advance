@@ -46,7 +46,7 @@ app.use(express.static(static_path));
  // Initialize Passport middleware
  app.use(passport.initialize());
  app.use(passport.session());
-console.log("1")
+
  // Routes
  const authRoutes = require('./api/routes/authRoutes');
  const userRoutes = require('./api/routes/userRoutes');
