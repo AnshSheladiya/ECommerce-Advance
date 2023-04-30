@@ -39,8 +39,8 @@ const ProductView = () => {
 
   const { product_name, description, price, quantity, images } = product;
   const primaryImage = images.find((image) => image.isPrimary);
-  // const proxyEndpoint = "https://ecommercadvance.onrender.com/proxy-image";
-  const proxyEndpoint = "http://localhost:3000/proxy-image";
+  const proxyEndpoint = "https://ecommercadvance.onrender.com/proxy-image";
+  // const proxyEndpoint = "http://localhost:3000/proxy-image";
   const primaryImageUrl = `${proxyEndpoint}?imageUrl=${primaryImage.url}`;
   const selectedImageUrl = selectedImage ? `${proxyEndpoint}?imageUrl=${selectedImage.url}` : primaryImageUrl;
   console.log("SELECTED: " + selectedImage)

@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
   const primaryImage = product.images.find((image) => image.isPrimary);
-  // const imageUrl = `https://ecommercadvance.onrender.com/proxy-image?imageUrl=${primaryImage.url}`;
-  const imageUrl = `http://localhost:3000/proxy-image?imageUrl=${primaryImage.url}`;
+  const imageUrl = `https://ecommercadvance.onrender.com/proxy-image?imageUrl=${primaryImage.url}`;
+  // const imageUrl = `http://localhost:3000/proxy-image?imageUrl=${primaryImage.url}`;
 
   return (
     <div className={styles.card}>
