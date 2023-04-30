@@ -48,7 +48,7 @@ const ProductView = () => {
       <div className={styles.imageContainer}>
         <div className={styles.imageWrapper}>
           <img
-            src={selectedImage?.url || primaryImageUrl}
+            src={`${proxyEndpoint}?imageUrl=${selectedImage.url}` || primaryImageUrl}
             alt={product_name}
             className={`${styles.mainImage} ${isZoomed && styles.zoomed}`}
             onClick={handleMainImageZoom}
