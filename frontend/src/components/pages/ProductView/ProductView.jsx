@@ -49,31 +49,32 @@ const ProductView = () => {
       <div className={styles.imageContainer}>
         <div className={styles.imageWrapper}>
           <img
-            src={selectedImage?.url || primaryImageUrl}
+            src={selectedImage && selectedImage.url ? selectedImage.url : primaryImageUrl}
             alt={product_name}
             className={`${styles.mainImage} ${isZoomed && styles.zoomed}`}
             onClick={handleMainImageZoom}
           />
         </div>
         <div className={styles.smallImagesWrapper}>
-        {images.map((image, index) => (
-          <img
-            key={index}
-            src={`${proxyEndpoint}?imageUrl=${image.url}`}
-            alt={product_name}
-            className={`${styles.smallImage} ${
-              selectedImage && selectedImage.url === image.url && styles.active
-            }`}
-            onClick={() => handleImageClick(image)}
-          />
-        ))}
+          {images.map((image, index) => (
+            <img
+              key={index}
+              src={`${proxyEndpoint}?imageUrl=${image.url}`}
+              alt={product_name}
+              className={`${styles.smallImage} ${
+                selectedImage && selectedImage.url === image.url && styles.active
+              }`}
+              onClick={() => handleImageClick(image)}
+            />
+          ))}
+        </div>
       </div>
+      <p className={styles.description}>{description}</p>
+      <div className={styles.price}>Price: ${price}</div>
+      <div className={styles.stock}>In Stock: {quantity}</div>
     </div>
-    <p className={styles.description}>{description}</p>
-    <div className={styles.price}>Price: ${price}</div>
-    <div className={styles.stock}>In Stock: {quantity}</div>
-  </div>
-);}
+  );
+}
 
 export default ProductView;
 
