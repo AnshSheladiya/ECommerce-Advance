@@ -3,47 +3,45 @@
  */
 
 exports.createMatchStage = (field, value) => {
-  console.log(field,value)
-
     return { $match: { [field]: value } };
   };
-  
+
   exports.createMatchInStage = (field, values) => {
     return { $match: { [field]: { $in: values } } };
   };
-  
+
   exports.createMatchAndStage = (field1, value1, field2, value2) => {
     return { $match: { $and: [{ [field1]: value1 }, { [field2]: value2 }] } };
   };
-  
+
   exports.createMatchOrStage = (field1, value1, field2, value2) => {
     return { $match: { $or: [{ [field1]: value1 }, { [field2]: value2 }] } };
   };
-  
+
   exports.createMatchNotStage = (field, value) => {
     return { $match: { [field]: { $ne: value } } };
   };
-  
+
   exports.createMatchGreaterThanStage = (field, value) => {
     return { $match: { [field]: { $gt: value } } };
   };
-  
+
   exports.createMatchGreaterThanOrEqualStage = (field, value) => {
     return { $match: { [field]: { $gte: value } } };
   };
-  
+
   exports.createMatchLessThanStage = (field, value) => {
     return { $match: { [field]: { $lt: value } } };
   };
-  
+
   exports.createMatchLessThanOrEqualStage = (field, value) => {
     return { $match: { [field]: { $lte: value } } };
   };
-  
+
   exports.createMatchRegexStage = (field, value) => {
     return { $match: { [field]: { $regex: value } } };
   };
-  
+
   exports.createMatchSizeStage = (field, size) => {
     return { $match: { [field]: { $size: size } } };
   };

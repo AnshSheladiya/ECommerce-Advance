@@ -1,18 +1,19 @@
  /**
   * File Name: userController.js
   */
- 
+
   const userService = require('../services/userServices');
+
   const JoiValidationSchema = require('../utils/JoiValidationSchema');
-  const ResponseHelper = require('../utils/ResponseHelper');
-  
+
+
   // exports.createUserProfile = async (req, res, next) => {
   //   try {
   //     const { error } = JoiValidationSchema.profileSchema.validate(req.body);
   //     if (error) {
   //       return res.status(400).json(ResponseHelper.error(400, error.message));
   //     }
-  
+
   //     const userId = req.user.id;
   //     const userProfileData = req.body;
   //     const userProfile = await userService.createUserProfile(userId, userProfileData);
@@ -22,7 +23,7 @@
   //     next(error);
   //   }
   // };
-  
+
   exports.getUserProfile = async (req, res, next) => {
     try {
       const userId = req.user.id;
@@ -33,6 +34,7 @@
       next(error);
     }
   };
+
   exports.getUser = async (req, res, next) => {
     try {
       const userProfile = await userService.getUser();
@@ -42,14 +44,14 @@
       next(error);
     }
   };
-  
+
   // exports.updateUserProfile = async (req, res, next) => {
   //   try {
   //     const { error } = JoiValidationSchema.profileSchema.validate(req.body);
   //     if (error) {
   //       return res.status(400).json(ResponseHelper.error(400, error.message));
   //     }
-  
+
   //     const userId = req.user.id;
   //     const userProfileData = req.body;
   //     const userProfile = await userService.updateUserProfile(userId, userProfileData);

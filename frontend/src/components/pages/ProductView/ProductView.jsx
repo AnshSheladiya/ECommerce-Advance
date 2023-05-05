@@ -39,38 +39,44 @@ const ProductView = () => {
 
   const { product_name, description, price, quantity, images } = product;
   const primaryImage = images.find((image) => image.isPrimary);
-
+  const proxyEndpoint = "https://ecommercadvance.onrender.com/proxy-image";
+  // const proxyEndpoint = "http://localhost:3000/proxy-image";
+  const primaryImageUrl = `${proxyEndpoint}?imageUrl=${primaryImage.url}`;
+  const selectedImageUrl = selectedImage ? `${proxyEndpoint}?imageUrl=${selectedImage.url}` : primaryImageUrl;
+  console.log("SELECTED: " + selectedImage)
+  console.log("URL: " ,selectedImage && selectedImage.url ? selectedImageUrl : primaryImageUrl)
   return (
     <div className={`${styles.productView} ${mode}`} data-theme={mode}>
       <h2 className={styles.name}>{product_name}</h2>
       <div className={styles.imageContainer}>
         <div className={styles.imageWrapper}>
           <img
-            src={selectedImage?.url || primaryImage.url}
+            src={selectedImage && selectedImage.url ? selectedImageUrl : primaryImageUrl}
             alt={product_name}
             className={`${styles.mainImage} ${isZoomed && styles.zoomed}`}
             onClick={handleMainImageZoom}
           />
         </div>
-      <div className={styles.smallImagesWrapper}>
-        {images.map((image, index) => (
-          <img
-            key={index}
-            src={image.url}
-            alt={product_name}
-            className={`${styles.smallImage} ${
-              selectedImage?.url === image.url && styles.active
-            }`}
-            onClick={() => handleImageClick(image)}
-          />
-        ))}
+        <div className={styles.smallImagesWrapper}>
+          {images.map((image, index) => (
+            <img
+              key={index}
+              src={`${proxyEndpoint}?imageUrl=${image.url}`}
+              alt={product_name}
+              className={`${styles.smallImage} ${
+                selectedImage && selectedImage.url === image.url && styles.active
+              }`}
+              onClick={() => handleImageClick(image)}
+            />
+          ))}
+        </div>
       </div>
+      {/* <p className={styles.description}>{description}</p>
+      <div className={styles.price}>Price: ${price}</div>
+      <div className={styles.stock}>In Stock: {quantity}</div> */}
     </div>
-    <p className={styles.description}>{description}</p>
-    <div className={styles.price}>Price: ${price}</div>
-    <div className={styles.stock}>In Stock: {quantity}</div>
-  </div>
-);}
+  );
+}
 
 export default ProductView;
 

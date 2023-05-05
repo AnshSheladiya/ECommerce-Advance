@@ -1,6 +1,7 @@
 /**
  * File Name: user.js
  */
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const mongooseHidden = require('mongoose-hidden')();

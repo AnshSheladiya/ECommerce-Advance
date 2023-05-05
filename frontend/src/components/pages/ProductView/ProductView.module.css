@@ -41,9 +41,9 @@
   border: 2px solid var(--shadow-color);
   border-radius: 8px;
   margin-left: 40%;
-  box-shadow: 0 2px 4px var(--shadow-color); /* Added */
-  cursor: zoom-in; /* Set the cursor to a magnifying glass icon */
-
+  margin-right: auto; /* Center the image box horizontally */
+  box-shadow: 0 2px 4px var(--shadow-color);
+  cursor: zoom-in;
 }
 
 .mainImage:hover {

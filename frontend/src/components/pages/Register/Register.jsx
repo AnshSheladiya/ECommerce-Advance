@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {  Button,Select,MenuItem } from '@material-ui/core';
@@ -12,6 +12,15 @@ import { Brightness1 } from '@material-ui/icons';
 
 const Register = () => {
   const { mode, handleModeChange, themes } = useTheme();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isAuthenticated = !!localStorage.getItem('user');
+
+    if (isAuthenticated) {
+      navigate('/home'); // Redirect to the desired page
+    }
+  }, [navigate]);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -51,7 +60,6 @@ const Register = () => {
   };
 
     //Handle Signup Navigate
-    const navigate = useNavigate();
     const handleLoginClick = () => {
       navigate('/');
     };

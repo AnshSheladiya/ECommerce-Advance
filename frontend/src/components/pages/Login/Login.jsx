@@ -1,6 +1,6 @@
 //Login.jsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState,useEffect } from 'react';
+import { useNavigate,Navigate } from 'react-router-dom';
 import {  Button,Select,MenuItem } from '@material-ui/core';
 import {  FcGoogle } from 'react-icons/fc';
 import {  FaFacebook } from 'react-icons/fa';
@@ -15,6 +15,15 @@ import authHandler from '../../../helpers/AuthHandler';
 
 const Login = () => {
   const { mode, handleModeChange, themes } = useTheme();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isAuthenticated = !!localStorage.getItem('user');
+
+    if (isAuthenticated) {
+      navigate('/home'); // Redirect to the desired page
+    }
+  }, [navigate]);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -37,7 +46,6 @@ const Login = () => {
   };
 
   //Handle Signup Navigate
-  const navigate = useNavigate();
   const handleSignUpClick = () => {
     navigate('/register');
   };
