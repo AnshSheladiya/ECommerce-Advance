@@ -22,7 +22,7 @@ const config = require('../config/config');
 const sanitizeReqBody = require('../middlewares/sanitizeReqBody');
 const easyLog = require('../utils/developmentHelpers');
 const swaggerDocument = require('../../../docs/api-docs/swagger.json');
-const graphqlServer = require('../utils/graphql');
+// const graphqlServer = require('../utils/graphql');
 const prisma = require('../utils/prisma');
 const handleErrors = require('../utils/handleErrors');
 const aggregationHelper = require('../helpers/aggregateHelpers/aggregationHelper');
@@ -52,7 +52,7 @@ module.exports = {
   easyLog,
   swaggerUi,
   swaggerDocument,
-  graphqlServer,
+  // graphqlServer,
   prisma,
   handleErrors,
   aggregationHelper,

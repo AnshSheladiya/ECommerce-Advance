@@ -16,7 +16,7 @@ const {
   easyLog,
   swaggerUi,
   swaggerDocument,
-  graphqlServer,
+  // graphqlServer,
 } = require('./api/utils/dependencyContainer');
 const passport = require('passport');
 require('./api/utils/passport')(passport);
@@ -108,10 +108,10 @@ process.on('unhandledRejection', (reason, promise) => {
   process.exit(1);
 });
 
-// Start the Apollo Server
-graphqlServer.listen().then(({ url }) => {
-  logger.info(`GraphQL server ready at ${url}`)
-});
+// // Start the Apollo Server
+// graphqlServer.listen().then(({ url }) => {
+//   logger.info(`GraphQL server ready at ${url}`)
+// });
 
 
 module.exports = app;
