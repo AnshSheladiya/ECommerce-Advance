@@ -23,7 +23,7 @@ const sanitizeReqBody = require('../middlewares/sanitizeReqBody');
 const easyLog = require('../utils/developmentHelpers');
 const swaggerDocument = require('../../../docs/api-docs/swagger.json');
 // const graphqlServer = require('../utils/graphql');
-const prisma = require('../utils/prisma');
+// const prisma = require('../utils/prisma');
 const handleErrors = require('../utils/handleErrors');
 const aggregationHelper = require('../helpers/aggregateHelpers/aggregationHelper');
 const { cloudinary } = require('../utils/cloudinary');
@@ -53,7 +53,7 @@ module.exports = {
   swaggerUi,
   swaggerDocument,
   // graphqlServer,
-  prisma,
+  // prisma,
   handleErrors,
   aggregationHelper,
   cloudinary,
