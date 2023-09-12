@@ -13,6 +13,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       hide: true, // This field will be hidden by default
     },
+    isGuest: Boolean,
+    guestUUID: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+    lastActive: {
+      type: Date,
+      default: Date.now,
+    },
     email: String,
     googleId: String,
     profile_picture_url: String,
@@ -78,37 +88,31 @@ const userSchema = new mongoose.Schema(
     ],
     recently_viewed_products: [
       {
-        name: String,
-        image: String,
-        notes: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
       },
     ],
+    recently_searches: [],
     favorite_products: [
       {
-        name: String,
-        image: String,
-        notes: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
       },
     ],
     recently_purchased: [
       {
-        name: String,
-        image: String,
-        notes: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
       },
     ],
     product_reviews: [
       {
-        product_name: String,
+        product_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Product',
+        },
         rating: Number,
         comment: String,
-        date: { type: Date, default: Date.now },
-      },
-    ],
-    product_ratings: [
-      {
-        product_name: String,
-        rating: Number,
         date: { type: Date, default: Date.now },
       },
     ],
@@ -226,7 +230,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre('save', async function (next) {
   try {
-    if (this.isModified('password') || this.isNew) {
+    if (!this.guestUUID && (this.isModified('password') || this.isNew)) {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(this.password, salt);
       this.password = hash;

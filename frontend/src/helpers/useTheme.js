@@ -2,18 +2,21 @@
 import { useState, useEffect } from 'react';
 
 const useTheme = () => {
-  const [mode, setMode] = useState(
-    localStorage.getItem('mode') || 'theme1'
-  );
+  const [mode, setMode] = useState(localStorage.getItem('mode') || 'theme1');
 
   useEffect(() => {
     const root = window.document.documentElement;
     const color =
-      mode === 'theme1' ? '#1B2845' :
-      mode === 'theme2' ? '#5e5192' :
-      mode === 'theme3' ? '#FF6969' :
-      mode === 'light' ? '#815B5B' : null;
-      if (color) {
+      mode === 'theme1'
+        ? '#1B2845'
+        : mode === 'theme2'
+        ? '#5e5192'
+        : mode === 'theme3'
+        ? '#FF6969'
+        : mode === 'light'
+        ? '#815B5B'
+        : null;
+    if (color) {
       root.style.setProperty('--body-background-color', color);
       localStorage.setItem('mode', mode);
     }

@@ -68,7 +68,19 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
-
+    videos: [
+      {
+        url: String,
+        uploadedAt: Date,
+        createdBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+        },
+        fileSize: Number,
+        mimeType: String,
+        duration: Number, // Add this field for video duration
+      },
+    ],
     // Brand,Category...
     brand_id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -117,7 +129,7 @@ const productSchema = new mongoose.Schema(
     manage_stock: {
       type: Boolean,
     },
-    stock_status: { type: String },  
+    stock_status: { type: String },
     min_order_quantity: {
       type: Number,
     },
@@ -136,9 +148,17 @@ const productSchema = new mongoose.Schema(
         comment: String,
       },
     ],
-    views: { type: Number, default: 0 },
-    likes: { type: Number, default: 0 },
+    viewers: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    }],
+    likes: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    }],
     rating: { type: Number, default: 0 },
+    views_count: { type: Number, default: 0 },
+    likes_count: { type: Number, default: 0 },
 
     // Product flags/indicators
     is_featured: {
@@ -238,7 +258,7 @@ const productSchema = new mongoose.Schema(
     tags: [{ type: String }],
     sale_start_date: { type: Date },
     sale_end_date: { type: Date },
-   
+
     is_stock_controlled: { type: Boolean, default: false },
     stock_quantity: { type: Number, default: 0 },
     low_stock_threshold: { type: Number, default: 0 },

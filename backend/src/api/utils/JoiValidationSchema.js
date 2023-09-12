@@ -102,107 +102,107 @@ const profileSchema = Joi.object({
 
 const addAddressSchema = Joi.object({
   label: Joi.string().valid('shipping', 'billing').required().messages({
-  'any.required': 'Please specify whether this is a shipping or billing address',
-  'any.only': 'The address label must be either "shipping" or "billing"',
+    'any.required': 'Please specify whether this is a shipping or billing address',
+    'any.only': 'The address label must be either "shipping" or "billing"',
   }),
   nickname: Joi.string().messages({
-  'string.base': 'The nickname must be a string',
+    'string.base': 'The nickname must be a string',
   }),
   address: Joi.string().required().messages({
-  'any.required': 'Please enter the address',
+    'any.required': 'Please enter the address',
   }),
   address_2: Joi.string().messages({
-  'string.base': 'The address line 2 must be a string',
+    'string.base': 'The address line 2 must be a string',
   }),
   city: Joi.string().required().messages({
-  'any.required': 'Please enter the city',
+    'any.required': 'Please enter the city',
   }),
   state_province: Joi.string().messages({
-  'string.base': 'The state/province must be a string',
+    'string.base': 'The state/province must be a string',
   }),
   zip_postal_code: Joi.string().required().messages({
-  'any.required': 'Please enter the ZIP/postal code',
+    'any.required': 'Please enter the ZIP/postal code',
   }),
   country: Joi.string().required().messages({
-  'any.required': 'Please enter the country',
+    'any.required': 'Please enter the country',
   }),
   phone_number: Joi.string().required().messages({
-  'any.required': 'Please enter the phone number',
+    'any.required': 'Please enter the phone number',
   }),
-  });
+});
 
-  // schema for updating a shipping or billing address
-  const updateAddressSchema = Joi.object({
+// schema for updating a shipping or billing address
+const updateAddressSchema = Joi.object({
   nickname: Joi.string().messages({
-  'string.base': 'The nickname must be a string',
+    'string.base': 'The nickname must be a string',
   }),
   address: Joi.string().messages({
-  'string.base': 'The address must be a string',
+    'string.base': 'The address must be a string',
   }),
   address_2: Joi.string().messages({
-  'string.base': 'The address line 2 must be a string',
+    'string.base': 'The address line 2 must be a string',
   }),
   city: Joi.string().messages({
-  'string.base': 'The city must be a string',
+    'string.base': 'The city must be a string',
   }),
   state_province: Joi.string().messages({
-  'string.base': 'The state/province must be a string',
+    'string.base': 'The state/province must be a string',
   }),
   zip_postal_code: Joi.string().messages({
-  'string.base': 'The ZIP/postal code must be a string',
+    'string.base': 'The ZIP/postal code must be a string',
   }),
   country: Joi.string().messages({
-  'string.base': 'The country must be a string',
+    'string.base': 'The country must be a string',
   }),
   phone_number: Joi.string().messages({
-  'string.base': 'The phone number must be a string',
+    'string.base': 'The phone number must be a string',
   }),
-  });
+});
 
-  const createProductSchema = Joi.object({
-    product_name: Joi.string().required().messages({
-      'any.required': 'Product name is required',
-    }),
-    description: Joi.string(),
-    short_description: Joi.string(),
-    long_description: Joi.string(),
-    images: Joi.array().items(Joi.string()),
-    brand: Joi.string(),
-    category_id: Joi.required().messages({
-      'any.required': 'Category ID is required',
-      'number.base': 'Category ID must be a number',
-    }),
-    price: Joi.number().required().messages({
-      'any.required': 'Price is required',
-      'number.base': 'Price must be a number',
-    }),
-    sale_price: Joi.number(),
-    currency: Joi.string(),
-    quantity: Joi.number().required().messages({
-      'any.required': 'Quantity is required',
-      'number.base': 'Quantity must be a number',
-    }),
-    weight: Joi.number(),
-    length: Joi.number(),
-    width: Joi.number(),
-    height: Joi.number(),
-  });
+const createProductSchema = Joi.object({
+  product_name: Joi.string().required().messages({
+    'any.required': 'Product name is required',
+  }),
+  description: Joi.string(),
+  short_description: Joi.string(),
+  long_description: Joi.string(),
+  images: Joi.array().items(Joi.string()),
+  brand: Joi.string(),
+  category_id: Joi.required().messages({
+    'any.required': 'Category ID is required',
+    'number.base': 'Category ID must be a number',
+  }),
+  price: Joi.number().required().messages({
+    'any.required': 'Price is required',
+    'number.base': 'Price must be a number',
+  }),
+  sale_price: Joi.number(),
+  currency: Joi.string(),
+  quantity: Joi.number().required().messages({
+    'any.required': 'Quantity is required',
+    'number.base': 'Quantity must be a number',
+  }),
+  weight: Joi.number(),
+  length: Joi.number(),
+  width: Joi.number(),
+  height: Joi.number(),
+});
 
-  const createCategorySchema = Joi.object({
-    name: Joi.string().required().messages({
-      'any.required': 'Category name is required',
-    }),
-    description: Joi.string().required().messages({
-      'any.required': 'Category description is required',
-    }),
-    parent: Joi.optional(),
-  });
+const createCategorySchema = Joi.object({
+  name: Joi.string().required().messages({
+    'any.required': 'Category name is required',
+  }),
+  description: Joi.string().required().messages({
+    'any.required': 'Category description is required',
+  }),
+  parent: Joi.optional(),
+});
 
-  const updateCategorySchema = Joi.object({
-    name: Joi.string().optional(),
-    description: Joi.string().optional(),
-    parent: Joi.optional(),
-  });
+const updateCategorySchema = Joi.object({
+  name: Joi.string().optional(),
+  description: Joi.string().optional(),
+  parent: Joi.optional(),
+});
 
 module.exports = {
   registerSchema,
@@ -215,6 +215,5 @@ module.exports = {
   updateAddressSchema,
   createProductSchema,
   createCategorySchema,
-  updateCategorySchema
+  updateCategorySchema,
 };
-

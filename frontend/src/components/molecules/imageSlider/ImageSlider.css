@@ -1,0 +1,25 @@
+/* ImageSlider.css */
+.slider-container {
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Adjust the height of the slider for different screen sizes using media queries */
+  @media (max-width: 767px) {
+    .slider-container {
+      height: 200px; /* Adjust the height for mobile screens */
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991px) {
+    .slider-container {
+      height: 300px; /* Adjust the height for tablets */
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .slider-container {
+      height: 400px; /* Default height for larger screens */
+    }
+  }
+  

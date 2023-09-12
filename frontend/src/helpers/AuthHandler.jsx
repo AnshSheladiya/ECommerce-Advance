@@ -2,16 +2,16 @@
 import axios from 'axios';
 
 const authHandler = async () => {
-  const user = localStorage.getItem('user');
-  if (user) {
-    return;
-  }
-
-  try {
+    try {
+    localStorage.removeItem("user");
     const res = await axios.get('/api/user/profile');
     if (res.status === 200) {
       localStorage.setItem('user', JSON.stringify(res.data.data));
     }
+    const user = localStorage.getItem('user');
+  if (user) {
+    return;
+  }
   } catch (err) {
     console.log(err);
   }

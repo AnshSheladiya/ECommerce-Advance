@@ -25,13 +25,8 @@ const logger = winston.createLogger({
       return `${timestamp} [${level}]: ${message}${stack ? '\n' + stack : ''}`;
     })
   ),
-  transports: [
-    new winston.transports.Console(),
-    transport,
-  ],
-  exceptionHandlers: [
-    new winston.transports.File({ filename: './backend/logs/exceptions.log' }),
-  ],
+  transports: [new winston.transports.Console(), transport],
+  exceptionHandlers: [new winston.transports.File({ filename: './backend/logs/exceptions.log' })],
 });
 
 module.exports = logger;

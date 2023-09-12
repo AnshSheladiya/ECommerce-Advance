@@ -13,15 +13,11 @@ import Home from './components/pages/Home/Home.jsx';
 import authHandler from './helpers/AuthHandler';
 import Logout from './components/layout/Logout';
 import ProductView from './components/pages/ProductView/ProductView';
+import { NotFound } from "../src/components/pages/not-found/"
 
 function PrivateRoute({ component: Component, ...rest }) {
   const isAuthenticated = !!localStorage.getItem('user');
-
-  return isAuthenticated ? (
-    <Component {...rest} />
-  ) : (
-    <Navigate to="/login" replace={true} />
-  );
+  return isAuthenticated ? <Component {...rest} /> : <Navigate to="/login" replace={true} />;
 }
 
 function App() {
@@ -40,7 +36,9 @@ function App() {
 
 function AppContent() {
   const location = useLocation();
-  const showNavbar = !['/login', '/register', '/forgat-password', '/reset-password', '/verified'].includes(location.pathname);
+  const showNavbar = !['/login', '/register', '/forgat-password', '/reset-password', '/verified'].includes(
+    location.pathname
+  );
 
   return (
     <>
@@ -55,7 +53,7 @@ function AppContent() {
           <Route path="/home" element={<PrivateRoute component={Home} />} />
           <Route path="/product-view/:id" element={<PrivateRoute component={ProductView} />} />
           <Route path="/logout" element={<PrivateRoute component={Logout} />} />
-          <Route path="/*" element={<Navigate to="/login" />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </>
@@ -63,3 +61,5 @@ function AppContent() {
 }
 
 export default App;
+
+

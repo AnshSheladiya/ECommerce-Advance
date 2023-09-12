@@ -1,131 +1,82 @@
 /**
  * File Name: authServices.js
  */
-const bcrypt = require('bcrypt');
-const  User  = require('../models/user');
-const { v4: uuid } = require('uuid');
-const mailer = require('../utils/mailer');
-const config = require('../config/config');
-const jwt=require('jsonwebtoken');
+const {bcrypt,User,uuid,mailer,config,jwt,handleErrors} = require('../utils/dependencyContainer');
 
-exports.checkUserExists = async (email) => {
-  try {
-    const user = await User.findOne({ email } );
-    return user;
-  } catch (error) {
-    throw new Error(error.message);
+exports.checkUserExists = handleErrors(async (email) => {
+  const user = await User.findOne({ email });
+  return user;
+});
+
+exports.hashPassword = handleErrors(async (password) => {
+  const salt = await bcrypt.genSalt(10);
+  return bcrypt.hash(password, salt);
+});
+
+exports.createUser = handleErrors(async (body) => {
+  const user = await User.create(body);
+  return user.toJSON();
+});
+
+exports.generateEmailVerificationToken = handleErrors(async (payload, expiresIn) => {
+  return await jwt.sign(payload, config.jwtEmailVerificationSecret, { expiresIn });
+});
+
+exports.validateEmailVerificationToken = handleErrors(async (token) => {
+  const user = await User.findOne({ email_verification_token: token });
+  if (!user) {
+    return false;
   }
+  const isTokenValid = token === user.email_verification_token ? true : false;
+  return isTokenValid;
+});
 
-};
-
-exports.hashPassword = async (password) => {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    return bcrypt.hash(password, salt);
-  } catch (error) {
-    throw new Error(error.message);
+exports.verifyUserEmail = handleErrors(async (token) => {
+  const user = await User.findOneAndUpdate(
+    { email_verification_token: token },
+    { email_verification_token: null, is_email_verified: true },
+    { new: true }
+  );
+  if (!user) {
+    throw new Error(MSG.USER_NOT_FOUND);
   }
-};
+});
 
-exports.createUser = async (body) => {
-  try {
-    const user = await User.create(body);
-    return user.toJSON();
-  } catch (error) {
-  throw new Error(error.message);
-  }
-
-};
-
-
-exports.generateEmailVerificationToken = (payload, expiresIn) => {
-  try {
-    return jwt.sign(payload, config.jwtEmailVerificationSecret, { expiresIn });
-  } catch (error) {
-    throw new Error(error.message);
-  }
-};
-
-exports.validateEmailVerificationToken = async (token) => {
-  try {
-    const user = await User.findOne({ email_verification_token: token });
-    if (!user) {
-      return false;
-    }
-    const isTokenValid = (token=== user.email_verification_token)?true:false;
-    return isTokenValid;
-  } catch (error) {
-    logger.error(error.mes)
-    throw new Error(MSG.INTERNAL_SERVER_ERROR);
-  }
-};
-
-exports.verifyUserEmail = async (token) => {
-  try {
-    const user = await User.findOneAndUpdate(
-      { email_verification_token: token },
-      { email_verification_token: null, is_email_verified: true },
-      { new: true }
-    );
-    if (!user) {
-      throw new Error(MSG.USER_NOT_FOUND);
-    }
-  } catch (error) {
-    throw new Error(MSG.INTERNAL_SERVER_ERROR);
-  }
-};
-
- // This method checks if the given old password matches the user's stored password
- exports.checkPassword=async (storedPassword, oldPassword)=> {
-  try {
-    const isMatch = await bcrypt.compare(oldPassword, storedPassword);
-    return isMatch;
-  } catch (error) {
-    throw new Error(error.message);
-  }
-}
+// This method checks if the given old password matches the user's stored password
+exports.checkPassword = handleErrors(async (storedPassword, oldPassword) => {
+  const isMatch = await bcrypt.compare(oldPassword, storedPassword);
+  return isMatch;
+});
 
 // This method updates the user's password with the new password
-exports.updatePassword= async (userId, newPassword)=> {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
+exports.updatePassword = handleErrors(async (userId, newPassword) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-    // Update the user's password in the database
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { password: hashedPassword },
-      { new: true }
-    );
+  // Update the user's password in the database
+  const updatedUser = await User.findByIdAndUpdate(userId, { password: hashedPassword }, { new: true });
 
-    return updatedUser;
-  } catch (error) {
-    throw new Error(error.message);
+  return updatedUser;
+});
+
+exports.generatePasswordResetToken = handleErrors(async (email) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error('User not found');
   }
-}
 
-exports.generatePasswordResetToken= async (email)=> {
-  try {
-    const user = await User.findOne({ email } );
-    if (!user) {
-      throw new Error('User not found');
-    }
+  const token = uuid();
+  const expiresAt = new Date(Date.now() + 3600000); // 1 hour from now
 
-    const token = uuid();
-    const expiresAt = new Date(Date.now() + 3600000); // 1 hour from now
+  user.password_reset_token = token;
+  user.password_reset_expiry = expiresAt;
+  await user.save();
 
-    user.password_reset_token = token;
-    user.password_reset_expiry = expiresAt;
-    await user.save();
+  return token;
+});
 
-    return token;
-  } catch (error) {
-    throw new Error(error.message);
-  }
-}
-
-exports.sendPasswordResetEmail= async (email, resetToken )=> {
-  let baseUrl=config.url.base_url;
+exports.sendPasswordResetEmail = handleErrors(async (email, resetToken) => {
+  let baseUrl = config.url.base_url;
   const resetUrl = `${baseUrl}/reset-password?token=${resetToken}`;
 
   const message = {
@@ -156,31 +107,27 @@ exports.sendPasswordResetEmail= async (email, resetToken )=> {
       <p>Sincerely,</p>
       <p>Your Company</p>
     </body>
-  </html>`
+  </html>`,
   };
 
   await mailer.send(message);
-}
+});
 
-exports.validatePasswordResetToken=async (resetToken)=> {
-  try {
-    const user = await User.findOne({
-      password_reset_token: resetToken,
-      password_reset_expiry: {
-          $gt: new Date(),
-      },
-    });
-    return !!user;
-  } catch (error) {
-    throw new Error(error.message);
-  }
-}
-
-exports.resetPassword=async (resetToken, newPassword) =>{
+exports.validatePasswordResetToken = handleErrors(async (resetToken) => {
   const user = await User.findOne({
     password_reset_token: resetToken,
     password_reset_expiry: {
-        $gt: new Date(),
+      $gt: new Date(),
+    },
+  });
+  return !!user;
+});
+
+exports.resetPassword = handleErrors(async (resetToken, newPassword) => {
+  const user = await User.findOne({
+    password_reset_token: resetToken,
+    password_reset_expiry: {
+      $gt: new Date(),
     },
   });
 
@@ -193,10 +140,8 @@ exports.resetPassword=async (resetToken, newPassword) =>{
   user.passwordResetToken = null;
   user.passwordResetTokenExpiresAt = null;
   await user.save();
-}
-
-exports.sendVerificationEmail = async (email,token) => {
-
+});
+exports.sendVerificationEmail = handleErrors(async (email, token) => {
   // Build the verification link
   const baseUrl = config.url.base_url;
   const verifyUrl = `${baseUrl}/verified?token=${token}`;
@@ -227,8 +172,8 @@ exports.sendVerificationEmail = async (email,token) => {
         <p>Sincerely,</p>
         <p>Your Company</p>
       </body>
-    </html>`
+    </html>`,
   };
 
   await mailer.send(message);
-};
+});

@@ -1,21 +1,22 @@
+//responseHelper.js
 class ResponseHelper {
-  static success(statusCode = 200, message = '',data,token ) {
+  static success(statusCode = 200, message = '', data, meta) {
     return {
       statusCode,
       message,
-      success:true,
+      success: true,
       data,
-      token
+      meta,
     };
   }
 
-  static error( statusCode = 500, message = 'An error occurred',errors) {
+  static error(statusCode = 500, message = 'An error occurred', errors) {
     return {
       statusCode,
       message,
       success: false,
       errors,
-        };
+    };
   }
 }
 

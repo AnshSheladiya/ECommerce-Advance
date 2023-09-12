@@ -19,7 +19,7 @@ exports.createProjectAddFieldsStage = (newFields) => {
 };
 
 exports.createProjectConcatStage = (newField, fields) => {
-  const concatFields = fields.map(field => `$${field}`);
+  const concatFields = fields.map((field) => `$${field}`);
   return { $project: { [newField]: { $concat: concatFields } } };
 };
 
@@ -36,7 +36,7 @@ exports.createProjectConvertToIntStage = (field) => {
 };
 
 exports.createProjectConvertToDoubleStage = (field) => {
-  return { $project: { [field]: { $toDouble: `$${field}` } } };
+  return { $project: { [field]: { $toDouble: `$${field}` } } };
 };
 
 exports.createProjectArraySizeStage = (field, newField) => {
@@ -55,8 +55,35 @@ exports.createProjectConditionalStage = (condition, trueResult, falseResult) => 
   return { $project: { result: { $cond: [condition, trueResult, falseResult] } } };
 };
 
-exports.createProjectDateAddStage = (field, years, months, weeks, days, hours, minutes, seconds, milliseconds, newField) => {
-  return { $project: { [newField]: { $add: [`$${field}`, { $multiply: [years, 31536000000] }, { $multiply: [months, 2592000000] }, { $multiply: [weeks, 604800000] }, { $multiply: [days, 86400000] }, { $multiply: [hours, 3600000] }, { $multiply: [minutes, 60000] }, { $multiply: [seconds, 1000] }, milliseconds] } } };
+exports.createProjectDateAddStage = (
+  field,
+  years,
+  months,
+  weeks,
+  days,
+  hours,
+  minutes,
+  seconds,
+  milliseconds,
+  newField
+) => {
+  return {
+    $project: {
+      [newField]: {
+        $add: [
+          `$${field}`,
+          { $multiply: [years, 31536000000] },
+          { $multiply: [months, 2592000000] },
+          { $multiply: [weeks, 604800000] },
+          { $multiply: [days, 86400000] },
+          { $multiply: [hours, 3600000] },
+          { $multiply: [minutes, 60000] },
+          { $multiply: [seconds, 1000] },
+          milliseconds,
+        ],
+      },
+    },
+  };
 };
 
 exports.createProjectDateDiffStage = (date1, date2, unit, newField) => {
@@ -64,9 +91,8 @@ exports.createProjectDateDiffStage = (date1, date2, unit, newField) => {
 };
 
 exports.createProjectSetStage = (field, value, newField) => {
-  return { $project: { [newField]: { $cond: [{ $eq: [`$${field}`, null] }, value, `$${field}`] } } };
+  return { $project: { [newField]: { $cond: [{ $eq: [`$${field}`, null] }, value, `$${field}`] } } };
 };
-
 
 exports.createProjectArrayToObjectStage = (array, newField) => {
   return { $project: { [newField]: { $arrayToObject: array } } };
@@ -93,7 +119,7 @@ exports.createProjectDayOfWeekStage = (field, newField) => {
 };
 
 exports.createProjectDateFromStringStage = (field, format, newField) => {
-  return { $project: { [newField]: { $dateFromString: { dateString: `$${field}`, format: format } } } };
+  return { $project: { [newField]: { $dateFromString: { dateString: `$${field}`, format: format } } } };
 };
 
 exports.createProjectMultiplyStage = (field, factor, newField) => {
@@ -166,7 +192,7 @@ exports.createProjectArraySliceStage = (field, start, end, newField) => {
 };
 
 exports.createProjectDateToStringStage = (field, format, newField) => {
-  return { $project: { [newField]: { $dateToString: { date: `$${field}`, format: format } } } };
+  return { $project: { [newField]: { $dateToString: { date: `$${field}`, format: format } } } };
 };
 // Example Usage:
 // const pipeline = [

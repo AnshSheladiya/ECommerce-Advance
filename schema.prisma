@@ -1,0 +1,17 @@
+// schema.prisma
+datasource db {
+  provider = "mysql"
+  url      = env("MYSQL_DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ActivityLog { // Change model name to singular
+  id        Int      @id @default(autoincrement())
+  action    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  payload   Json?
+}

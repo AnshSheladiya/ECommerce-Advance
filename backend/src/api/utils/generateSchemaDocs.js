@@ -46,7 +46,7 @@ const getSchemaFields = (schema) => {
   }
   return rows;
 };
-
+ 
 const createTable = (schemaName, schemaFields) => {
   const header = ['Field', 'Type', 'Required'];
   const headerSeparator = `| ${header.map((h) => h.padEnd(30, ' ')).join(' | ')} |`;

@@ -70,6 +70,20 @@ const Login = () => {
     }
   };
 
+  const loginGuestUser = async () => {
+    try {
+      const response = await axios.post('/api/auth/guest/login', {});
+      toast.success(response.data.message);
+      await authHandler();
+      window.location.href='/home'
+      // TODO: handle successful login
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+      // TODO: handle error
+    }
+  };
+
   return (
     <div className={`${loginStyles['login-container']} ${mode}`} >
         <div className={loginStyles['image-container']}>

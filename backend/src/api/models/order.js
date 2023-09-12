@@ -147,7 +147,7 @@ const OrderSchema = new mongoose.Schema({
   order_customer_first_name: String,
   order_customer_last_name: String,
   order_customer_phone_number: String,
-  
+
   created_at: { type: Date, default: Date.now },
   updated_at: Date,
   created_by: {

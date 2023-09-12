@@ -7,24 +7,21 @@ const User = require('../models/user');
 module.exports = function (passport) {
   // Local Login Strategy
   passport.use(
-    new LocalStrategy(
-      { usernameField: 'email' },
-      async (email, password, done) => {
-        try {
-          const user = await User.findOne({ email });
-          if (!user) {
-            return done(null, false, { message: 'Incorrect email.' });
-          }
-          const isMatch = await bcrypt.compare(password, user.password);
-          if (!isMatch) {
-            return done(null, false, { message: 'Incorrect password.' });
-          }
-          return done(null, user);
-        } catch (error) {
-          return done(error);
+    new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
+      try {
+        const user = await User.findOne({ email });
+        if (!user) {
+          return done(null, false, { message: 'Incorrect email.' });
         }
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+      } catch (error) {
+        return done(error);
       }
-    )
+    })
   );
 
   // Google Login Strategy
@@ -43,7 +40,7 @@ module.exports = function (passport) {
               googleId: profile.id,
               email: profile.emails[0].value,
               username: profile.displayName,
-              profile_picture_url : profile.photos[0].value
+              profile_picture_url: profile.photos[0].value,
             });
             return done(null, newUser);
           }

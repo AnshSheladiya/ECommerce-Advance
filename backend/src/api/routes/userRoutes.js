@@ -1,15 +1,15 @@
 /**
  * File Name: userRoutes.js
  */
- const express = require('express');
- const router = express.Router();
+const {express,authMiddleware} = require('../utils/dependencyContainer');
+const userController = require('../controllers/userController');
 
- const userController = require('../controllers/userController');
- const authMiddleware = require('../middlewares/authMiddleware');
+const router = express.Router();
+
 
 //  router.post('/profile', authMiddleware, userController.createUserProfile);
- router.get('/profile', authMiddleware, userController.getUserProfile);
- router.get('/users', userController.getUser);
+router.get('/profile', authMiddleware, userController.getUserProfile);
+router.get('/users', userController.getUser);
 //  router.put('/profile', authMiddleware, userController.updateUserProfile);
 
- module.exports = router;
+module.exports = router;

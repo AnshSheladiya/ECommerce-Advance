@@ -1,16 +1,42 @@
+/* Common styles for .bottom-app-bar */
 .bottom-app-bar {
-  top: auto;
-  bottom: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bottom-app-bar__toolbar {
+  display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
 }
 
 .bottom-app-bar__title {
   flex-grow: 1;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .bottom-app-bar__cart-icon {
   margin-right: 8px;
+}
+
+/* Media query for mobile screens (max-width: 767px) */
+@media screen and (max-width: 767px) {
+  .bottom-app-bar__toolbar {
+    flex-direction: column;
+  }
+  
+  .bottom-app-bar__title {
+    margin-top: 8px;
+    flex-grow: 0;
+  }
+  
+  .bottom-app-bar__cart-icon {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
 }

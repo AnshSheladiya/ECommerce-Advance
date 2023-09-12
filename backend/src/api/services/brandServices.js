@@ -1,13 +1,13 @@
 /**
  * File Name: brandServices.js
  */
-const Brand = require('../models/brand');
+const {Brand} = require('../utils/dependencyContainer');
 
 /**
  * Get all brands
  */
 exports.getAllBrands = (options = {}) => {
-  const query = { ...options, is_deleted: false }; 
+  const query = { ...options, is_deleted: false };
   return Brand.find(query);
 };
 
@@ -15,7 +15,7 @@ exports.getAllBrands = (options = {}) => {
  * Get a brand by ID
  */
 exports.getBrand = (brandId) => {
-  const query = { _id: brandId, is_deleted: false }; 
+  const query = { _id: brandId, is_deleted: false };
   return Brand.findOne(query);
 };
 

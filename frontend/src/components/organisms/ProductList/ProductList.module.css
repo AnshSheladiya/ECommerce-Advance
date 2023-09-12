@@ -1,19 +1,42 @@
 /* ProductList.module.css */
 .productList {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-grid-gap: 16px;
-padding: 16px;
-}
-
-@media screen and (max-width: 767px) {
-.productList {
-grid-template-columns: repeat(2, 1fr); /* Two cards in one row for mobile screens /
-padding: 16px; / Add space between screen borders and cards /
-justify-items: center; / Center the cards horizontally */
-}
-
-.theme {
-align-items: flex-start; /* Adjust alignment for mobile screens */
-}
-}
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 16px;
+    padding: 16px;
+  }
+  
+  @media screen and (max-width: 767px) {
+    .productList {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 16px;
+      justify-items: center;
+    }
+  
+    .theme {
+      align-items: flex-start;
+    }
+  }
+  .pagination {
+    display: flex;
+    justify-content: center; /* Center the pagination horizontally */
+    margin-top: 16px; /* Add some space between the product list and the pagination */
+    margin: 50px;
+  }
+  .searchBox {
+    width: 40%;
+    margin: 0 auto; 
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .searchBox input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    font-size: 16px;
+  }

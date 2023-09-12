@@ -4,79 +4,109 @@ File Name: sortStageHelper.js
 */
 exports.createSortStage = (field, order = 1) => {
   return { $sort: { [field]: order } };
-  };
+};
 
-  exports.createMultiSortStage = (sortCriteria) => {
+exports.createMultiSortStage = (sortCriteria) => {
   return { $sort: sortCriteria };
-  };
+};
 
-  exports.createSortByCountStage = (field, newField) => {
+exports.createSortByCountStage = (field, newField) => {
   return { $sort: { [newField]: { $size: `$${field}` } } };
-  };
+};
 
-  exports.createSortByNestedFieldStage = (field1, field2, order = 1) => {
+exports.createSortByNestedFieldStage = (field1, field2, order = 1) => {
   return { $sort: { [`${field1}.${field2}`]: order } };
+};
+
+exports.createSortByRandomStage = (seed = null) => {
+  return {
+    $sort: {
+      _id:
+        seed === null
+          ? Math.random()
+          : {
+              $function: {
+                body: function () {
+                  return Math.random(`${seed}`);
+                },
+              },
+            },
+    },
   };
+};
 
-  exports.createSortByRandomStage = (seed = null) => {
-  return { $sort: { _id: seed === null ? Math.random() : { $function: { body: function() { return Math.random(`${seed}`); } } } } };
+exports.createSortByArrayElementStage = (field, elementIndex, order = 1) => {
+  return { $sort: { [`${field}.${elementIndex}`]: order } };
+};
+
+exports.createSortBySubstringStage = (field, substring, order = 1) => {
+  return {
+    $sort: { [field]: { $regex: substring, $options: 'i' }, [`${field}.${order === 1 ? '$first' : '$last'}`]: order },
   };
+};
 
-  exports.createSortByArrayElementStage = (field, elementIndex, order = 1) => {
-    return { $sort: { [`${field}.${elementIndex}`]: order } };
+exports.createSortByMatchScoreStage = (query, newField) => {
+  return { $sort: { [newField]: { $meta: 'textScore' } } };
+};
+
+exports.createSortByDistanceStage = (nearField, distanceField, distanceMultiplier = 1) => {
+  return {
+    $sort: {
+      [distanceField]: {
+        $multiply: [
+          {
+            $divide: [
+              1,
+              {
+                $add: [
+                  1,
+                  { $multiply: [{ $divide: [{ $subtract: [`$${nearField}`, [0, 0]] }, 111.12] }, distanceMultiplier] },
+                ],
+              },
+            ],
+          },
+          1000,
+        ],
+      },
+    },
   };
+};
 
-  exports.createSortBySubstringStage = (field, substring, order = 1) => {
-    return { $sort: { [field]: { $regex: substring, $options: 'i' }, [`${field}.${order === 1 ? '$first' : '$last'}`]: order } };
-  };
+exports.createSortByCollationStage = (field, locale, order = 1, strength = 3) => {
+  return { $sort: { [field]: { $collation: { locale, strength }, order } } };
+};
 
-  exports.createSortByMatchScoreStage = (query, newField) => {
-    return { $sort: { [newField]: { $meta: 'textScore' } } };
-  };
+exports.createSortByFieldLengthStage = (field, order = 1) => {
+  return { $sort: { [`${field}_length`]: order } };
+};
 
-  exports.createSortByDistanceStage = (nearField, distanceField, distanceMultiplier = 1) => {
-    return { $sort: { [distanceField]: { $multiply: [{ $divide: [1, { $add: [1, { $multiply: [{ $divide: [{ $subtract: [`$${nearField}`, [0, 0]] }, 111.12] }, distanceMultiplier] }] }] }, 1000] } } };
-  };
+exports.createSortByDayOfWeekStage = (dateField, order = 1) => {
+  return { $sort: { [`${dateField}_dayOfWeek`]: order } };
+};
 
-  exports.createSortByCollationStage = (field, locale, order = 1, strength = 3) => {
-    return { $sort: { [field]: { $collation: { locale, strength }, order } } };
-  };
+exports.createSortByYearStage = (dateField, order = 1) => {
+  return { $sort: { [`${dateField}_year`]: order } };
+};
 
-  exports.createSortByFieldLengthStage = (field, order = 1) => {
-    return { $sort: { [`${field}_length`]: order } };
-  };
+exports.createSortByMonthStage = (dateField, order = 1) => {
+  return { $sort: { [`${dateField}_month`]: order } };
+};
 
-  exports.createSortByDayOfWeekStage = (dateField, order = 1) => {
-    return { $sort: { [`${dateField}_dayOfWeek`]: order } };
-  };
+exports.createSortByDayStage = (dateField, order = 1) => {
+  return { $sort: { [`${dateField}_day`]: order } };
+};
 
-  exports.createSortByYearStage = (dateField, order = 1) => {
-    return { $sort: { [`${dateField}_year`]: order } };
-  };
+exports.createSortByHourStage = (dateField, order = 1) => {
+  return { $sort: { [`${dateField}_hour`]: order } };
+};
 
+exports.createSortByMinuteStage = (dateField, order = 1) => {
+  return { $sort: { [`${dateField}_minute`]: order } };
+};
 
-  exports.createSortByMonthStage = (dateField, order = 1) => {
-    return { $sort: { [`${dateField}_month`]: order } };
-  };
-
-  exports.createSortByDayStage = (dateField, order = 1) => {
-    return { $sort: { [`${dateField}_day`]: order } };
-  };
-
-
-  exports.createSortByHourStage = (dateField, order = 1) => {
-    return { $sort: { [`${dateField}_hour`]: order } };
-  };
-
-
-  exports.createSortByMinuteStage = (dateField, order = 1) => {
-    return { $sort: { [`${dateField}_minute`]: order } };
-  };
-
-
-  exports.createSortBySecondStage = (dateField, order = 1) => {
-    return { $sort: { [`${dateField}_second`]: order } };
-  };
+exports.createSortBySecondStage = (dateField, order = 1) => {
+  return { $sort: { [`${dateField}_second`]: order } };
+};
 // const pipeline = [
 //   matchStageHelper.createMatchStage('status', 'active'),
 //   sortStageHelper.createSortStage('created_at', -1),

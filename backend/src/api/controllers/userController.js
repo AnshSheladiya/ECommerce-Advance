@@ -1,66 +1,54 @@
- /**
-  * File Name: userController.js
-  */
+/**
+ * File Name: userController.js
+ */
 
-  const userService = require('../services/userServices');
+const userService = require('../services/userServices');
+const {handleErrors,JoiValidationSchema} = require('../utils/dependencyContainer');
 
-  const JoiValidationSchema = require('../utils/JoiValidationSchema');
+// exports.createUserProfile = async (req, res, next) => {
+//   try {
+//     const { error } = JoiValidationSchema.profileSchema.validate(req.body);
+//     if (error) {
+//       return res.status(400).json(ResponseHelper.error(400, error.message));
+//     }
 
+//     const userId = req.user.id;
+//     const userProfileData = req.body;
+//     const userProfile = await userService.createUserProfile(userId, userProfileData);
+//     return res.status(200).json(ResponseHelper.success(200, userProfile));
+//   } catch (error) {
+//     logger.error(error);
+//     next(error);
+//   }
+// };
 
-  // exports.createUserProfile = async (req, res, next) => {
-  //   try {
-  //     const { error } = JoiValidationSchema.profileSchema.validate(req.body);
-  //     if (error) {
-  //       return res.status(400).json(ResponseHelper.error(400, error.message));
-  //     }
+exports.getUserProfile = handleErrors(async (req, res, next) => {
+  const userId = req.user.id;
+  const userProfile = await userService.getUserProfile(userId);
+  return res.status(200).json(ResponseHelper.success(200, MSG.FOUND_SUCCESS, userProfile));
+});
 
-  //     const userId = req.user.id;
-  //     const userProfileData = req.body;
-  //     const userProfile = await userService.createUserProfile(userId, userProfileData);
-  //     return res.status(200).json(ResponseHelper.success(200, userProfile));
-  //   } catch (error) {
-  //     logger.error(error);
-  //     next(error);
-  //   }
-  // };
+exports.getUser = handleErrors(async (req, res, next) => {
+  const userProfile = await userService.getUser();
+  return res.status(200).json(ResponseHelper.success(200, MSG.FOUND_SUCCESS, userProfile));
+});
 
-  exports.getUserProfile = async (req, res, next) => {
-    try {
-      const userId = req.user.id;
-      const userProfile = await userService.getUserProfile(userId);
-      return res.status(200).json(ResponseHelper.success(200,MSG.FOUND_SUCCESS, userProfile));
-    } catch (error) {
-      logger.error(error);
-      next(error);
-    }
-  };
+// exports.updateUserProfile = async (req, res, next) => {
+//   try {
+//     const { error } = JoiValidationSchema.profileSchema.validate(req.body);
+//     if (error) {
+//       return res.status(400).json(ResponseHelper.error(400, error.message));
+//     }
 
-  exports.getUser = async (req, res, next) => {
-    try {
-      const userProfile = await userService.getUser();
-      return res.status(200).json(ResponseHelper.success(200,MSG.FOUND_SUCCESS, userProfile));
-    } catch (error) {
-      logger.error(error);
-      next(error);
-    }
-  };
-
-  // exports.updateUserProfile = async (req, res, next) => {
-  //   try {
-  //     const { error } = JoiValidationSchema.profileSchema.validate(req.body);
-  //     if (error) {
-  //       return res.status(400).json(ResponseHelper.error(400, error.message));
-  //     }
-
-  //     const userId = req.user.id;
-  //     const userProfileData = req.body;
-  //     const userProfile = await userService.updateUserProfile(userId, userProfileData);
-  //     return res.status(200).json(ResponseHelper.success(200, userProfile));
-  //   } catch (error) {
-  //     logger.error(error);
-  //     next(error);
-  //   }
-  // };
+//     const userId = req.user.id;
+//     const userProfileData = req.body;
+//     const userProfile = await userService.updateUserProfile(userId, userProfileData);
+//     return res.status(200).json(ResponseHelper.success(200, userProfile));
+//   } catch (error) {
+//     logger.error(error);
+//     next(error);
+//   }
+// };
 
 // exports.getAddresses = async (req, res, next) => {
 //   try {

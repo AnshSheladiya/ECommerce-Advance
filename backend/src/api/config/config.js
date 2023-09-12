@@ -17,8 +17,14 @@ module.exports = {
       url: process.env.PROD_DATABASE_URL || 'mongodb://user:password@mongo-db-instance-name:27017/myapp_prod',
     },
   },
+  mysql_database:{
+    host:process.env.MYSQL_DB_HOST,
+    user:process.env.MYSQL_DB_USER,
+    password:process.env.MYSQL_DB_PASSWORD
+  },
   jwtSecret: process.env.JWT_SECRET || 'mysecretkey',
   jwtEmailVerificationSecret: process.env.EMAIL_VERIFICATION_SECRET || 'myemailverificationsecretkey',
+  CacheExpirationTimeInSeconds :process.env.CACHE_EXPIRE_TIME || '3600',
   google: {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -26,14 +32,14 @@ module.exports = {
   },
   mail: {
     mail_user: process.env.MAIL_USER,
-    mail_pass: process.env.MAIL_PASS
+    mail_pass: process.env.MAIL_PASS,
   },
   cloudinary: {
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
+    api_secret: process.env.CLOUDINARY_API_SECRET,
   },
   url: {
-    base_url: process.env.BASE_URL
-  }
+    base_url: process.env.BASE_URL,
+  },
 };

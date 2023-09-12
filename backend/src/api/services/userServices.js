@@ -1,8 +1,8 @@
- /**
-  * File Name: userServices.js
-  */
+/**
+ * File Name: userServices.js
+ */
 
-  const User = require('../models/user');
+const {User,handleErrors} = require('../utils/dependencyContainer');
 
 //   exports.createUserProfile = async (userId, userProfileData) => {
 //     try {
@@ -17,23 +17,15 @@
 //     }
 //   };
 
-  exports.getUserProfile = async (userId) => {
-    try {
-      const user = await User.findById(userId);
-      return user;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
+exports.getUserProfile = handleErrors(async (userId) => {
+  const user = await User.findById(userId);
+  return user;
+});
 
-  exports.getUser = async () => {
-    try {
-      const user = await User.find();
-      return user;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  };
+exports.getUser = handleErrors(async () => {
+  const user = await User.find();
+  return user;
+});
 
 //   exports.updateUserProfile = async (userId, userProfileData) => {
 //     try {

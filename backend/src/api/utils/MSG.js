@@ -44,7 +44,6 @@ const MSG = {
   CLEARED_SUCCESS: 'Successfully cleared.',
   OPT_IN_SUCCESS: 'Successfully opted in.',
   OPT_OUT_SUCCESS: 'Successfully opted out.',
-
   // Additional success messages
   ADDED_TO_CART_SUCCESS: 'Successfully added to cart.',
   REMOVED_FROM_CART_SUCCESS: 'Successfully removed from cart.',
@@ -202,7 +201,7 @@ const MSG = {
   DIRECTORY_OPEN_ERROR: 'Directory opening failed.',
   DIRECTORY_CLOSE_ERROR: 'Directory closing failed.',
   CONNECTION_ERROR: 'Connection failed.',
-  SERVER_ERROR: 'Server error.',
+  SERVER_ERROR: 'Internal Server Error',
   CLIENT_ERROR: 'Client error.',
   AUTHENTICATION_ERROR: 'Authentication failed.',
   AUTHORIZATION_ERROR: 'Authorization failed.',
@@ -439,6 +438,12 @@ const MSG = {
   REFUND_UPDATED_SUCCESSFULLY: 'Refund updated successfully.',
   REFUND_UNAUTHORIZED: 'Refund unauthorized.',
   REFUND_AUTHORIZED: 'Refund authorized.',
+
+  // guest related messages
+  GUEST_LOGIN_SUCCESS: 'Guest login successfully.',
+  GUESTS_FOUND_SUCCESS: 'Guest users retrieved successfully.',
+  GUEST_FOUND_SUCCESS: 'Guest user retrieved successfully.',
+  GUESTS_NOT_FOUND: 'Guest user not found.',
 };
 
 module.exports = MSG;

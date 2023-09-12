@@ -5,18 +5,18 @@ const multer = require('multer');
 const config = require('../config/config');
 
 cloudinary.config({
-  cloud_name: config.cloudinary.cloud_name,
-  api_key: config.cloudinary.api_key,
-  api_secret: config.cloudinary.api_secret
+  cloud_name: "dsclrzfoz",
+  api_key: "287784753466293",
+  api_secret: "_xUc9Fire2JD6BhSrNYslNw__so",
 });
-
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'ECommerce_Advance',
-    allowed_formats: ['jpg', 'jpeg', 'png'],
-    transformation: [{ width: 500, height: 500, crop: 'limit' }],
-    format: 'png',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'mp4'], // Add 'mp4' here for video support
+    // Transformation settings for video (modify as needed)
+    resource_type: 'video',
+    format: 'mp4',
     public_id: (req, file) => `${Date.now()}-${file.originalname}`,
   },
 });

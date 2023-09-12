@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import '../../../styles/global.css';
 import styles from './ProductView.module.css';
 import useTheme from '../../../helpers/useTheme';
+import { toast } from 'react-toastify';
 
 const ProductView = () => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ const ProductView = () => {
         setProduct(response.data.data);
       } catch (error) {
         console.error('Error fetching product:', error);
+        toast.error(error.response.data.message);
       }
     };
 
@@ -39,8 +41,8 @@ const ProductView = () => {
 
   const { product_name, description, price, quantity, images } = product;
   const primaryImage = images.find((image) => image.isPrimary);
-  const proxyEndpoint = "https://ecommercadvance.onrender.com/proxy-image";
-  // const proxyEndpoint = "http://localhost:3000/proxy-image";
+  // const proxyEndpoint = "https://ecommercadvance.onrender.com/proxy-image";
+  const proxyEndpoint = "http://localhost:3000/proxy-image";
   const primaryImageUrl = `${proxyEndpoint}?imageUrl=${primaryImage.url}`;
   const selectedImageUrl = selectedImage ? `${proxyEndpoint}?imageUrl=${selectedImage.url}` : primaryImageUrl;
   console.log("SELECTED: " + selectedImage)

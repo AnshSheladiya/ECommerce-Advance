@@ -61,7 +61,7 @@ const Register = () => {
 
     //Handle Signup Navigate
     const handleLoginClick = () => {
-      navigate('/');
+      navigate('/login');
     };
 
     return (

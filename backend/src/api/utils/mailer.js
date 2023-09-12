@@ -1,3 +1,6 @@
+/**
+ * File Name: mailer.js
+ */
 const nodemailer = require('nodemailer');
 const config = require('../config/config');
 
@@ -6,7 +9,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   auth: {
     user: config.mail.mail_user,
-    pass: config.mail.mail_pass
+    pass: config.mail.mail_pass,
   },
 });
 

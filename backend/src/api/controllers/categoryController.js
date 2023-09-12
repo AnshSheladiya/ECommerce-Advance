@@ -1,93 +1,71 @@
 /**
  * File Name: categoryController.js
  */
+const { createMatchStage } = require('../helpers/aggregateHelpers/matchStageHelper');
+const {historyData,handleErrors,JoiValidationSchema} = require('../utils/dependencyContainer');
 const categoryService = require('../services/categoryServices');
-const JoiValidationSchema = require('../utils/JoiValidationSchema');
-const historyData = require('../utils/historydataUtils');
 
-exports.getAllCategories = async (req, res, next) => {
-  try {
-    const categories = await categoryService.getAllCategories();
-    return res.status(200).json(ResponseHelper.success(200, MSG.FOUND_SUCCESS, categories));
-  } catch (error) {
-    logger.error(error);
-    next(error);
+exports.getAllCategories = handleErrors(async (req, res, next) => {
+  const pipeline = [];
+
+  // things for getting proper results 
+  pipeline.push(createMatchStage('is_deleted', false));
+
+  const categories = await categoryService.getAllCategories(pipeline);
+  return res.status(200).json(ResponseHelper.success(200, MSG.FOUND_SUCCESS, categories));
+});
+
+exports.getCategory = handleErrors(async (req, res, next) => {
+  const categoryId = req.params.categoryId;
+  const category = await categoryService.getCategory(categoryId);
+
+  if (!category) {
+    return res.status(400).json(ResponseHelper.error(400, MSG.CATEGORY_NOT_FOUND));
   }
-};
 
-exports.getCategory = async (req, res, next) => {
-  try {
-    const categoryId = req.params.categoryId;
-    const category = await categoryService.getCategory(categoryId);
+  return res.status(200).json(ResponseHelper.success(200, MSG.FOUND_SUCCESS, category));
+});
 
-    if (!category) {
-      return res.status(400).json(ResponseHelper.error(400, MSG.CATEGORY_NOT_FOUND));
-    }
-
-    return res.status(200).json(ResponseHelper.success(200, MSG.FOUND_SUCCESS, category));
-  } catch (error) {
-    logger.error(error);
-    next(error);
+exports.createCategory = handleErrors(async (req, res, next) => {
+  const { error } = JoiValidationSchema.createCategorySchema.validate(req.body);
+  if (error) {
+    return res.status(400).json(ResponseHelper.error(400, error.message));
   }
-};
+  // Add history data for the category creation
+  const categoryData = historyData.create(req.user._id, req.body);
 
-exports.createCategory = async (req, res, next) => {
-  try {
-    const { error } = JoiValidationSchema.createCategorySchema.validate(req.body);
-    if (error) {
-      return res.status(400).json(ResponseHelper.error(400, error.message));
-    }
+  const category = await categoryService.createCategory(categoryData);
+  return res.status(200).json(ResponseHelper.success(200, MSG.CATEGORY_CREATED_SUCCESSFULLY, category));
+});
 
-    // Add history data for the category creation
-    const categoryData = historyData.create(req.user._id, req.body);
+exports.updateCategory = handleErrors(async (req, res, next) => {
+  const categoryId = req.params.categoryId;
+  const categoryData = req.body;
 
-    const category = await categoryService.createCategory(categoryData);
-    return res.status(200).json(ResponseHelper.success(200, MSG.CATEGORY_CREATED_SUCCESSFULLY, category));
-  } catch (error) {
-    logger.error(error);
-    next(error);
+  // Add history data for the category update
+  const updatedCategoryData = historyData.update(req.user._id, req.body);
+
+  const category = await categoryService.updateCategory(categoryId, updatedCategoryData);
+
+  if (!category) {
+    return res.status(400).json(ResponseHelper.error(400, MSG.CATEGORY_NOT_FOUND));
   }
-};
 
-exports.updateCategory = async (req, res, next) => {
-  try {
-    const categoryId = req.params.categoryId;
-    const categoryData = req.body;
+  return res.status(200).json(ResponseHelper.success(200, MSG.CATEGORY_UPDATED_SUCCESSFULLY, category));
+});
 
-    // Add history data for the category update
-    const updatedCategoryData = historyData.update(req.user._id, req.body);
+exports.removeCategory = handleErrors(async (req, res, next) => {
+  const categoryId = req.params.categoryId;
 
-    const category = await categoryService.updateCategory(categoryId, updatedCategoryData);
-
-    if (!category) {
-      return res.status(400).json(ResponseHelper.error(400, MSG.CATEGORY_NOT_FOUND));
-    }
-
-    return res.status(200).json(ResponseHelper.success(200, MSG.CATEGORY_UPDATED_SUCCESSFULLY, category));
-  } catch (error) {
-    logger.error(error);
-    next(error);
+  let category = await categoryService.getCategory(categoryId);
+  if (!category) {
+    return res.status(400).json(ResponseHelper.error(400, MSG.CATEGORY_NOT_FOUND));
   }
-};
 
-exports.removeCategory = async (req, res, next) => {
-  try {
-    const categoryId = req.params.categoryId;
+  // Add history data for the category removal
+  const categoryData = historyData.remove(req.user._id, category._doc);
 
-    let category = await categoryService.getCategory(categoryId);
-    if (!category) {
-      return res.status(400).json(ResponseHelper.error(400, MSG.CATEGORY_NOT_FOUND));
-    }
+  await categoryService.updateCategory(categoryId, categoryData);
 
-    // Add history data for the category removal
-    const categoryData = historyData.remove(req.user._id, category._doc);
-
-   await categoryService.updateCategory(categoryId, categoryData);
-
-    return res.status(200).json(ResponseHelper.success(200, MSG.CATEGORY_DELETED_SUCCESSFULLY));
-  } catch (error) {
-    logger.error(error);
-    next(error);
-  }
-};
-
+  return res.status(200).json(ResponseHelper.success(200, MSG.CATEGORY_DELETED_SUCCESSFULLY));
+});
